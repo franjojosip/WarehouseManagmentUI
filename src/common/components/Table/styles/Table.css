@@ -455,7 +455,7 @@ td {
 
 @media (max-width: 767.98px) {
     .table-responsive-md {
-        display: table;
+        display: table !important;
     }
 }
 
