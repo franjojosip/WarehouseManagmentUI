@@ -22,7 +22,7 @@ class ResetPassword extends React.Component {
                 <Loading visible={isLoaderVisible} />
                 <ToastContainer style={{ fontSize: 15 }} />
                 <div className="formContainer">
-                    <ResetPasswordForm newPassword={newPassword} onSubmit={onResetPasswordSubmit} onBack={onBackClick} onNewPasswordChange={onNewPasswordChange} resetPasswordMessage={resetPasswordMessage} isSubmitDisabled={isSubmitDisabled} />
+                    <ResetPasswordForm newPassword={newPassword} onSubmit={onResetPasswordSubmit} onBackClick={onBackClick} onNewPasswordChange={onNewPasswordChange} resetPasswordMessage={resetPasswordMessage} isSubmitDisabled={isSubmitDisabled} />
                 </div>
             </React.Fragment>
         );

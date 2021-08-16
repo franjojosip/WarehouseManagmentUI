@@ -28,7 +28,7 @@ export default function ResetPasswordForm({ resetPasswordMessage, newPassword, o
           </div>
         </Form.Group>
         <div className="modal-footer" style={{ padding: 0 }}>
-          <a onClick={(e)=> e.preventDefault(), onBackClick()} className="btn btn-primary">Nazad</a>
+          <Button onClick={(e) => { e.preventDefault(); onBackClick() }} className="btn btn-primary">Nazad</Button>
           <Button type="submit" disabled={isSubmitDisabled} className="btn btn-success" onClick={(e) => { e.preventDefault(); onSubmit() }}>Resetiraj lozinku</Button>
         </div>
       </Form>
