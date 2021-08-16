@@ -17,7 +17,6 @@ class AuthenticationViewStore {
         this.onForgotPasswordSubmit = this.onForgotPasswordSubmit.bind(this);
         this.onResetPasswordSubmit = this.onResetPasswordSubmit.bind(this);
         this.onOldPasswordChange = this.onOldPasswordChange.bind(this);
-        this.onNewPasswordChange = this.onNewPasswordChange.bind(this);
         this.checkResetPasswordFields = this.checkResetPasswordFields.bind(this);
 
         this.delay = this.delay.bind(this);
@@ -38,10 +37,8 @@ class AuthenticationViewStore {
     };
 
 
-    @observable oldPassword = "";
     @observable newPassword = "";
     @observable resetPasswordMessage = {
-        oldPassword: null,
         newPassword: null
     }
 
@@ -207,13 +204,6 @@ class AuthenticationViewStore {
         }
         await this.hideLoader();
     }
-
-    @action
-    onOldPasswordChange(value) {
-        this.oldPassword = value;
-        this.checkResetPasswordFields();
-    }
-
     @action
     onNewPasswordChange(value) {
         this.newPassword = value;
@@ -223,17 +213,13 @@ class AuthenticationViewStore {
     @action
     checkResetPasswordFields() {
         this.resetPasswordMessage = {
-            oldPassword: null,
             newPassword: null
-        }
-        if (this.oldPassword.length < 4) {
-            this.resetPasswordMessage.oldPassword = "Neispravna duljina lozinke!"
         }
         if (this.newPassword.length < 4) {
             this.resetPasswordMessage.newPassword = "Neispravna duljina lozinke!"
         }
 
-        if (!this.resetPasswordMessage.oldPassword && !this.resetPasswordMessage.newPassword) {
+        if (!this.resetPasswordMessage.newPassword) {
             this.isSubmitDisabled = false;
         }
         else {
@@ -259,7 +245,6 @@ class AuthenticationViewStore {
         let response = await (this.dataStore.resetPassword(
             {
                 token: id,
-                old_password: this.oldPassword,
                 new_password: this.newPassword
             }
         ));
@@ -283,7 +268,6 @@ class AuthenticationViewStore {
                 pauseOnHover: true,
                 progress: undefined,
             });
-            this.oldPassword = "";
             this.newPassword = "";
             this.isSubmitDisabled = true;
         }
