@@ -330,7 +330,6 @@ class LocationViewStore {
     locationNameExist() {
         if (this.clickedLocation.name.length > 0) {
             let filteredLocations = this.allData.filter(location => location.id !== this.clickedLocation.id);
-            console.log(this.clickedLocation);
             return filteredLocations.findIndex(location => location.name.toLowerCase() == this.clickedLocation.name.toLowerCase() && location.city_id == this.clickedLocation.city_id) !== -1;
         }
         return false;

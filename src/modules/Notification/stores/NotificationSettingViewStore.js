@@ -54,7 +54,6 @@ class NotificationViewStore {
         day_of_week_name: "",
         time: "",
         email: "",
-        notification_name: "",
         notification_type_id: "",
         notification_type_name: "",
         date_created: ""
@@ -284,7 +283,6 @@ class NotificationViewStore {
                 day_of_week_name: "Odaberi dan u tjednu",
                 time: "",
                 email: user.email,
-                notification_name: "",
                 notification_type_id: "",
                 notification_type_name: "Odaberi tip notifikacije",
                 date_created: ""
@@ -297,7 +295,6 @@ class NotificationViewStore {
                 day_of_week_name: this.days.find(day => day.id == data.day_of_week).name,
                 time: data.time,
                 email: data.email,
-                notification_name: data.notification_name,
                 notification_type_id: data.notification_type_id,
                 notification_type_name: data.notification_type_name,
                 date_created: data.date_created
