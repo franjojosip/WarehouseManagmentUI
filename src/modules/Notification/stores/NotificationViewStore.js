@@ -25,6 +25,7 @@ class NotificationViewStore {
         this.processData = this.processData.bind(this);
         this.findNotificationTypes = this.findNotificationTypes.bind(this);
 
+        this.showLoader();
         this.findNotificationTypes();
     }
 

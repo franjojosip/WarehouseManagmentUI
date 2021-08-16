@@ -31,6 +31,7 @@ class LocationViewStore {
         this.findCities = this.findCities.bind(this);
         this.locationNameExist = this.locationNameExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.findCities();
         this.onFind();
@@ -309,7 +310,7 @@ class LocationViewStore {
             city: null
         };
         if (this.locationNameExist()) {
-            this.errorMessage.name = "Lokacija s istim nazivom već postoji!";
+            this.errorMessage.name = "Naziv lokacije već postoji u odabranom gradu!";
         }
         if (this.clickedLocation.name.length < 2) {
             this.errorMessage.name = "Neispravna duljina naziva lokacije!";
@@ -329,7 +330,8 @@ class LocationViewStore {
     locationNameExist() {
         if (this.clickedLocation.name.length > 0) {
             let filteredLocations = this.allData.filter(location => location.id !== this.clickedLocation.id);
-            return filteredLocations.findIndex(clickedLocation => clickedLocation.name.toLowerCase() == this.clickedLocation.name.toLowerCase()) !== -1;
+            console.log(this.clickedLocation);
+            return filteredLocations.findIndex(location => location.name.toLowerCase() == this.clickedLocation.name.toLowerCase() && location.city_id == this.clickedLocation.city_id) !== -1;
         }
         return false;
     }

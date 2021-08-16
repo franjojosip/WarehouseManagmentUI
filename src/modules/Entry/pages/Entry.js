@@ -51,12 +51,6 @@ class Entry extends React.Component {
                 let nestedIndex = i;
                 return (
                     <tbody key={"tbody" + element.name}>
-                        {
-                            i == 0 ?
-                                null
-                                :
-                                <br />
-                        }
                         <tr key={element.name} onClick={() => onClickedRow(nestedIndex)} className="accordion-toggle collapsed complexAccordion" style={{ backgroundColor: "#F2F2F2" }} id="accordion1" data-toggle="collapse" data-parent="#accordion1" data-target={"#row" + nestedIndex}>
                             <td className="complexCell"><Button className="btnShowMore">Prikaži</Button></td>
                             <td className="complexCell">{parentRow[0]}</td>
@@ -151,7 +145,7 @@ class Entry extends React.Component {
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
                             </button>
-                            <div className="dropdown-menu pagesize" aria-labelledby="dropdownMenuPageSizeSecond">
+                            <div className="dropdown-menu pageSize" aria-labelledby="dropdownMenuPageSizeSecond">
                                 <button className="dropdown-item" onClick={() => onChangePageSize(5)} type="button">5</button>
                                 <button className="dropdown-item" onClick={() => onChangePageSize(10)} type="button">10</button>
                                 <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
@@ -222,7 +216,7 @@ class Entry extends React.Component {
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
                             </button>
-                            <div className="dropdown-menu pagesize" aria-labelledby="dropdownMenuPageSizeSecond">
+                            <div className="dropdown-menu pageSize" aria-labelledby="dropdownMenuPageSizeSecond">
                                 <button className="dropdown-item" onClick={() => onChangePageSize(5)} type="button">5</button>
                                 <button className="dropdown-item" onClick={() => onChangePageSize(10)} type="button">10</button>
                                 <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>

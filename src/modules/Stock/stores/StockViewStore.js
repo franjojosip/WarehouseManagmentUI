@@ -46,6 +46,8 @@ class StockViewStore {
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
+
+        this.showLoader();
         this.setPagination();
         this.findCities();
         this.findLocations();

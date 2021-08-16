@@ -111,7 +111,7 @@
 }
 
 .dropdown-menu.show {
-    top: 60px;
+    top: 60px !important;
     padding: 0 !important;
     width: 100% !important;
     left: 50% !important;
@@ -262,6 +262,10 @@ td {
     font-size: 15px !important;
 }
 
+.Toastify__close-button .Toastify__close-button--success {
+    width: 20px;
+}
+
 .btnGenerate {
     padding: 11px !important;
     width: fit-content !important;
@@ -360,9 +364,31 @@ td {
 @media (max-width: 950px) {
     .dropdown-menu.pagesize.show {
         margin-top: 60px !important;
+        left: 50% !important;
     }
     .MuiFormControl-root {
         width: 150px !important;
+    }
+}
+
+@media (max-width: 930px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 51% !important;
+    }
+}
+
+@media (max-width: 880px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 52% !important;
+    }
+}
+
+@media (max-width: 870px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 54% !important;
     }
 }
 
@@ -377,7 +403,7 @@ td {
         padding: 0px !important;
     }
     .dropdown-menu.pagesize.show {
-        margin-top: 60px !important;
+        margin-top: 65px !important;
         left: 55% !important;
         right: auto !important;
         text-align: center !important;
@@ -389,18 +415,19 @@ td {
 
 @media (max-width: 830px) {
     .dropdown-menu.pagesize.show {
-        margin-top: 60px !important;
+        left: 56% !important;
+    }
+}
+
+@media (max-width: 822px) {
+    .dropdown-menu.pagesize.show {
         left: 58% !important;
     }
 }
 
-@media (max-width: 737px) {
-    .MuiTextField-root {
-        margin-top: 5px !important;
-        margin-bottom: 20px !important;
-    }
-    #dropdownMenuPageSize {
-        margin-bottom: 15px !important;
+@media (max-width: 790px) {
+    .dropdown-menu.pagesize.show {
+        left: 61% !important;
     }
 }
 
@@ -409,8 +436,8 @@ td {
         margin-top: 60px !important;
     }
     .dropdown-menu.pagesize.show {
-        margin-top: 60px !important;
-        left: 50% !important;
+        margin-top: 65px !important;
+        left: 61% !important;
     }
     .cellHeader, .cellHeaderTwo, .cellHeaderThree, .complexHeader {
         font-size: 15px !important;
@@ -429,6 +456,12 @@ td {
 @media (max-width: 767px) {
     .MuiFormControl-root {
         width: 180px !important;
+    }
+}
+
+@media (max-width: 764px) {
+    .dropdown-menu.pagesize.show {
+        left: 50% !important;
     }
 }
 
@@ -479,6 +512,22 @@ td {
     }
     .btnGenerate, .btnReset {
         font-size: 13px !important;
+    }
+}
+
+@media (max-width: 737px) {
+    .MuiTextField-root {
+        margin-top: 5px !important;
+        margin-bottom: 20px !important;
+    }
+    #dropdownMenuPageSize {
+        margin-bottom: 15px !important;
+    }
+}
+
+@media (max-width: 736px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 58px !important;
     }
 }
 
@@ -564,6 +613,12 @@ td {
 }
 
 @media (max-width: 450px) {
+    .Toastify__close-button {
+        width: 20px !important;
+    }
+    .Toastify__toast .Toastify__toast--success {
+        width: 100%;
+    }
     .productPageSize.dropdown-menu.pagesize.show {
         margin-top: 50px !important;
     }

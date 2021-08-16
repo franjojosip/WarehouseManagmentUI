@@ -41,6 +41,7 @@ class ProductViewStore {
         this.findPackagings = this.findPackagings.bind(this);
         this.productExist = this.productExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.findCategories();
         this.findSubcategories();
@@ -86,6 +87,8 @@ class ProductViewStore {
     @observable filteredSubcategories = [];
 
     @observable response = [];
+    @observable responseCategories = [];
+    @observable responseSubcategories = [];
     @observable productFilter = {
         category_id: "",
         category_name: "",
@@ -99,6 +102,13 @@ class ProductViewStore {
     onCategoryFilterChange(value) {
         this.productFilter.category_id = value.category_id;
         this.productFilter.category_name = value.category_name;
+        if (this.productFilter.category_id != "") {
+            let category = this.responseCategories.find(category => category.category_id == value.category_id);
+            this.subcategories = this.responseSubcategories.filter(subcategory => subcategory.category_id == category.category_id);
+        }
+        else {
+            this.subcategories = this.responseSubcategories;
+        }
         this.filterData();
     }
 
@@ -106,6 +116,13 @@ class ProductViewStore {
     onSubcategoryFilterChange(value) {
         this.productFilter.subcategory_id = value.subcategory_id;
         this.productFilter.subcategory_name = value.subcategory_name;
+        if (this.productFilter.subcategory_id != "") {
+            let subcategory = this.responseSubcategories.find(subcategory => subcategory.subcategory_id == value.subcategory_id);
+            this.categories = this.responseCategories.filter(category => category.category_id == subcategory.category_id);
+        }
+        else {
+            this.categories = this.responseCategories;
+        }
         this.filterData();
     }
 
@@ -146,6 +163,8 @@ class ProductViewStore {
         if (this.allData.length == 0) {
             this.allData = [{ id: "", name: "Nema podataka", category_id: "", category_name: "", subcategory_id: "", subcategory_name: "", packaging_id: "", packaging_name: "" }];
         }
+        this.categories = this.responseCategories;
+        this.subcategories = this.responseSubcategories;
         this.onChangePageSize(5);
         this.setPagination(1);
     }
@@ -268,6 +287,7 @@ class ProductViewStore {
                 this.categories = response.categories.map((category) => {
                     return { category_id: category.id, category_name: category.name }
                 });
+                this.responseCategories = this.categories;
             }
         }
     }
@@ -296,6 +316,7 @@ class ProductViewStore {
                         category_name: subcategory.category_name
                     }
                 });
+                this.responseSubcategories = this.subcategories;
             }
         }
     }

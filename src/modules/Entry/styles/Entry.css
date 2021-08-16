@@ -6,20 +6,100 @@
     font-weight: bold;
 }
 
-#dropdownMenu {
-    font-size: 16px;
-    width: fit-content;
-    padding: 10px 20px 10px 20px;
+
+.dropdown-menu.pageSize {
+    width: 150px !important;
+    left: 50% !important;
+    right: auto !important;
+    text-align: center !important;
+    transform: translate(-50%, 0) !important;
 }
 
-button.dropdown-item {
-    text-align: center;
+.dropdown-menu.show {
+    top: 63px !important;
 }
 
-.dropdown {
-    width: fit-content;
+@media (max-width: 950px) {
+    .dropdown-menu.pageSize.show {
+        left: 50% !important;
+    }
 }
 
-input{
-    font-size: 17px !important;
+@media (max-width: 930px) {
+    .dropdown-menu.pageSize.show {
+        left: 51% !important;
+    }
+}
+
+@media (max-width: 880px) {
+    .dropdown-menu.pageSize.show {
+        left: 52% !important;
+    }
+}
+
+@media (max-width: 870px) {
+    .dropdown-menu.pageSize.show {
+        left: 54% !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .dropdown-menu.pageSize.show {
+        top: 65px !important;
+        left: 55% !important;
+        right: auto !important;
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 830px) {
+    .dropdown-menu.pageSize.show {
+        left: 56% !important;
+    }
+}
+
+@media (max-width: 822px) {
+    .dropdown-menu.pageSize.show {
+        left: 58% !important;
+    }
+}
+
+@media (max-width: 790px) {
+    .dropdown-menu.pageSize.show {
+        left: 61% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu.pageSize.show {
+        top: 5px !important;
+        left: 60% !important;
+    }
+    .dropdown-menu.show {
+        top: 5px !important;
+    }
+}
+@media (max-width: 767px) {
+    .dropdown-menu.pageSize.show {
+        top: 5px !important;
+        left: 50% !important;
+    }
+    .dropdown-menu.show {
+        top: 5px !important;
+    }
+}
+
+@media (max-width: 736px) {
+    .dropdown-menu.pageSize.show {
+        top: 10px !important;
+    }
+}
+
+@media (max-width: 450px) {
+    .dropdown-menu.pageSize.show {
+        top: 3px !important;
+    }
+    .dropdown-menu.show {
+        top: 3px !important;
+    }
 }

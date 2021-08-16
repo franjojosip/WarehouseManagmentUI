@@ -43,7 +43,7 @@ export default function ModalNotificationLog({ modalTarget, notification_type_na
             </Form.Group>
             <Form.Group size="md" controlId="data">
               <Form.Label>Podatci</Form.Label>
-              <textarea className="form-control" value={data} rows={data.length < 40 ? "2" : "12"}  readOnly></textarea>
+              <textarea className="form-control" value={data} rows={data.length < 100 ? "2" : "12"}  readOnly></textarea>
             </Form.Group>
             <div className="modal-footer" style={{ padding: 0 }}>
               <Button className="btn btn-primary" data-dismiss="modal">Odustani</Button>

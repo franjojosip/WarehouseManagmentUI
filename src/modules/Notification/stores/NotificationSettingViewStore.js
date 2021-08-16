@@ -36,6 +36,7 @@ class NotificationViewStore {
         this.hideLoader = this.hideLoader.bind(this);
         this.processData = this.processData.bind(this);
 
+        this.showLoader();
         this.findNotificationTypes();
         this.setPagination();
         this.checkFields();

@@ -40,6 +40,7 @@ class WarehouseViewStore {
         this.findUsers = this.findUsers.bind(this);
         this.warehouseNameExist = this.warehouseNameExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.findCities();
         this.findLocations();

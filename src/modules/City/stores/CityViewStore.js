@@ -28,6 +28,7 @@ class CityViewStore {
         this.cityNameExist = this.cityNameExist.bind(this);
         this.cityZipCodeExist = this.cityZipCodeExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.onFind();
     }

@@ -26,6 +26,7 @@ class CategoryViewStore {
 
         this.categoryNameExist = this.categoryNameExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.onFind();
     }

@@ -37,6 +37,7 @@ class UserViewStore {
         this.findRoles = this.findRoles.bind(this);
         this.emailExists = this.emailExists.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.findRoles();
         this.onFind();

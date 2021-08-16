@@ -59,7 +59,7 @@ class Warehouse extends React.Component {
                         <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {pageSize}
                         </button>
-                        <div className="dropdown-menu pagesize" aria-labelledby="dropdownMenuPageSizeSecond">
+                        <div className="dropdown-menu pageSize" aria-labelledby="dropdownMenuPageSizeSecond">
                             <button className="dropdown-item" onClick={() => onChangePageSize(5)} type="button">5</button>
                             <button className="dropdown-item" onClick={() => onChangePageSize(10)} type="button">10</button>
                             <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>

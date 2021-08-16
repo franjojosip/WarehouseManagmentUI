@@ -1,3 +1,4 @@
+import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 import { action, observable } from "mobx";
 import { toast } from 'react-toastify';
 
@@ -31,6 +32,7 @@ class SubcategoryViewStore {
         this.findCategories = this.findCategories.bind(this);
         this.subcategoryNameExist = this.subcategoryNameExist.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.findCategories();
         this.onFind();

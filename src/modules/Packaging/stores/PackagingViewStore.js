@@ -25,6 +25,7 @@ class PackagingViewStore {
         this.hideLoader = this.hideLoader.bind(this);
         this.processData = this.processData.bind(this);
 
+        this.showLoader();
         this.setPagination();
         this.onFind();
     }

@@ -27,7 +27,7 @@ const generateStocktakingPDF = (data, startDate, endDate) => {
   doc.line(130, 36, 200, 36);
 
   //Url
-  doc.text("upravljanjeprojektima.vercel.app", 136, 42);
+  doc.text("upravljanjeskladistima.vercel.app", 136, 42);
 
   //Period izvještaja
   doc.text("Izvještaj za period " + startDateArray.join(".") + "." + " do " + endDateArray.join(".") + ".", 115.1, 60);
@@ -45,19 +45,19 @@ const generateStocktakingPDF = (data, startDate, endDate) => {
   data.forEach((warehouse, i) => {
     head = [
       [
-        { content: 'Naziv skladista: ' + warehouse.warehouse_name, colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
-        { content: 'Lokacija: ' + warehouse.location_name, colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
-        { content: 'Grad: ' + warehouse.city_name, colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } }
+        { content: 'Naziv skladista: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
+        { content: 'Lokacija: ' + replaceUtf8(warehouse.location_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
+        { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } }
       ],
       ["Proizvod", "Kategorija", "Potkategorija", "Ambalaza", "Izbrojena Kolicina", 'Prava Kolicina'],
     ];
     tableRows = [];
     warehouse.data.forEach(item => {
       const itemData = [
-        item.product_name,
-        item.category_name,
-        item.subcategory_name,
-        item.packaging_name,
+        replaceUtf8(item.product_name),
+        replaceUtf8(item.category_name),
+        replaceUtf8(item.subcategory_name),
+        replaceUtf8(item.packaging_name),
         item.counted_quantity,
         item.real_quantity,
       ];
@@ -135,6 +135,13 @@ function enhanceWordBreak({ doc, cell, column }) {
   if (column.minWidth > column.wrappedWidth) {
     column.wrappedWidth = column.minWidth;
   }
+}
+function replaceUtf8(word) {
+  return word
+    .replace(/č|ć/g, "c").replace(/Č|Ć/g, "C")
+    .replace("š", "s").replace("Š", "S")
+    .replace("đ", "d").replace("Đ", "D")
+    .replace("ž", "z").replace("Ž", "Z");
 }
 
 export default generateStocktakingPDF;

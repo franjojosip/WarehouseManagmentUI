@@ -126,9 +126,14 @@ export default function ModalWarehouse({ modalTarget, errorMessage, users, citie
             </Form.Group>
             <Form.Group size="md" controlId="workers">
               <Form.Label>Popis radnika</Form.Label>
-                <p id="refreshWorkers" style={{ color: "red", fontSize: 12 }}>
-                  ** Osvježite stranicu ako se ne prikazuju svi radnici! **
-                </p>
+              {
+                isDisabled ?
+                  null
+                  :
+                  <p id="refreshWorkers" style={{ color: "red", fontSize: 12 }}>
+                    ** Osvježite stranicu ako se ne prikazuju svi radnici! **
+                  </p>
+              }
               {
                 isDisabled ?
                   <Form.Control
@@ -143,7 +148,7 @@ export default function ModalWarehouse({ modalTarget, errorMessage, users, citie
                     onSelect={onSelect}
                     onRemove={onRemove}
                     placeholder="Odaberite radnike"
-                    emptyRecordMsg= "Nema radnika za odabrati"
+                    emptyRecordMsg="Nema radnika za odabrati"
                     displayValue="name"
                     closeIcon="circle2"
                     style={multiSelectDropdownStyle}
