@@ -413,7 +413,7 @@ td {
         left: 50% !important;
     }
     .cellHeader, .cellHeaderTwo, .cellHeaderThree, .complexHeader {
-        font-size: 15px;
+        font-size: 15px !important;
     }
     .secondComplexHeader, .dropdown, .dropdown-item, .cell, .nestedComplexCell {
         font-size: 14px;
@@ -593,7 +593,7 @@ td {
         font-size: 13px !important;
     }
     .cellHeader, .cellHeaderTwo, .cellHeaderThree, .complexHeader {
-        font-size: 14px;
+        font-size: 14px !important;
     }
     .secondComplexHeader, .dropdown, .dropdown-item, .cell, .complexCell {
         font-size: 13px !important;
