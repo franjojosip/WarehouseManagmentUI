@@ -66,7 +66,7 @@
 .vertical-center {
     margin: 0 auto;
     position: absolute;
-    top: 50%;
+    top: 55%;
 }
 
 .dropdown-item {
@@ -112,7 +112,7 @@
 }
 
 .dropdown-menu.show {
-    margin-top: 60px !important;
+    top: 60px;
     padding: 0 !important;
     width: 100% !important;
     left: 50% !important;
@@ -122,15 +122,15 @@
 }
 
 .lowerDropdown {
-    margin-bottom: 0px !important;
+    bottom: 0px !important;
 }
 
 .roleDropdown .dropdown-menu.show {
-    margin-top: 60px !important;
+    top: 60px !important;
 }
 
 .productPageSize.dropdown-menu.pagesize.show {
-    margin-top: 50px !important;
+    top: 50px !important;
 }
 
 .row {

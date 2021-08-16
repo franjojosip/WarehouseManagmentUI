@@ -73,7 +73,7 @@ class User extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-4 filterColumn'>
-                        <DropdownButton style={{ margin: "auto" }} className="vertical-center roleDropdown lowerDropdown" variant="light" title={roleFilter.name ? roleFilter.name : "Sve uloge"} style={{ marginBottom: 10 }}>
+                        <DropdownButton style={{ margin: "auto" }} className="vertical-center roleDropdown lowerDropdown" variant="light" title={roleFilter.name ? roleFilter.name : "Sve uloge"}>
                             <Dropdown.Item key="default_role" onSelect={() => onRoleFilterChange({ role_id: "", role_name: "" })}>Sve uloge</Dropdown.Item>
                             {roles.map((role) => {
                                 return <Dropdown.Item key={role.role_id} onSelect={() => onRoleFilterChange(role)}>{role.role_name}</Dropdown.Item>;
