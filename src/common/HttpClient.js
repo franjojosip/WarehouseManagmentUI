@@ -1,15 +1,12 @@
 import React from 'react';
 import { getUser } from './components/LocalStorage';
-const { BACKEND_URL, REACT_APP_SUPER_ADMIN_PASSWORD } = process.env;
 
 export default class HttpClient extends React.Component {
     constructor(name) {
         super();
         const { BACKEND_URL } = process.env;
         this.createAppJsonHeaders = this.createAppJsonHeaders.bind(this);
-        console.log(BACKEND_URL);
-        console.log(REACT_APP_SUPER_ADMIN_PASSWORD);
-        this.webApiUrl = BACKEND_URL + name;
+        this.webApiUrl = "https://upravljanjeskladistimaserver.herokuapp.com/" + name;
         this.createAppJsonHeaders();
     }
 
