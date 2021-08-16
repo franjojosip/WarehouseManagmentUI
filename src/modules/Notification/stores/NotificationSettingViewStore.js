@@ -182,7 +182,7 @@ class NotificationViewStore {
                     let day = this.days.find(day => day.id == item.day_of_week);
                     item.day_of_week_id = day.id;
                     item.day_of_week_name = day.name;
-                    item.time = moment(item.time).format("HH:mm")
+                    item.time = moment(new Date(item.time)).format("HH:mm")
                 }
                 );
                 this.allData = response.notificationSettings;
