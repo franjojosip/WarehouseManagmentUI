@@ -16,7 +16,7 @@ class AuthenticationViewStore {
         this.onForgotPasswordClick = this.onForgotPasswordClick.bind(this);
         this.onForgotPasswordSubmit = this.onForgotPasswordSubmit.bind(this);
         this.onResetPasswordSubmit = this.onResetPasswordSubmit.bind(this);
-        this.onOldPasswordChange = this.onOldPasswordChange.bind(this);
+        this.onNewPasswordChange = this.onNewPasswordChange.bind(this);
         this.checkResetPasswordFields = this.checkResetPasswordFields.bind(this);
 
         this.delay = this.delay.bind(this);
