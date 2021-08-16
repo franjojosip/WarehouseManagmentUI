@@ -17,6 +17,7 @@
         "customize-cra": "^1.0.0",
         "email-validator": "^2.0.4",
         "env-cmd": "^10.1.0",
+        "express": "^4.17.1",
         "history": "^4.7.2",
         "jspdf": "^2.3.1",
         "jspdf-autotable": "^3.5.15",
@@ -49,10 +50,7 @@
         "validatorjs": "^3.22.1"
     },
     "scripts": {
-        "start": "react-app-rewired start",
-        "build": "react-app-rewired build",
-        "test": "react-app-rewired test",
-        "eject": "react-app-rewired eject"
+        "start": "node server/server.js"
     },
     "eslintConfig": {
         "extends": [
