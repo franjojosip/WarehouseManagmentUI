@@ -619,7 +619,7 @@ td {
 }
 
 @media (max-width: 550px) {
-    .btn.btn-primary.btnAction {
+    .btn.btn-primary.btnAction, .btn.btn-danger.btnAction  {
         font-size: 12px !important;
     }
 }
