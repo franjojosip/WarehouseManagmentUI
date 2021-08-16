@@ -4,7 +4,6 @@ import { getUser } from './components/LocalStorage';
 export default class HttpClient extends React.Component {
     constructor(name) {
         super();
-        const { BACKEND_URL } = process.env;
         this.createAppJsonHeaders = this.createAppJsonHeaders.bind(this);
         this.webApiUrl = "https://upravljanjeskladistimaserver.herokuapp.com/" + name;
         this.createAppJsonHeaders();
