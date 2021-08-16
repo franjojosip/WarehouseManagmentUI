@@ -1,7 +1,4 @@
-
-
-@media (max-width: 768px) {
-    .roleDropdown .dropdown-menu.show{
-        margin-top: 10px !important;
-    }
+.roleDropdown .dropdown-menu.show {
+    top: 100%!important;
+    margin-top: 0px !important;
 }
