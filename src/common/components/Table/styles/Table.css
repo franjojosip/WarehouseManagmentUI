@@ -618,6 +618,12 @@ td {
     }
 }
 
+@media (max-width: 550px) {
+    .btn.btn-primary.btnAction {
+        font-size: 12px !important;
+    }
+}
+
 @media (max-width: 450px) {
     .Toastify__close-button {
         width: 20px !important;
@@ -663,7 +669,19 @@ td {
         font-size: 14px;
     }
     .btnReset, .btnShowMore, .btnGenerate {
-        font-size: 12px !important;
+        font-size: 11px !important;
+        width: fit-content !important;
+    }
+    .btn.btn-primary.btnShowMore {
+        font-size: 11px !important;
+        width: fit-content !important;
+    }
+    .btn.btn-primary.btnAction {
+        font-size: 11px !important;
+        width: fit-content !important;
+    }
+    .btn.btn-danger.btnAction {
+        font-size: 11px !important;
         width: fit-content !important;
     }
     .tableTitle {
