@@ -3,6 +3,10 @@
     "version": "0.1.0",
     "proxy": "https://upravljanjeskladistima.herokuapp.com/",
     "private": true,
+    "engines": {
+        "node": "14.x",
+        "npm": "6.14.13"
+    },
     "dependencies": {
         "@material-ui/core": "^4.12.1",
         "@material-ui/icons": "^4.11.2",
@@ -50,7 +54,10 @@
         "validatorjs": "^3.22.1"
     },
     "scripts": {
-        "start": "node server/server.js"
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
     },
     "eslintConfig": {
         "extends": [
