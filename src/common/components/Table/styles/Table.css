@@ -453,6 +453,12 @@ td {
     }
 }
 
+@media (max-width: 767.98px) {
+    .table-responsive-md {
+        display: table;
+    }
+}
+
 @media (max-width: 767px) {
     .MuiFormControl-root {
         width: 180px !important;
