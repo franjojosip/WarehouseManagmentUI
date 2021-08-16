@@ -141,6 +141,9 @@ class RecieptViewStore {
         if (this.allData.length !== 0) {
             this.groupData();
         }
+        else{
+            this.grouppedData = [];
+        }
         this.setPagination(1);
     }
 

@@ -11,8 +11,10 @@ export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumn
         <h2 className="text-center font-weight-bold tableTitle">
           {title}
         </h2>
+        <br />
+        <br />
         {
-          isAdmin == null ?
+          !isAdmin ?
             null
             :
             <div className="row" style={{ justifyContent: "flex-end" }}>

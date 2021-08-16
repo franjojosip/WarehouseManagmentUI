@@ -55,15 +55,11 @@ class SideBar extends React.Component {
                                 </NavItem>
                                 : null
                         }
-                        {
-                            isLoggedAdmin ?
-                                <NavItem eventKey="stock" className={subroute == "stock" ? "active" : null}>
-                                    <NavText style={textStyle}>
-                                        Stanje skladišta
-                                    </NavText>
-                                </NavItem>
-                                : null
-                        }
+                        <NavItem eventKey="stock" className={subroute == "stock" ? "active" : null}>
+                            <NavText style={textStyle}>
+                                Stanje skladišta
+                            </NavText>
+                        </NavItem>
                         <NavItem eventKey="entry" className={subroute == "entry" ? "active" : null}>
                             <NavText style={textStyle}>
                                 Unos u skladište

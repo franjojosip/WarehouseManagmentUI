@@ -45,7 +45,7 @@ class Stock extends React.Component {
 
         if (paginatedData.length > 0) {
             if (!isLoggedAdmin) {
-                tableNestedChildColumns = tableNestedChildColumns.slice(0, -2)
+                tableNestedChildColumns = tableNestedChildColumns.slice(0, -3)
             }
 
             tableNestedRows = paginatedData.map((element, i) => {
@@ -100,7 +100,11 @@ class Stock extends React.Component {
                                                                                                 <td className="nestedComplexCell">{product.subcategory_name}</td>
                                                                                                 <td className="nestedComplexCell">{product.packaging_name}</td>
                                                                                                 <td className="nestedComplexCell">{product.quantity}</td>
-                                                                                                <td className="nestedComplexCell">{product.min_quantity}</td>
+                                                                                                {
+                                                                                                    isLoggedAdmin ?
+                                                                                                        <td className="nestedComplexCell">{product.min_quantity}</td>
+                                                                                                        : null
+                                                                                                }
                                                                                                 {
                                                                                                     isLoggedAdmin ?
                                                                                                         <td className="nestedComplexCell">
