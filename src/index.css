@@ -1,0 +1,28 @@
+html {
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+body {
+    background-image: url("./common/images/warehouse_main_background.png");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.dateText {
+    margin-top: 10px;
+}
+
+.startDateText {
+    margin-top: 15px;
+}

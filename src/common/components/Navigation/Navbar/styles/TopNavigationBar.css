@@ -1,0 +1,99 @@
+.navbar {
+    height: 60px;
+    background: rgba(0, 0, 0, 0.853) !important;
+    padding-left: 60px !important;
+}
+
+a.nav-link {
+    color: white;
+    width: fit-content;
+}
+
+.nav-link {
+    font-size: 20px;
+}
+
+#welcomeMessage {
+    pointer-events: none;
+}
+
+.navbar-brand {
+    float: left;
+    margin-left: 60px;
+}
+
+#link {
+    position: relative;
+    float: right;
+}
+
+.navbar-expand {
+    justify-content: space-between !important;
+}
+
+.nav-link:focus, .nav-link:hover {
+    color: rgba(240, 142, 15, 0.719) !important;
+}
+
+img {
+    width: 40px;
+    height: 30px;
+    fill: #000;
+    padding-left: 10px;
+}
+
+#layout {
+    margin-top: 50px !important;
+    overflow: scroll;
+    margin-left: 70px;
+    margin-right: 8px;
+}
+
+@media all and (max-width: 650px) {
+    #logout {
+        display: none;
+    }
+}
+
+@media all and (max-width: 610px) {
+    .navbar {
+        padding: 0 !important;
+    }
+    #link {
+        padding-left: 0;
+    }
+    img {
+        padding-left: 0;
+        width: 30px;
+    }
+}
+
+@media all and (max-width: 600px) {
+    #layout {
+        margin-left: 70px;
+        margin-right: 6px;
+    }
+}
+
+@media all and (max-width: 480px) {
+    #logout {
+        display: none;
+    }
+    #welcomeMessage {
+        font-size: 4.1vw !important;
+    }
+}
+
+@media all and (max-width: 420px) {
+    img {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+@media all and (max-width: 340px) {
+    img {
+        height: 20px;
+        width: 20px;
+    }
+}

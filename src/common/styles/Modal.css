@@ -1,0 +1,162 @@
+.modal {
+  position: fixed;
+  top: 0;
+  padding-top: 100px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+#refreshWorkers{
+  padding-left: 2px;
+  font-size: 15px !important;
+}
+
+.chip {
+  font-size: 16px !important;
+  font-weight: normal;
+  color: black !important;
+  background: rgba(165, 165, 165, 0.629) !important;
+}
+
+.highlightOption {
+  background: rgba(165, 165, 165, 0.829) !important;
+  color: black !important;
+}
+
+.highlight {
+  background: rgba(255, 255, 255) !important;
+}
+
+.highlightOption:hover {
+  background: rgba(165, 165, 165, 0.89) !important;
+  color: black !important;
+}
+
+li:hover {
+  background: rgba(165, 165, 165, 0.89) !important;
+  color: black !important;
+}
+
+.closeIcon {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.modal-main {
+  position: fixed;
+  background: white;
+  width: 80%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+.dropdown-menu {
+  width: 200px !important;
+}
+
+.dropdown-item {
+  text-align: center !important;
+  word-wrap: break-word !important;
+}
+
+#customDropdown {
+  background-color: rgba(151, 151, 151, 0.247) !important;
+  border-radius: 3px;
+  color: black;
+  width: 200px;
+  border: none;
+  min-width: 160px;
+  text-align: center;
+  padding-right: 15px !important;
+  padding-left: 35px !important;
+  justify-content: center !important;
+}
+
+.modalFormDropdown {
+  background-color: white;
+  border-radius: 3px;
+  color: black;
+  width: 200px;
+  border: none;
+  min-width: 160px;
+  text-align: center;
+  padding-right: 15px !important;
+  padding-left: 35px !important;
+  justify-content: center !important;
+}
+
+.modalFormDropdown .dropdown-menu.show {
+  margin-top: 60px !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-width: 100px !important;
+  left: 50% !important;
+  right: auto !important;
+  text-align: center !important;
+  transform: translate(-47.5%, 0) !important;
+}
+
+.modalFormDropdown .dropdown-item:hover {
+  background-color: rgba(26, 26, 26, 0.188) !important;
+}
+
+.dropdown-toggle::after {
+  margin-left: 25px !important;
+}
+
+.dropdown-menu.show {
+  max-height: 200px !important;
+  overflow-y: scroll;
+}
+
+.dropdown-menu {
+  border: none;
+}
+
+@media all and (max-width: 505px) {
+  .closeIcon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+@media (max-width: 550px) {
+
+  #refreshWorkers{
+    font-size: 13px !important;
+  }
+  
+  .modalFormDropdown .dropdown-menu.show {
+    margin-top: 50px !important;
+    width: 100% !important;
+    transform: translate(-44.5%, 0) !important;
+  }
+  .form-label {
+    font-size: 18px;
+  }
+  .form-control {
+    font-size: 16px !important;
+  }
+  #forgotPassword{
+    font-size: 16px;
+  }
+  input:-webkit-autofill::first-line {
+    font-family: 'Helvetica Neue', 'Arial', Arial, sans-serif !important;
+    font-size: 16px !important;
+  }
+  .btn-primary {
+    font-size: 14px !important;
+  }
+}

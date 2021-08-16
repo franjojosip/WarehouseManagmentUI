@@ -1,0 +1,35 @@
+.tooltip {
+    font-size: 11px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+#dropdownMenu {
+    font-size: 16px;
+    width: fit-content;
+    padding: 10px 20px 10px 20px;
+}
+
+button.dropdown-item {
+    text-align: center;
+}
+
+.dropdown {
+    width: fit-content;
+}
+
+#collapseArrow {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hiddenRow{
+    padding: 15 15 15 15    ;
+}
+
+.Toastify__toast-body{
+    text-align: center;
+    white-space: pre-line;
+}

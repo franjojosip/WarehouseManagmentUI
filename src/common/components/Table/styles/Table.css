@@ -1,0 +1,612 @@
+.hiddenRow, .hiddenNestedRow {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.pageSize {
+    width: 70px !important;
+}
+
+#filterTitle {
+    font-size: 20px !important;
+}
+
+.text-success {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.col-md-3 {
+    margin: 0 auto !important;
+}
+
+.filterCard {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(77, 75, 75, 0.097);
+}
+
+#layout {
+    margin-top: 6%;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.965) !important;
+}
+
+.filterDropdown {
+    margin-bottom: 10px !important;
+}
+
+.filterColumn {
+    text-align: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    margin: auto !important;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.basicCard {
+    margin-top: 100px;
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
+.table-responsive {
+    display: inline-block;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.vertical-center {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+}
+
+.dropdown-item {
+    max-width: 100% !important;
+    white-space: normal !important;
+    text-overflow: ellipsis !important;
+}
+
+.dropdown-menu.pagesize.show {
+    margin-top: 60px !important;
+    padding: 0 !important;
+    width: 150px !important;
+    left: 50% !important;
+    right: auto !important;
+    text-align: center !important;
+}
+
+#dropdownMenuPageSize {
+    min-width: 150px !important;
+    font-size: 20px !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: -7px !important;
+    justify-content: center;
+    width: 150px !important;
+    height: 50px !important;
+}
+
+#dropdownMenuPageSizeSecond {
+    min-width: 150px !important;
+    font-size: 20px !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    justify-content: center;
+    width: 150px !important;
+    height: 50px !important;
+}
+
+.filterDropdown {
+    padding: 0 !important;
+    font-size: 13px !important;
+    width: fit-content !important;
+}
+
+.dropdown-menu.show {
+    margin-top: 60px !important;
+    padding: 0 !important;
+    width: 100% !important;
+    left: 50% !important;
+    right: auto !important;
+    text-align: center !important;
+    transform: translate(-50%, 0) !important;
+}
+
+.lowerDropdown {
+    margin-bottom: 0px !important;
+}
+
+.roleDropdown .dropdown-menu.show {
+    margin-top: 60px !important;
+}
+
+.productPageSize.dropdown-menu.pagesize.show {
+    margin-top: 50px !important;
+}
+
+.row {
+    width: 100% !important;
+}
+
+.filterDropdown.dropdown {
+    padding: 15px !important;
+}
+
+.filterColumn {
+    width: 300px !important;
+    break-inside: avoid-column !important;
+}
+
+.dropdownChoice {
+    font-size: 16px;
+    width: 100% !important;
+    white-space: normal !important;
+    /* For Firefox: */
+    text-overflow: ellipsis !important;
+}
+
+.dropdown-item {
+    font-size: 17px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border: 1px solid rgba(0, 0, 0, 0.09) !important;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(26, 26, 26, 0.188) !important;
+}
+
+.cell {
+    vertical-align: middle !important;
+    font-size: 18px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
+.cellHeader {
+    background: rgba(128, 128, 128, 0.45) !important;
+    vertical-align: middle !important;
+    font-size: 20px;
+}
+
+.cellHeaderTwo {
+    background: rgba(107, 105, 105, 0.19) !important;
+    vertical-align: middle !important;
+    font-size: 18px;
+}
+
+.cellHeaderThree {
+    background: rgba(107, 105, 105, 0.3) !important;
+    vertical-align: middle !important;
+    font-size: 18px;
+}
+
+.tableTitle {
+    margin-top: 20px;
+    font-size: 35px;
+}
+
+.btnAction {
+    height: fit-content !important;
+    font-size: 13px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    border-radius: 3px !important;
+}
+
+.btnShowMore {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-radius: 3px !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    --bs-table-accent-bg: none;
+}
+
+.complexCell {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    vertical-align: middle !important;
+    font-size: 17px;
+}
+
+.nestedComplexCell {
+    padding: 6px !important;
+    vertical-align: middle !important;
+    font-size: 17px;
+}
+
+.complexHeader {
+    padding: 14px !important;
+    border-top: rgb(158, 158, 158) solid 1px !important;
+    border-bottom: rgb(158, 158, 158) solid 1px !important;
+    border-right: rgb(158, 158, 158) solid 0.5px !important;
+    border-left: rgb(158, 158, 158) solid 0.5px !important;
+    background: rgba(146, 146, 146, 0.219) !important;
+    font-size: 18px;
+}
+
+.secondComplexHeader {
+    padding: 14px !important;
+    border-top: rgb(158, 158, 158) solid 1x !important;
+    border-bottom: rgb(158, 158, 158) solid 1px !important;
+    border-right: rgb(158, 158, 158) solid 0.5px !important;
+    border-left: rgb(158, 158, 158) solid 0.5px !important;
+    background: rgba(65, 64, 64, 0.253) !important;
+    font-size: 18px;
+}
+
+.complexAccordion {
+    margin-top: 5px !important;
+    border-top: rgb(104, 104, 104) solid 2.5px !important;
+}
+
+.btnReset {
+    padding: 11px !important;
+    width: fit-content !important;
+    height: 50px !important;
+    border-radius: 5px !important;
+    font-size: 15px !important;
+}
+
+.btnGenerate {
+    padding: 11px !important;
+    width: fit-content !important;
+    min-height: 50px;
+    height: fit-content;
+    border-radius: 5px !important;
+    font-size: 15px !important;
+}
+
+.btnCell {
+    width: 100px;
+}
+
+.btnCellSecond {
+    width: 150px;
+    padding: 5px !important;
+}
+
+.zipCode {
+    width: 150px;
+}
+
+.btn {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+.text-success {
+    text-align: end;
+}
+
+.row {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.firstRow {
+    margin-bottom: 10px !important;
+}
+
+.dropdown-toggle {
+    width: fit-content !important;
+}
+
+.btnAdd {
+    margin-left: auto !important;
+    float: right !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    width: fit-content !important;
+}
+
+.page-link {
+    font-size: 17px !important;
+}
+
+@media all and (max-width: 1700px) {
+    .basicCard {
+        margin-top: 100px;
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+}
+
+@media all and (max-width: 1500px) {
+    .basicCard {
+        margin-top: 80px;
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+}
+
+@media all and (max-width: 1300px) {
+    .basicCard {
+        margin-top: 50px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    #layout {
+        margin-top: 80px;
+    }
+    .cell {
+        font-size: 16px !important;
+    }
+    .cellHeader, .cellHeaderTwo, .cellHeaderThree {
+        font-size: 18px !important;
+    }
+}
+
+@media all and (max-width: 1013px) {
+    .btnGenerate {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 950px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+    }
+    .MuiFormControl-root {
+        width: 150px !important;
+    }
+}
+
+@media (max-width: 850px) {
+    #dropdownMenuPageSize {
+        margin-top: 10px !important;
+    }
+    #dropdownMenuPageSizeSecond {
+        margin-top: 10px !important;
+    }
+    .card {
+        padding: 0px !important;
+    }
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 55% !important;
+        right: auto !important;
+        text-align: center !important;
+    }
+    .productPageSize.dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+    }
+}
+
+@media (max-width: 830px) {
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 58% !important;
+    }
+}
+
+@media (max-width: 737px) {
+    .MuiTextField-root {
+        margin-top: 5px !important;
+        margin-bottom: 20px !important;
+    }
+    #dropdownMenuPageSize {
+        margin-bottom: 15px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu.show {
+        margin-top: 60px !important;
+    }
+    .dropdown-menu.pagesize.show {
+        margin-top: 60px !important;
+        left: 50% !important;
+    }
+    .cellHeader, .cellHeaderTwo, .cellHeaderThree, .complexHeader {
+        font-size: 15px;
+    }
+    .secondComplexHeader, .dropdown, .dropdown-item, .cell, .nestedComplexCell {
+        font-size: 14px;
+    }
+    .btnReset, .btnShowMore, .btnGenerate {
+        font-size: 14px !important;
+    }
+    .tableTitle {
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 767px) {
+    .MuiFormControl-root {
+        width: 180px !important;
+    }
+}
+
+@media (max-width: 738px) {
+    .btnGenerate {
+        margin-bottom: 13px !important;
+    }
+    .dropdown-toggle {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        font-size: 14px !important;
+    }
+    #filterTitle {
+        font-size: 20px !important;
+    }
+    #dropdownMenuPageSizeSecond {
+        font-size: 16px !important;
+        height: 42px !important;
+        padding: 0 !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    #dropdownMenuPageSize {
+        font-size: 16px !important;
+        height: 42px !important;
+        padding: 0 !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    .dropdown-menu.show {
+        margin-top: 50px !important;
+    }
+    .dateText {
+        margin: 0 !important;
+    }
+    .startDateText {
+        margin-top: 10px !important;
+    }
+    .btnReset {
+        height: 40px !important;
+        margin-bottom: 10px !important;
+    }
+    .btnGenerate {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .btnGenerate, .btnReset {
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 650px) {
+    #startDate, #endDate {
+        font-size: 17px !important;
+    }
+    .table-responsive {
+        display: block;
+    }
+    .card-body {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .page-link {
+        width: fit-content !important;
+        font-size: 15px !important;
+    }
+    #dropdownMenuPageSize {
+        font-size: 16px !important;
+    }
+    #dropdownMenuPageSizeSecond {
+        font-size: 16px !important;
+    }
+    .complexCell {
+        font-size: 15px;
+        min-width: 150px;
+    }
+    .nestedComplexCell {
+        font-size: 15px;
+    }
+    .btnAction {
+        font-size: 12px !important;
+    }
+    .filterDropdown {
+        font-size: 12px;
+    }
+    .dropdown-toggle {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        font-size: 14px !important;
+    }
+    #filterTitle {
+        font-size: 18px !important;
+    }
+    #dropdownMenuPageSizeSecond {
+        height: 42px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    #dropdownMenuPageSize {
+        height: 42px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    .dateText {
+        margin: 0 !important;
+    }
+    .startDateText {
+        margin-top: 10px !important;
+    }
+    .btnReset {
+        height: 40px !important;
+        margin-bottom: 10px !important;
+    }
+    .btnGenerate {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .btnGenerate, .btnReset {
+        font-size: 13px !important;
+    }
+    .filterDropdown {
+        padding: 0 !important;
+        font-size: 13px !important;
+        width: max-content;
+    }
+    .close {
+        width: 50px;
+    }
+}
+
+@media (max-width: 450px) {
+    .productPageSize.dropdown-menu.pagesize.show {
+        margin-top: 50px !important;
+    }
+    .dropdown-menu.pagesize.show {
+        margin-top: 50px !important;
+        left: 50% !important;
+    }
+    #dropdownMenuPageSizeSecond {
+        height: 36px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    #dropdownMenuPageSize {
+        height: 36px !important;
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+    .dropdown-toggle {
+        font-size: 13px !important;
+    }
+    .pagination {
+        padding: 0px !important;
+        width: 100% !important;
+    }
+    .page-link {
+        width: fit-content !important;
+        font-size: 13px !important;
+    }
+    .cellHeader, .cellHeaderTwo, .cellHeaderThree, .complexHeader {
+        font-size: 14px;
+    }
+    .secondComplexHeader, .dropdown, .dropdown-item, .cell, .complexCell {
+        font-size: 13px !important;
+    }
+    .nestedComplexCell {
+        font-size: 14px;
+    }
+    .btnReset, .btnShowMore, .btnGenerate {
+        font-size: 12px !important;
+        width: fit-content !important;
+    }
+    .tableTitle {
+        font-size: 30px;
+    }
+}

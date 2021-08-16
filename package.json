@@ -1,0 +1,70 @@
+{
+    "name": "frontend",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "^4.12.1",
+        "@material-ui/icons": "^4.11.2",
+        "@testing-library/jest-dom": "^5.12.0",
+        "@testing-library/react": "^11.2.6",
+        "@testing-library/user-event": "^12.8.3",
+        "@trendmicro/react-sidenav": "^0.5.0",
+        "awesome-react-icons": "^1.4.8",
+        "axios": ">=0.21.1",
+        "babel-preset-react-native": "4.0.0",
+        "bootstrap": "^5.0.2",
+        "customize-cra": "^1.0.0",
+        "email-validator": "^2.0.4",
+        "env-cmd": "^10.1.0",
+        "history": "^4.7.2",
+        "jspdf": "^2.3.1",
+        "jspdf-autotable": "^3.5.15",
+        "mdb-react-ui-kit": "^1.2.0",
+        "mdbreact": "^5.1.0",
+        "mobx": "^4.8.0",
+        "mobx-react": "^5.4.3",
+        "mobx-react-form": "^3.1.0",
+        "mobx-state-router": "^4.0.3",
+        "moment": "^2.29.1",
+        "multiselect-react-dropdown": "^2.0.4",
+        "react": "^17.0.2",
+        "react-app-rewired": "^2.1.8",
+        "react-bootstrap": "^1.6.1",
+        "react-bootstrap-table-next": "^4.0.3",
+        "react-burger-menu": "^3.0.6",
+        "react-dom": "^17.0.2",
+        "react-loader-spinner": "^4.0.0",
+        "react-minimal-side-navigation": "^1.9.2",
+        "react-pro-sidebar": "^0.6.0",
+        "react-scripts": "3.4.1",
+        "react-select": "^4.3.1",
+        "react-sidebar-ui": "^1.2.1",
+        "react-spring": "^9.2.3",
+        "react-toastify": "^6.0.5",
+        "reactjs-text-to-image": "0.0.1",
+        "rsuite": "^4.10.2",
+        "stylish-sidebar": "^1.1.2",
+        "toasted-notes": "^3.2.0",
+        "validatorjs": "^3.22.1"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
+        "test": "react-app-rewired test",
+        "eject": "react-app-rewired eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.14.5"
+    }
+}

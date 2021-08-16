@@ -1,0 +1,11 @@
+.tooltip {
+    font-size: 11px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+button.dropdown-item {
+    text-align: center;
+}

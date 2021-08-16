@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+.homeRow {
+  margin-top: 50px !important;
+}
+
+.homeCard {
+  min-width: 450px;
+  max-width: 570px !important;
+  margin-bottom: 20px !important;
+}
+
+.data-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 360px;
+  border-radius: 0.5em;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.91);
+  padding: 45px;
+  box-shadow: 0 1.5em 2.5em -0.5em rgba(0, 0, 0, .1);
+}
+
+.data-card h3 {
+  color: #2e3c40;
+  font-size: 3.5em;
+  font-weight: 600;
+  line-height: 1;
+  padding-bottom: 0.5em;
+  margin: 0 0 0.142857143em;
+  border-bottom: 2px solid #190d29;
+  transition: color 0.45s ease, border 0.45s ease;
+}
+
+.data-card h4 {
+  color: #627084;
+  text-transform: uppercase;
+  font-size: 1.125em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin: 0 0 1.777777778em;
+  transition: color 0.45s ease;
+}
+
+.data-card p {
+  opacity: 0;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.8;
+  margin: 0 0 1.25em;
+  transform: translateY(-1em);
+  transition: opacity 0.45s ease, transform 0.5s ease;
+}
+
+.data-card .link-text {
+  display: block;
+  color: #2e3c40;
+  font-size: 1.125em;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: auto 0 0;
+  transition: color 0.45s ease;
+}
+
+.data-card .link-text svg {
+  margin-left: 0.5em;
+  transition: transform 0.6s ease;
+}
+
+.data-card .link-text svg path {
+  transition: fill 0.45s ease;
+}
+
+.data-card:hover {
+  background: #aa9f7b;
+  transform: scale(1.02);
+}
+
+.data-card:hover h3 {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+.data-card:hover h4 {
+  color: #fff;
+}
+
+.data-card:hover p {
+  opacity: 1;
+  transform: none;
+}
+
+.data-card:hover .link-text {
+  color: #fff;
+}
+
+.data-card:hover .link-text svg {
+  animation: point 1.25s infinite alternate;
+}
+
+.data-card:hover .link-text svg path {
+  fill: #fff;
+}
+
+@keyframes point {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0.55em);
+  }
+}
+
+@media all and (max-width: 768px) {
+  .data-card {
+    margin: auto !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    height: 340px !important;
+    min-height: 240px !important;
+  }
+  .data-card h3 {
+    padding-bottom: 10px !important;
+  }
+}
+
+@media all and (max-width: 550px) {
+  .data-card {
+    width: 100% !important;
+    min-width: 400px !important;
+    height: 320px !important;
+  }
+  .data-card h3 {
+    font-size: 35px;
+  }
+  .homeCard {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 25px!important;
+  }
+}
+
+@media all and (max-width: 536px) {
+  .data-card {
+    width: 250px !important;
+    min-width: 250px !important;
+    height: 300px !important;
+    min-height: 300px !important;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    justify-content: center;
+  }
+
+  .homeRow{
+    justify-content: center;
+  }
+  .data-card h3 {
+    font-size: 35px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+  .data-card h4 {
+    margin-bottom: 30px;
+  }
+  .data-card p {
+    line-height: 1.2;
+  }
+}
+
+@media all and (max-width: 450px) {
+  .data-card {
+    width: 240px !important;
+    height: 270px !important;
+    min-height: 270px !important;
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+}
+
+@media all and (max-width: 390px) {
+  .data-card {
+    width: 220px !important;
+    height: 270px !important;
+    min-height: 270px !important;
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+  .data-card h3 {
+    font-size: 28px !important;
+  }
+  .data-card h4 {
+    font-size: 14px !important;
+  }
+  .data-card p {
+    font-size: 13px !important;
+  }
+  .link-text {
+    font-size: 13px !important;
+  }
+}
+
+@media all and (max-width: 370px) {
+  .data-card {
+    width: 200px !important;
+    height: 240px !important;
+    min-height: 240px !important;
+  }
+}
+
+@media all and (max-width: 340px) {
+  .data-card {
+    width: 200px !important;
+    height: 210px !important;
+    min-height: 210px !important;
+  }
+}

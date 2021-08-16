@@ -1,0 +1,55 @@
+.sideNavbar {
+  margin-top: 60px;
+  background: rgba(0, 0, 0, 0.753) !important;
+  height: 100% !important;
+  position: fixed !important;
+}
+
+.active {
+  font-weight: bold;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.133) !important;
+}
+
+.sidenav---sidenav---_2tBP {
+  height: 950px;
+}
+
+i {
+  font-size: 2em;
+}
+
+.sidenav---sidenav-subnavitem---1cD47 {
+  font-size: 17px !important;
+}
+
+.sidenav---navtext---1AE_f {
+  font-size: 14px !important;
+}
+
+@media all and (max-width: 700px) {
+  #layout {
+    margin-left: 50px !important;
+  }
+  .sidenav---sidenav---_2tBP {
+    min-width: 40px !important;
+  }
+  .sidenav---sidenav-nav---3tvij {
+    width: 45px !important;
+  }
+  .sidenav---navicon---3gCRo {
+    width: 45px !important;
+  }
+  .sidenav---sidenav-subnav---1EN61 {
+    left: 45px !important;
+  }
+  i {
+    font-size: 1.7em;
+  }
+  .sidenav---sidenav-subnavitem---1cD47 {
+    font-size: 15px !important;
+  }
+  .sidenav---navtext---1AE_f {
+    font-size: 13px !important;
+  }
+}
