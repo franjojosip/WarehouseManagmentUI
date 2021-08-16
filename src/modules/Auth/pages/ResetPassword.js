@@ -15,14 +15,14 @@ import "../../../common/styles/Form.css"
 @observer
 class ResetPassword extends React.Component {
     render() {
-        const { newPassword, resetPasswordMessage, isLoaderVisible, onNewPasswordChange, isSubmitDisabled, onResetPasswordSubmit } = this.props.viewStore;
+        const { newPassword, resetPasswordMessage, isLoaderVisible, onNewPasswordChange, isSubmitDisabled, onResetPasswordSubmit, onBackClick } = this.props.viewStore;
 
         return (
             <React.Fragment>
                 <Loading visible={isLoaderVisible} />
                 <ToastContainer style={{ fontSize: 15 }} />
                 <div className="formContainer">
-                    <ResetPasswordForm newPassword={newPassword} onSubmit={onResetPasswordSubmit} onNewPasswordChange={onNewPasswordChange} resetPasswordMessage={resetPasswordMessage} isSubmitDisabled={isSubmitDisabled} />
+                    <ResetPasswordForm newPassword={newPassword} onSubmit={onResetPasswordSubmit} onBack={onBackClick} onNewPasswordChange={onNewPasswordChange} resetPasswordMessage={resetPasswordMessage} isSubmitDisabled={isSubmitDisabled} />
                 </div>
             </React.Fragment>
         );

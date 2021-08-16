@@ -17,6 +17,7 @@ class AuthenticationViewStore {
         this.onForgotPasswordSubmit = this.onForgotPasswordSubmit.bind(this);
         this.onResetPasswordSubmit = this.onResetPasswordSubmit.bind(this);
         this.onNewPasswordChange = this.onNewPasswordChange.bind(this);
+        this.onBackClick = this.onBackClick.bind(this);
         this.checkResetPasswordFields = this.checkResetPasswordFields.bind(this);
 
         this.delay = this.delay.bind(this);
@@ -169,6 +170,11 @@ class AuthenticationViewStore {
         else {
             this.isSubmitDisabled = true;
         }
+    }
+
+    @action
+    onBackClick(){
+        this.routerStore.goTo("login");
     }
 
     @action

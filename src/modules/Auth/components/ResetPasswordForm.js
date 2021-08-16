@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import "../../../common/styles/Form.css"
 
 
-export default function ResetPasswordForm({ resetPasswordMessage, newPassword, onNewPasswordChange, onSubmit, isSubmitDisabled }) {
+export default function ResetPasswordForm({ resetPasswordMessage, newPassword, onNewPasswordChange, onSubmit, onBackClick, isSubmitDisabled }) {
   return (
     <div className="ForgotPassword">
       <Form style={{ margin: 15 }}>
@@ -28,7 +28,7 @@ export default function ResetPasswordForm({ resetPasswordMessage, newPassword, o
           </div>
         </Form.Group>
         <div className="modal-footer" style={{ padding: 0 }}>
-          <a href="/login" className="btn btn-primary">Nazad</a>
+          <a onClick={(e)=> e.preventDefault(), onBackClick()} className="btn btn-primary">Nazad</a>
           <Button type="submit" disabled={isSubmitDisabled} className="btn btn-success" onClick={(e) => { e.preventDefault(); onSubmit() }}>Resetiraj lozinku</Button>
         </div>
       </Form>
