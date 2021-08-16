@@ -8,7 +8,7 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-#refreshWorkers{
+#refreshWorkers {
   padding-left: 2px;
   font-size: 15px !important;
 }
@@ -98,14 +98,14 @@ li:hover {
 }
 
 .modalFormDropdown .dropdown-menu.show {
-  margin-top: 60px !important;
   padding: 0 !important;
+  height: fit-content;
+  max-height: 180px;
   width: 100% !important;
   min-width: 100px !important;
   left: 50% !important;
   right: auto !important;
   text-align: center !important;
-  transform: translate(-47.5%, 0) !important;
 }
 
 .modalFormDropdown .dropdown-item:hover {
@@ -133,11 +133,9 @@ li:hover {
 }
 
 @media (max-width: 550px) {
-
-  #refreshWorkers{
+  #refreshWorkers {
     font-size: 13px !important;
   }
-  
   .modalFormDropdown .dropdown-menu.show {
     margin-top: 50px !important;
     width: 100% !important;
@@ -149,7 +147,7 @@ li:hover {
   .form-control {
     font-size: 16px !important;
   }
-  #forgotPassword{
+  #forgotPassword {
     font-size: 16px;
   }
   input:-webkit-autofill::first-line {
