@@ -27,7 +27,7 @@ const generateEntryPDF = (data, startDate, endDate) => {
   doc.line(130, 36, 200, 36);
 
   //Url
-  doc.text("www.upravljanjeskladistima.hr", 136, 42);
+  doc.text("upravljanjeprojektima.vercel.app", 136, 42);
 
   //Period izvještaja
   doc.text("Izvještaj za period " + startDateArray.join(".") + "." + " do " + endDateArray.join(".") + ".", 115.1, 60);
