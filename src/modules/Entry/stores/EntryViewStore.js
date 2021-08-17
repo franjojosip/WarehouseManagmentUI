@@ -52,7 +52,6 @@ class EntryViewStore {
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
 
         this.showLoader();
-        this.showLoader();
         this.findCities();
     }
 
