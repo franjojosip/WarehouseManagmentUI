@@ -3,16 +3,20 @@ import { RouterState } from 'mobx-state-router';
 
 
 const checkUserAuthenticated = (fromState, toState, routerStore) => {
-    if(isUserTokenExpired() && getUser() != null || getUser() == null){
+    if (isUserTokenExpired() && getUser() != null || getUser() == null) {
         clearUser();
         return Promise.reject(new RouterState('login'));
     }
 
     if (isUserLoggedIn()) {
-        if (!isUserAdmin() && (toState.routeName == "notificationlog" || toState.routeName == "notificationsettings")) {
+        if (toState.routeName == "login") {
             return Promise.reject(new RouterState('home'));
         }
-        else if (toState.routeName == "login") {
+        else if (!isUserAdmin() && (toState.routeName != "home"
+            && toState.routeName != "stock"
+            && toState.routeName != "entry"
+            && toState.routeName != "reciept"
+            && toState.routeName != "stocktaking")) {
             return Promise.reject(new RouterState('home'));
         }
         else {
