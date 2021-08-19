@@ -77,7 +77,7 @@ class NotificationViewStore {
         { id: 4, name: "Četvrtak" },
         { id: 5, name: "Petak" },
         { id: 6, name: "Subota" },
-        { id: 7, name: "Nedjelja" }
+        { id: 0, name: "Nedjelja" }
     ];
 
     @observable notification_types = [];
