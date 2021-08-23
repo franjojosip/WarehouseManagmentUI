@@ -12,6 +12,7 @@ class RecieptViewStore {
         this.warehouseDataStore = rootStore.warehouseModuleStore.warehouseDataStore;
         this.productDataStore = rootStore.productModuleStore.productDataStore;
         this.packagingDataStore = rootStore.packagingModuleStore.packagingDataStore;
+        this.stockDataStore = rootStore.stockModuleStore.stockDataStore;
         this.routerStore = rootStore.routerStore;
 
         this.onFind = this.onFind.bind(this);
@@ -49,15 +50,17 @@ class RecieptViewStore {
         this.findLocations = this.findLocations.bind(this);
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
+        this.findStocks = this.findStocks.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
 
         this.showLoader();
         this.findCities();
+        this.findStocks();
     }
 
     title = "Preuzimanja";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izmijeni', 'Obriši', 'Potvrđeno'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Trenutna količina', 'Preuzeto', 'Nova količina', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedReciept = {
         id: "",
@@ -108,6 +111,7 @@ class RecieptViewStore {
     @observable cities = [];
     @observable locations = [];
     @observable products = [];
+    @observable stocks = [];
 
     @observable filteredLocations = [];
     @observable filteredWarehouses = [];
@@ -141,7 +145,7 @@ class RecieptViewStore {
         if (this.allData.length !== 0) {
             this.groupData();
         }
-        else{
+        else {
             this.grouppedData = [];
         }
         this.setPagination(1);
@@ -399,6 +403,28 @@ class RecieptViewStore {
     }
 
     @action
+    async findStocks() {
+        let response = await (this.stockDataStore.get())
+        console.log(response);
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.stocks.length > 0) {
+                this.stocks = response.stocks;
+            }
+        }
+    }
+
+    @action
     async findLocations() {
         let response = await (this.locationDataStore.get())
         if (response.error) {
@@ -520,6 +546,7 @@ class RecieptViewStore {
                 packaging_id: "",
                 packaging_name: "",
                 quantity: 0,
+                old_quantity: 0,
                 date_created: "",
                 isSubmitted: false
             };
@@ -544,6 +571,7 @@ class RecieptViewStore {
                 packaging_id: data.packaging_id,
                 packaging_name: data.packaging_name,
                 quantity: data.quantity,
+                old_quantity: data.old_quantity,
                 date_created: data.date_created,
                 isSubmitted: false
             };
@@ -601,6 +629,13 @@ class RecieptViewStore {
     onWarehouseChange(value) {
         this.clickedReciept.warehouse_id = value.warehouse_id;
         this.clickedReciept.warehouse_name = value.warehouse_name;
+        if (this.clickedReciept.warehouse_id != "" && this.clickedReciept.product_id != "" && this.stocks.length > 0) {
+            let stock = this.stocks.find(stock => stock.warehouse_id == this.clickedReciept.warehouse_id && stock.product_id == this.clickedReciept.product_id);
+            this.clickedReciept.old_quantity = stock ? stock.quantity : 0;
+        }
+        else {
+            this.clickedReciept.old_quantity = 0;
+        }
         this.checkFields();
     }
 
@@ -665,6 +700,13 @@ class RecieptViewStore {
         else {
             this.clickedReciept.packaging_id = "";
             this.clickedReciept.packaging_name = "";
+        }
+        if (this.clickedReciept.warehouse_id != "" && this.clickedReciept.product_id != "" && this.stocks.length > 0) {
+            let stock = this.stocks.find(stock => stock.warehouse_id == this.clickedReciept.warehouse_id && stock.product_id == this.clickedReciept.product_id);
+            this.clickedReciept.old_quantity = stock ? stock.quantity : 0;
+        }
+        else {
+            this.clickedReciept.old_quantity = 0;
         }
         this.checkFields();
     }

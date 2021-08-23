@@ -155,7 +155,6 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                     type="text"
                     value={category_name}
                     disabled={true}
-                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null
@@ -168,7 +167,6 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                     type="text"
                     value={subcategory_name}
                     disabled={true}
-                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null
@@ -181,7 +179,6 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                     type="text"
                     value={packaging_name}
                     disabled={true}
-                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null

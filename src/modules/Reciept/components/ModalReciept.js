@@ -3,7 +3,7 @@ import React from "react";
 
 import "../../../common/styles/Modal.css";
 
-export default function ModalReciept({ errorMessage, modalTarget, warehouses, cities, locations, products, category_name, subcategory_name, warehouse_name, city_name, location_name, product_name, packaging_name, quantity, onSubmit, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isSubmitDisabled }) {
+export default function ModalReciept({ errorMessage, modalTarget, warehouses, cities, locations, products, category_name, subcategory_name, warehouse_name, city_name, location_name, product_name, packaging_name, old_quantity, quantity, onSubmit, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isSubmitDisabled }) {
 
   let submitClassName = "";
   let modalTitle = "";
@@ -123,7 +123,7 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="product_name">
-              <Form.Label>Naziv Proizvoda *</Form.Label>
+              <Form.Label>Proizvod *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -147,18 +147,24 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                 </p>
               </div>
             </Form.Group>
-            <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije</Form.Label>
-              <Form.Control
-                type="text"
-                value={category_name}
-                disabled={true}
-              />
-            </Form.Group>
+
+            {
+              subcategory_name ?
+                <Form.Group size="md" controlId="category_name">
+                  <Form.Label>Kategorija</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={category_name}
+                    disabled={true}
+                  />
+                </Form.Group>
+
+                : null
+            }
             {
               subcategory_name ?
                 <Form.Group size="md" controlId="subcategory_name">
-                  <Form.Label>Naziv Potkategorije</Form.Label>
+                  <Form.Label>Potkategorija</Form.Label>
                   <Form.Control
                     type="text"
                     value={subcategory_name}
@@ -170,11 +176,24 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
             {
               packaging_name ?
                 <Form.Group size="md" controlId="packaging_name">
-                  <Form.Label>Naziv Ambalaže</Form.Label>
+                  <Form.Label>Ambalaža</Form.Label>
                   <Form.Control
                     type="text"
                     value={packaging_name}
                     disabled={true}
+                  />
+                </Form.Group>
+                : null
+            }
+            {
+              old_quantity != 0 ?
+                <Form.Group size="md" controlId="quantity">
+                  <Form.Label>Trenutna količina</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={old_quantity}
+                    disabled={true}
+                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null
@@ -189,7 +208,8 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                 onChange={(e) => {
                   onQuantityChange(e.target.value);
                 }}
-                placeholder="Unesite količinu koju dodajete na stanje [min: 1]"
+                style={{ width: 300 }}
+                placeholder="Unesite količinu koju preuzimate sa stanja [min: 1]"
                 disabled={isDisabled}
               />
               <div hidden={isDisabled || !isSubmitDisabled}>
