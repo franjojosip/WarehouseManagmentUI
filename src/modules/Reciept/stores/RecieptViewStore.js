@@ -57,7 +57,7 @@ class RecieptViewStore {
 
     title = "Preuzimanja";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izmijeni', 'Obriši', 'Potvrdi'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedReciept = {
         id: "",

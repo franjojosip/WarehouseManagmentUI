@@ -57,7 +57,7 @@ class EntryViewStore {
 
     title = "Unos proizvoda u skladište";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrdi'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedEntry = {
         id: "",

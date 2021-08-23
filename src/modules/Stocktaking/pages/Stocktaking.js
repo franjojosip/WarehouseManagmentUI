@@ -26,7 +26,6 @@ class Stocktaking extends React.Component {
 
         let user = getUser();
         let isUserAdmin = user && user.id != "" && user.role == "Administrator";
-
         let tableParentColumns = parentColumns.map((element, i) => {
             return <th key={"parentColumn" + i} className="text-center cellHeader">{element}</th>
         });
@@ -78,8 +77,18 @@ class Stocktaking extends React.Component {
                                                             <td className="cell">{item.category_name}</td>
                                                             <td className="cell">{item.subcategory_name}</td>
                                                             <td className="cell">{item.packaging_name}</td>
-                                                            <td className="cell">{item.real_quantity}</td>
                                                             <td className="cell">{item.quantity}</td>
+                                                            <td className="cell">{item.isSubmitted ? item.real_quantity : null}</td>
+                                                            <td className="nestedComplexCell">
+                                                                {
+                                                                    item.isSubmitted ?
+                                                                        <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
+                                                                        :
+                                                                        <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
+                                                                            Potvrdi
+                                                                        </button>
+                                                                }
+                                                            </td>
                                                             <td className="nestedComplexCell">
                                                                 {
                                                                     item.isSubmitted ?
@@ -92,21 +101,11 @@ class Stocktaking extends React.Component {
                                                             </td>
                                                             <td className="nestedComplexCell">
                                                                 {
-                                                                    item.isSubmitted ?
+                                                                    item.isSubmitted && !isUserAdmin ?
                                                                         null
                                                                         :
                                                                         <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetDelete" className="btn btnAction btn-danger btn-rounded btn-sm my-0">
                                                                             Obriši
-                                                                        </button>
-                                                                }
-                                                            </td>
-                                                            <td className="nestedComplexCell">
-                                                                {
-                                                                    item.isSubmitted ?
-                                                                        <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
-                                                                        :
-                                                                        <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
-                                                                            Potvrdi
                                                                         </button>
                                                                 }
                                                             </td>
