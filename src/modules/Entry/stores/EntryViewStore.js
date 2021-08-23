@@ -586,7 +586,29 @@ class EntryViewStore {
         if (this.submittedIds.length > 0) {
             this.showLoader();
             let response = await (this.dataStore.submitAll(this.submittedIds));
-            this.processData(response);
+            if (response.error) {
+                toast.error(response.error, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+                console.clear();
+                this.onFind();
+            }
+            else {
+                toast.success(response.status, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+                this.onFind();
+            }
             await this.hideLoader();
         }
     }
