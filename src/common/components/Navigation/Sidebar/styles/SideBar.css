@@ -32,8 +32,11 @@ i {
   height: 48px;
   background-color: white;
   font-size: 17px;
-  color: black;
-  border-radius: 2px;
+  color:#212529;
+  border-color: rgb(184, 184, 184);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 1px;
   text-align: center;
   vertical-align: middle;
   font-weight: normal;
@@ -50,6 +53,11 @@ i {
   display: block;
   opacity: 1;
 }
+
+.tooltipNavbar:hover .tooltiptext:hover {
+  background-color: rgb(233, 232, 232);
+}
+
 
 .activeTooltip{
   font-weight: 500 !important;

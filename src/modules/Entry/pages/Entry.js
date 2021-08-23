@@ -81,6 +81,8 @@ class Entry extends React.Component {
                                                             <td className="cell">{item.category_name}</td>
                                                             <td className="cell">{item.subcategory_name}</td>
                                                             <td className="cell">{item.packaging_name}</td>
+                                                            <td className="cell">{item.isSubmitted ? item.quantity : ""}</td>
+                                                            <td className="cell">{item.quantity}</td>
                                                             <td className="cell">{item.quantity}</td>
                                                             {
                                                                 isLoggedAdmin ?
