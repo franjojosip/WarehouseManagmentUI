@@ -6,7 +6,7 @@ import CollapsibleTable from '../../../common/components/Table/CollapsibleTable'
 import ModalEntry from '../components/ModalEntry';
 import ModalEntrySubmit from '../components/ModalEntrySubmit';
 import { ToastContainer } from 'react-toastify';
-import { getUser } from '../../../common/components/LocalStorage';
+import { getUser, isUserAdmin } from '../../../common/components/LocalStorage';
 import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -22,7 +22,7 @@ import "../styles/Entry.css";
 @observer
 class Entry extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, dateFilter, cityFilter, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedEntry, onClickedRow, parentColumns, childColumns, paginatedData, onEntryClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, dateFilter, cityFilter, onSubmitAllClicked, onSubmitAllConfirmed, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedEntry, onClickedRow, parentColumns, childColumns, paginatedData, onEntryClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
         const loggedUser = getUser();
         let isLoggedAdmin = loggedUser && loggedUser.role.toLowerCase() == "administrator";
 
@@ -115,7 +115,7 @@ class Entry extends React.Component {
                                                                     item.isSubmitted ?
                                                                         <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
                                                                         :
-                                                                        <button type="button" onClick={() => onEntryClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
+                                                                        <button type="button" onClick={(e) => { e.preventDefault(); onEntryClicked(item, false) }} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
                                                                             Potvrdi
                                                                         </button>
                                                                 }
@@ -124,6 +124,13 @@ class Entry extends React.Component {
                                                     );
                                                 })
                                             }
+                                            <tr key={"element_data_potvrdi_sve"}>
+                                                <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
+                                                    <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
+                                                        Potvrdi sve
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -256,7 +263,8 @@ class Entry extends React.Component {
                 <ModalEntry modalTarget="modalTargetAdd" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onCreateClick} warehouse_name={clickedEntry.warehouse_name} city_name={clickedEntry.city_name} location_name={clickedEntry.location_name} category_name={clickedEntry.category_name} subcategory_name={clickedEntry.subcategory_name} product_name={clickedEntry.product_name} subcategory_name={clickedEntry.subcategory_name} packaging_name={clickedEntry.packaging_name} quantity={clickedEntry.quantity} old_quantity={clickedEntry.old_quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalEntry modalTarget="modalTargetEdit" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onEditClick} warehouse_name={clickedEntry.warehouse_name} city_name={clickedEntry.city_name} location_name={clickedEntry.location_name} category_name={clickedEntry.category_name} subcategory_name={clickedEntry.subcategory_name} product_name={clickedEntry.product_name} subcategory_name={clickedEntry.subcategory_name} packaging_name={clickedEntry.packaging_name} quantity={clickedEntry.quantity} old_quantity={clickedEntry.old_quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalEntry modalTarget="modalTargetDelete" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onDeleteClick} warehouse_name={clickedEntry.warehouse_name} city_name={clickedEntry.city_name} location_name={clickedEntry.location_name} category_name={clickedEntry.category_name} subcategory_name={clickedEntry.subcategory_name} product_name={clickedEntry.product_name} subcategory_name={clickedEntry.subcategory_name} packaging_name={clickedEntry.packaging_name} quantity={clickedEntry.quantity} old_quantity={clickedEntry.old_quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
-                <ModalEntrySubmit onSubmit={onSubmitClick} />
+                <ModalEntrySubmit modalTarget="modalTargetSubmit" onSubmit={onSubmitClick} isConfirmAll={false} />
+                <ModalEntrySubmit modalTarget="modalTargetSubmitAll" onSubmit={onSubmitAllConfirmed} isConfirmAll={true} />
                 <ToastContainer style={{ fontSize: 15 }} />
                 <CollapsibleTable filterRow={filterRow} isAdmin={true} title={title} tableNestedRows={tableNestedRows} tableParentColumns={tableParentColumns} page={page} pageSize={pageSize} totalPages={totalPages} previousEnabled={previousEnabled} nextEnabled={nextEnabled} onActionClicked={onEntryClicked} onPageClick={onPageClick} onChangePageSize={onChangePageSize} onPreviousPageClick={onPreviousPageClick} onNextPageClick={onNextPageClick} />
             </Layout>

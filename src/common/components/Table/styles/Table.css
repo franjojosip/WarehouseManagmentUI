@@ -322,16 +322,22 @@ td {
     font-size: 17px !important;
 }
 
-.MuiInputBase-input{
+.MuiInputBase-input {
     font-size: 17px !important;
 }
+
 .dateText {
     margin-top: 0px !important;
 }
 
-.productColumn{
-     padding: 0 !important;
+.productColumn {
+    padding: 0 !important;
 }
+
+.btnSubmitAll {
+    background-color: "#2aaa34" !important;
+}
+
 @media all and (max-width: 2300px) {
     .basicCard {
         margin-top: 100px;
@@ -355,6 +361,7 @@ td {
         margin-right: 80px;
     }
 }
+
 @media all and (max-width: 1500px) {
     .basicCard {
         margin-top: 80px;
@@ -378,7 +385,7 @@ td {
     .cellHeader, .cellHeaderTwo, .cellHeaderThree {
         font-size: 18px !important;
     }
-    .productColumn{
+    .productColumn {
         min-width: 200px !important;
         max-width: 200px !important;
     }
@@ -399,8 +406,9 @@ td {
         width: 150px !important;
     }
 }
-@media  (max-width: 945px) {
-    .productColumn{
+
+@media (max-width: 945px) {
+    .productColumn {
         min-width: 250px !important;
         max-width: 250px !important;
     }
@@ -654,7 +662,7 @@ td {
 }
 
 @media (max-width: 550px) {
-    .btn.btn-primary.btnAction, .btn.btn-danger.btnAction  {
+    .btn.btn-primary.btnAction, .btn.btn-danger.btnAction {
         font-size: 12px !important;
     }
 }

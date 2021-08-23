@@ -40,6 +40,8 @@ class EntryViewStore {
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
         this.onGeneratePdfClick = this.onGeneratePdfClick.bind(this);
+        this.onSubmitAllClicked = this.onSubmitAllClicked.bind(this);
+        this.onSubmitAllConfirmed = this.onSubmitAllConfirmed.bind(this);
 
         this.delay = this.delay.bind(this);
         this.showLoader = this.showLoader.bind(this);
@@ -78,7 +80,8 @@ class EntryViewStore {
         subcategory_name: "",
         packaging_id: "",
         packaging_name: "",
-        quantity: "",
+        old_quantity: 0,
+        quantity: 0,
         date_created: "",
         isSubmitted: false
     };
@@ -104,6 +107,7 @@ class EntryViewStore {
 
     @observable clickedRows = [];
     @observable paginatedData = [];
+    @observable submittedIds = [];
 
     @observable allData = [];
     @observable warehouses = [];
@@ -578,6 +582,21 @@ class EntryViewStore {
     }
 
     @action
+    async onSubmitAllConfirmed() {
+        if (this.submittedIds.length > 0) {
+            this.showLoader();
+            let response = await (this.dataStore.submitAll(this.submittedIds));
+            this.processData(response);
+            await this.hideLoader();
+        }
+    }
+
+    @action
+    onSubmitAllClicked(entries) {
+        this.submittedIds = entries.filter(entry => !entry.isSubmitted).map(entry => entry.id);
+    }
+
+    @action
     setPagination(page) {
         if (page) {
             this.page = page;
@@ -625,7 +644,7 @@ class EntryViewStore {
         this.clickedEntry.warehouse_id = value.warehouse_id;
         this.clickedEntry.warehouse_name = value.warehouse_name;
         if (this.clickedEntry.warehouse_id != "" && this.clickedEntry.product_id != "" && this.stocks.length > 0) {
-            let stock =  this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
+            let stock = this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
             this.clickedEntry.old_quantity = stock ? stock.quantity : 0;
         }
         else {
@@ -695,8 +714,8 @@ class EntryViewStore {
             this.clickedEntry.packaging_id = "";
             this.clickedEntry.packaging_name = "";
         }
-        if (this.clickedEntry.warehouse_id != "" && this.clickedEntry.product_id != "" &&this.stocks.length > 0) {
-            let stock =  this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
+        if (this.clickedEntry.warehouse_id != "" && this.clickedEntry.product_id != "" && this.stocks.length > 0) {
+            let stock = this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
             this.clickedEntry.old_quantity = stock ? stock.quantity : 0;
         }
         else {
