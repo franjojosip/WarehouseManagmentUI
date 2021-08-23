@@ -26,10 +26,15 @@ class Entry extends React.Component {
         const loggedUser = getUser();
         let isLoggedAdmin = loggedUser && loggedUser.role.toLowerCase() == "administrator";
 
+        let filteredChildColumns = childColumns;
+        if (!isLoggedAdmin) {
+            filteredChildColumns = childColumns.filter(column => column != "Izvršitelj");
+        }
+
         let tableParentColumns = parentColumns.map((element, i) => {
             return <th key={"parentColumn" + i} className="text-center cellHeader">{element}</th>
         });
-        let tableChildColumns = childColumns.map((element, i) => {
+        let tableChildColumns = filteredChildColumns.map((element, i) => {
             return <th key={"childColumn" + i} className="text-center cellHeaderTwo">{element}</th>
         });
 
@@ -77,6 +82,12 @@ class Entry extends React.Component {
                                                             <td className="cell">{item.subcategory_name}</td>
                                                             <td className="cell">{item.packaging_name}</td>
                                                             <td className="cell">{item.quantity}</td>
+                                                            {
+                                                                isLoggedAdmin ?
+                                                                    <td className="cell">{item.user_name}</td>
+                                                                    :
+                                                                    null
+                                                            }
                                                             <td className="nestedComplexCell">
                                                                 {
                                                                     item.isSubmitted ?
