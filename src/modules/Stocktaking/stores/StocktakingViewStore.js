@@ -704,8 +704,8 @@ class StocktakingViewStore {
         if (this.clickedStocktaking.product_id.toString() == "") {
             this.errorMessage.product = "Odaberite proizvod!";
         }
-        if (this.clickedStocktaking.quantity < 1) {
-            this.errorMessage.quantity = "Minimalna količina: 1";
+        if (this.clickedStocktaking.quantity < 0) {
+            this.errorMessage.quantity = "Minimalna količina: 0";
         }
 
         if (this.errorMessage.city == null

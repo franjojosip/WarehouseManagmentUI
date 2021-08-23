@@ -83,6 +83,12 @@ class Reciept extends React.Component {
                                                             <td className="cell">{item.old_quantity}</td>
                                                             <td className="cell">{item.quantity}</td>
                                                             <td className="cell">{item.new_quantity}</td>
+                                                            {
+                                                                isUserAdmin ?
+                                                                    <td className="cell">{item.user_name}</td>
+                                                                    :
+                                                                    null
+                                                            }
                                                             <td className="nestedComplexCell">
                                                                 {
                                                                     item.isSubmitted ?

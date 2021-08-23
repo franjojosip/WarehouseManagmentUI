@@ -60,7 +60,7 @@ class RecieptViewStore {
 
     title = "Preuzimanja";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Trenutna količina', 'Preuzeto', 'Nova količina', 'Izmijeni', 'Obriši', 'Potvrđeno'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Trenutna količina', 'Preuzeto', 'Nova količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedReciept = {
         id: "",
@@ -747,6 +747,9 @@ class RecieptViewStore {
         }
         if (this.clickedReciept.quantity < 1) {
             this.errorMessage.quantity = "Minimalna količina: 1";
+        }
+        if(this.clickedReciept.old_quantity - this.clickedReciept.quantity < 0){
+            this.errorMessage.quantity = "Skladište ne sadrži upisanu količinu proizvoda!";
         }
 
         if (this.errorMessage.city == null
