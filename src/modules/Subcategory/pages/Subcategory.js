@@ -63,7 +63,7 @@ class Subcategory extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-4 filterColumn'>
-                        <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={categoryFilter.name ? categoryFilter.name : "Sve kategorije"} style={{ marginBottom: 10 }}>
+                        <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={categoryFilter.name ? categoryFilter.name : "Sve kategorije"}>
                             <Dropdown.Item key="default_category" onSelect={() => onCategoryFilterChange({ category_id: "", category_name: "" })}>Sve kategorije</Dropdown.Item>
                             {categories.map((category) => {
                                 return <Dropdown.Item key={category.category_id} onSelect={() => onCategoryFilterChange(category)}>{category.category_name}</Dropdown.Item>;

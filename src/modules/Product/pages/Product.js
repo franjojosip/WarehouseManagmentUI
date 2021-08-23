@@ -75,10 +75,7 @@ class Product extends React.Component {
         let filterRow = (
             <div className="filterCard" style={{ marginBottom: 10 }}>
                 <div className="row">
-                    <div className="col-md-3 filterColumn">
-                        <span id="filterTitle">FILTERI</span>
-                    </div>
-                    <div className="col-md-3 filterColumn">
+                    <div className="col-md-2 filterColumn productColumn" style={{ maxWidth: 170 }}>
                         <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {pageSize}
                         </button>
@@ -88,24 +85,20 @@ class Product extends React.Component {
                             <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                         </div>
                     </div>
-                    <div className='col-md-3 filterColumn'>
+                    <div className='col-md-3 filterColumn productColumn' style={{ maxWidth: 250 }}>
                         {categoryFilterDropdown}
                     </div>
-                    <div className='col-md-3 filterColumn'>
+                    <div className='col-md-3 filterColumn productColumn' style={{ maxWidth: 250 }}>
                         {subcategoryFilterDropdown}
                     </div>
-                </div>
-                <div className="row">
-                    <div className='col-md-3 filterColumn'>
+                    <div className='col-md-3 filterColumn productColumn' style={{ maxWidth: 250 }}>
                         {packagingFilterDropdown}
                     </div>
-                    <div className='col-md-6 filterColumn'>
-                    </div>
-                    <div className='col-md-3 filterColumn'>
-                        <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
+                    <div className='col-md-1 filterColumn productColumn' style={{ maxWidth: 160 }}>
+                        <Button style={{ marginBottom: 10 }} className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                     </div>
                 </div>
-            </div>);
+            </div >);
 
         return (
             <Layout isLoaderVisible={isLoaderVisible}>
