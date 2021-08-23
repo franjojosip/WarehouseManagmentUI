@@ -91,7 +91,7 @@ export default class HttpClient extends React.Component {
             headers: this.appJsonHeaders,
             body
         }
-        const request = new Request(this.webApiUrl + "/submit-all", options);
+        const request = new Request(this.webApiUrl + "/submitall", options);
         let response = await (fetch(request));
         let data = await response.json();
         return data;
