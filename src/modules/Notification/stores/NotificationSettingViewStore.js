@@ -366,6 +366,9 @@ class NotificationViewStore {
             this.clickedNotificationSetting.day_of_week_id = 1;
             this.clickedNotificationSetting.day_of_week_name = "Ponedjeljak";
         }
+        if(value.notification_type_name == "Izvanredna obavijest" && this.clickedNotificationSetting.time != ""){
+            this.clickedNotificationSetting.time = "12:00";
+        }
         this.checkFields();
     }
 

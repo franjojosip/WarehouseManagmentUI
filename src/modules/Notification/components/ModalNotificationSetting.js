@@ -40,6 +40,10 @@ export default function ModalNotificationSetting({ modalTarget, onSubmit, days, 
     isDisabled = true;
   }
 
+  if (notification_type_name == "Izvanredna obavijest") {
+    onTimeChange("12:00");
+  }
+
   return (
     <div className="modal fade" id={modalTarget} tabIndex="-1" aria-labelledby="modalTarget" aria-hidden="true">
       <div className="modal-dialog">
@@ -71,24 +75,29 @@ export default function ModalNotificationSetting({ modalTarget, onSubmit, days, 
                 </Form.Group>
                 : null
             }
-            <Form.Group size="md" controlId="time">
-              <Form.Label>Vrijeme *</Form.Label>
-              <br />
-              <TextField
-                id="time"
-                type="time"
-                value={time}
-                className={classes.textField}
-                onChange={(e) => onTimeChange(e.target.value)}
-                disabled={isDisabled}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 300, // 5 min
-                }}
-              />
-            </Form.Group>
+            {
+              notification_type_name == "Izvanredna obavijest" ?
+                null
+                :
+                <Form.Group size="md" controlId="time">
+                  <Form.Label>Vrijeme *</Form.Label>
+                  <br />
+                  <TextField
+                    id="time"
+                    type="time"
+                    value={time}
+                    className={classes.textField}
+                    onChange={(e) => onTimeChange(e.target.value)}
+                    disabled={isDisabled}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      step: 300, // 5 min
+                    }}
+                  />
+                </Form.Group>
+            }
             <Form.Group size="md" controlId="email" className="pt-3">
               <Form.Label>Email *</Form.Label>
               <Form.Control
