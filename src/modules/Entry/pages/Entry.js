@@ -83,7 +83,7 @@ class Entry extends React.Component {
                                                             <td className="cell">{item.packaging_name}</td>
                                                             <td className="cell">{item.old_quantity}</td>
                                                             <td className="cell">{item.quantity}</td>
-                                                            <td className="cell">{item.new_quantity}</td>
+                                                            <td className="cell">{item.old_quantity + item.quantity}</td>
                                                             {
                                                                 isLoggedAdmin ?
                                                                     <td className="cell">{item.user_name}</td>
