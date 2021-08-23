@@ -42,8 +42,8 @@ class NotificationViewStore {
         this.checkFields();
     }
 
-    title = "Popis postavki notifikacija";
-    columns = ['Tip notifikacije', 'Dan U Tjednu', 'Vrijeme', 'Primatelj', '', ''];
+    title = "Popis postavki obavijesti";
+    columns = ['Tip obavijesti', 'Dan U Tjednu', 'Vrijeme', 'Primatelj', '', ''];
 
     @observable isLoaderVisible = false;
     @observable isSubmitDisabled = true;
@@ -285,7 +285,7 @@ class NotificationViewStore {
                 time: "",
                 email: user.email,
                 notification_type_id: "",
-                notification_type_name: "Odaberi tip notifikacije",
+                notification_type_name: "Odaberi tip obavijesti",
                 date_created: ""
             };
         }

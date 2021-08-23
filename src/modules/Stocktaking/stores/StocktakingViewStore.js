@@ -101,7 +101,7 @@ class StocktakingViewStore {
 
     title = "Inventura";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izmijeni', 'Obriši', 'Potvrdi'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Prava količina', 'Izbrojena količina', 'Izmijeni', 'Obriši', 'Potvrdi'];
 
     @observable allData = [];
     @observable warehouses = [];

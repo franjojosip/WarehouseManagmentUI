@@ -29,8 +29,8 @@ class NotificationViewStore {
         this.findNotificationTypes();
     }
 
-    title = "Popis notifikacija";
-    columns = ['Naziv', 'Tip notifikacije', 'Primatelj', 'Datum slanja', 'Detalji', '', ''];
+    title = "Dnevnik obavijesti";
+    columns = ['Naziv', 'Tip obavijesti', 'Primatelj', 'Datum slanja', 'Detalji', '', ''];
 
     @observable isLoaderVisible = false;
     @observable isSubmitDisabled = true;

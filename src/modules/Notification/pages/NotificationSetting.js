@@ -73,8 +73,8 @@ class NotificationSetting extends React.Component {
                         </div>
                     </div>
                     <div className='col-md-4 filterColumn'>
-                        <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={notifcationTypeFilter.name ? notifcationTypeFilter.name : "Svi tipovi notifikacije"} style={{ marginBottom: 10 }}>
-                            <Dropdown.Item key="default_notification_setting" onSelect={() => onNotificationTypeFilterChange({ notification_type_id: "", notification_type_name: "" })}>Svi tipovi notifikacije</Dropdown.Item>
+                        <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={notifcationTypeFilter.name ? notifcationTypeFilter.name : "Svi tipovi obavijesti"} style={{ marginBottom: 10 }}>
+                            <Dropdown.Item key="default_notification_setting" onSelect={() => onNotificationTypeFilterChange({ notification_type_id: "", notification_type_name: "" })}>Svi tipovi obavijesti</Dropdown.Item>
                             {notification_types.map((notification_type) => {
                                 return <Dropdown.Item key={notification_type.notification_type_id} onSelect={() => onNotificationTypeFilterChange(notification_type)}>{notification_type.notification_type_name}</Dropdown.Item>;
                             })
