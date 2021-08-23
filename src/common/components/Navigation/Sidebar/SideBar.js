@@ -122,12 +122,12 @@ class SideBar extends React.Component {
                     }
                     {
                         isLoggedAdmin ?
-                            <NavItem eventKey="users" className="tooltipNavbar">
+                            <NavItem eventKey="user" className="tooltipNavbar">
                                 <NavIcon style={{ paddingTop: 5 }}>
                                     <i className="fa fa-fw fa-users" />
                                 </NavIcon>
-                                <div className={subroute == "users" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
-                                    () => onNavigate("users")
+                                <div className={subroute == "user" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
+                                    () => onNavigate("user")
                                 }>Korisnici</div>
                             </NavItem>
                             : null
@@ -136,16 +136,16 @@ class SideBar extends React.Component {
                         <NavIcon style={{ paddingTop: 5 }}>
                             <i className="fa fa-fw fa-receipt" />
                         </NavIcon>
-                        <div className={subroute == "reciepts" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
-                            () => onNavigate("reciepts")
+                        <div className={subroute == "reciept" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
+                            () => onNavigate("reciept")
                         }>Preuzimanja</div>
                     </NavItem>
-                    <NavItem eventKey="reciept" className="tooltipNavbar">
+                    <NavItem eventKey="stocktaking" className="tooltipNavbar">
                         <NavIcon style={{ paddingTop: 5 }}>
                             <i className="fa fa-fw fa-cubes" />
                         </NavIcon>
-                        <div className={subroute == "stocktakings" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
-                            () => onNavigate("stocktakings")
+                        <div className={subroute == "stocktaking" ? "tooltiptext activeTooltip" : "tooltiptext"} onClick={
+                            () => onNavigate("stocktaking")
                         }>Inventure</div>
                     </NavItem>
                     {

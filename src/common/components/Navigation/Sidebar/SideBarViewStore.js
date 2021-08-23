@@ -18,14 +18,14 @@ class SideBarViewStore {
         else if (selectedRoute === "city" || selectedRoute === "location") {
             this.route = "cities";
         }
-        else if (selectedRoute === "users") {
-            this.route = "users";
+        else if (selectedRoute === "user") {
+            this.route = "user";
         }
-        else if (selectedRoute === "reciepts") {
-            this.route = "reciepts";
+        else if (selectedRoute === "reciept") {
+            this.route = "reciept";
         }
-        else if (selectedRoute === "stocktakings") {
-            this.route = "stocktakings";
+        else if (selectedRoute === "stocktaking") {
+            this.route = "stocktaking";
         }
         else if (selectedRoute === "notificationlog" || selectedRoute === "notificationsettings" || selectedRoute === "schedule") {
             this.route = "notifications";
