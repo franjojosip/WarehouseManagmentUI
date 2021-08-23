@@ -187,6 +187,8 @@ class AuthenticationViewStore {
         this.showLoader();
 
         let response = await (this.dataStore.requestResetPassword(this.email));
+        await this.hideLoader();
+
         if (response.error) {
             toast.error(response.error, {
                 position: "bottom-right",
@@ -208,7 +210,7 @@ class AuthenticationViewStore {
                 progress: undefined,
             });
         }
-        await this.hideLoader();
+
     }
     @action
     onNewPasswordChange(value) {
@@ -254,6 +256,7 @@ class AuthenticationViewStore {
                 new_password: this.newPassword
             }
         ));
+        await this.hideLoader();
         if (response.error) {
             toast.error(response.error, {
                 position: "bottom-right",
@@ -266,9 +269,9 @@ class AuthenticationViewStore {
             console.clear();
         }
         else {
-            toast.success(response.status, {
+            toast.success(response.status + " Automatsko prebacivanje na prijavu, molimo pričekajte!", {
                 position: "bottom-right",
-                autoClose: 3000,
+                autoClose: 4000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -276,8 +279,9 @@ class AuthenticationViewStore {
             });
             this.newPassword = "";
             this.isSubmitDisabled = true;
+            await this.delay(4000);
+            this.routerStore.goTo("login");
         }
-        await this.hideLoader();
     }
 
 }

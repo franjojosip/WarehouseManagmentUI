@@ -405,7 +405,6 @@ class RecieptViewStore {
     @action
     async findStocks() {
         let response = await (this.stockDataStore.get())
-        console.log(response);
         if (response.error) {
             toast.error(response.error, {
                 position: "bottom-right",

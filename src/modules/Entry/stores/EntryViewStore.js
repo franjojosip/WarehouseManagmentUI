@@ -404,7 +404,6 @@ class EntryViewStore {
         }
         else {
             if (response.stocks.length > 0) {
-                console.log(response.stocks);
                 this.stocks = response.stocks;
             }
         }
