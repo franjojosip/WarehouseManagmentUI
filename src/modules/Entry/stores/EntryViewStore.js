@@ -55,7 +55,7 @@ class EntryViewStore {
         this.findCities();
     }
 
-    title = "Unos proizvoda na stanje";
+    title = "Unos proizvoda u skladište";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
     childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Količina', 'Izmijeni', 'Obriši', 'Potvrdi'];
 
