@@ -12,6 +12,7 @@ class EntryViewStore {
         this.warehouseDataStore = rootStore.warehouseModuleStore.warehouseDataStore;
         this.productDataStore = rootStore.productModuleStore.productDataStore;
         this.packagingDataStore = rootStore.packagingModuleStore.packagingDataStore;
+        this.stockDataStore = rootStore.stockModuleStore.stockDataStore;
         this.routerStore = rootStore.routerStore;
 
         this.onFind = this.onFind.bind(this);
@@ -49,15 +50,17 @@ class EntryViewStore {
         this.findLocations = this.findLocations.bind(this);
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
+        this.findStocks = this.findStocks.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
 
         this.showLoader();
         this.findCities();
+        this.findStocks();
     }
 
     title = "Unos proizvoda u skladište";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Stara količina', 'Unešeno', 'Nova količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Trenutna količina', 'Unešeno', 'Nova količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedEntry = {
         id: "",
@@ -107,6 +110,7 @@ class EntryViewStore {
     @observable cities = [];
     @observable locations = [];
     @observable products = [];
+    @observable stocks = [];
 
     @observable filteredLocations = [];
     @observable filteredWarehouses = [];
@@ -385,6 +389,28 @@ class EntryViewStore {
     }
 
     @action
+    async findStocks() {
+        let response = await (this.stockDataStore.get())
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.stocks.length > 0) {
+                console.log(response.stocks);
+                this.stocks = response.stocks;
+            }
+        }
+    }
+
+    @action
     async findLocations() {
         let response = await (this.locationDataStore.get())
         if (response.error) {
@@ -516,6 +542,7 @@ class EntryViewStore {
                 packaging_id: "",
                 packaging_name: "",
                 quantity: 0,
+                old_quantity: 0,
                 date_created: "",
                 isSubmitted: false
             };
@@ -540,6 +567,7 @@ class EntryViewStore {
                 packaging_id: data.packaging_id,
                 packaging_name: data.packaging_name,
                 quantity: data.quantity,
+                old_quantity: data.old_quantity,
                 date_created: data.date_created,
                 isSubmitted: false
             };
@@ -597,6 +625,13 @@ class EntryViewStore {
     onWarehouseChange(value) {
         this.clickedEntry.warehouse_id = value.warehouse_id;
         this.clickedEntry.warehouse_name = value.warehouse_name;
+        if (this.clickedEntry.warehouse_id != "" && this.clickedEntry.product_id != "" && this.stocks.length > 0) {
+            let stock =  this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
+            this.clickedEntry.old_quantity = stock ? stock.quantity : 0;
+        }
+        else {
+            this.clickedEntry.old_quantity = 0;
+        }
         this.checkFields();
     }
 
@@ -660,6 +695,13 @@ class EntryViewStore {
         else {
             this.clickedEntry.packaging_id = "";
             this.clickedEntry.packaging_name = "";
+        }
+        if (this.clickedEntry.warehouse_id != "" && this.clickedEntry.product_id != "" &&this.stocks.length > 0) {
+            let stock =  this.stocks.find(stock => stock.warehouse_id == this.clickedEntry.warehouse_id && stock.product_id == this.clickedEntry.product_id);
+            this.clickedEntry.old_quantity = stock ? stock.quantity : 0;
+        }
+        else {
+            this.clickedEntry.old_quantity = 0;
         }
         this.checkFields();
     }

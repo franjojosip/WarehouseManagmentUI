@@ -3,7 +3,7 @@ import React from "react";
 
 import "../../../common/styles/Modal.css";
 
-export default function ModalEntry({ errorMessage, modalTarget, warehouses, cities, locations, products, category_name, subcategory_name, warehouse_name, city_name, location_name, product_name, packaging_name, quantity, onSubmit, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isSubmitDisabled }) {
+export default function ModalEntry({ errorMessage, modalTarget, warehouses, cities, locations, products, category_name, subcategory_name, warehouse_name, city_name, location_name, product_name, packaging_name, quantity, old_quantity, onSubmit, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isSubmitDisabled }) {
 
   let submitClassName = "";
   let modalTitle = "";
@@ -147,22 +147,28 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                 </p>
               </div>
             </Form.Group>
-            <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije</Form.Label>
-              <Form.Control
-                type="text"
-                value={category_name}
-                disabled={true}
-              />
-            </Form.Group>
+            {
+              category_name ?
+                <Form.Group size="md" controlId="category_name">
+                  <Form.Label>Kategorija</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={category_name}
+                    disabled={true}
+                    style={{ width: 300 }}
+                  />
+                </Form.Group>
+                : null
+            }
             {
               subcategory_name ?
                 <Form.Group size="md" controlId="subcategory_name">
-                  <Form.Label>Naziv Potkategorije</Form.Label>
+                  <Form.Label>Potkategorija</Form.Label>
                   <Form.Control
                     type="text"
                     value={subcategory_name}
                     disabled={true}
+                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null
@@ -170,17 +176,31 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
             {
               packaging_name ?
                 <Form.Group size="md" controlId="packaging_name">
-                  <Form.Label>Naziv Ambalaže</Form.Label>
+                  <Form.Label>Ambalaža</Form.Label>
                   <Form.Control
                     type="text"
                     value={packaging_name}
                     disabled={true}
+                    style={{ width: 300 }}
+                  />
+                </Form.Group>
+                : null
+            }
+            {
+              old_quantity != 0 ?
+                <Form.Group size="md" controlId="quantity">
+                  <Form.Label>Trenutna količina</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={old_quantity}
+                    disabled={true}
+                    style={{ width: 300 }}
                   />
                 </Form.Group>
                 : null
             }
             <Form.Group size="md" controlId="quantity">
-              <Form.Label>Količina *</Form.Label>
+              <Form.Label>Unešeno *</Form.Label>
               <Form.Control
                 type="number"
                 value={quantity}
@@ -189,6 +209,7 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                 onChange={(e) => {
                   onQuantityChange(e.target.value);
                 }}
+                style={{ width: 300 }}
                 placeholder="Unesite količinu koju dodajete na stanje [min: 1]"
                 disabled={isDisabled}
               />
