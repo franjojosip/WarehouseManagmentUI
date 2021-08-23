@@ -27,6 +27,35 @@ i {
   font-size: 14px !important;
 }
 
+.tooltipNavbar .tooltiptext {
+  width: 200px;
+  height: 48px;
+  background-color: white;
+  font-size: 17px;
+  color: black;
+  border-radius: 2px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: normal;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  margin-left: 64.40px;
+  display: none;
+  transition: opacity 0.1s;
+}
+
+.tooltipNavbar:hover .tooltiptext {
+  visibility: visible;
+  display: block;
+  opacity: 1;
+}
+
+.activeTooltip{
+  font-weight: 500 !important;
+}
+
+
 @media all and (max-width: 700px) {
   #layout {
     margin-left: 50px !important;
