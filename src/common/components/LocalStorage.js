@@ -35,3 +35,19 @@ export const isUserTokenExpired = () => {
     }
     else return true;
 }
+
+export const saveWarehouse = (warehouse_id, product_id) => {
+    localStorage.setItem('warehouse_id', warehouse_id);
+    localStorage.setItem('product_id', product_id);
+}
+
+export const getWarehouse = () => {
+    let warehouse_id = localStorage.getItem('warehouse_id');
+    let product_id = localStorage.getItem('product_id');
+    return { warehouse_id: warehouse_id, product_id: product_id };
+}
+
+export const clearWarehouse = () => {
+    localStorage.removeItem('warehouse_id');
+    localStorage.removeItem('product_id');
+}

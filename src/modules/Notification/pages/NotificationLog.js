@@ -27,7 +27,7 @@ class Notification extends React.Component {
                 <td className="cell">{element.subject}</td>
                 <td className="cell">{element.notification_type_name}</td>
                 <td className="cell">{element.email}</td>
-                <td className="cell">{element.date_created ? moment(element.date_created).format("DD/MM/YYYY HH:mm") : null}</td>
+                <td className="cell">{element.date_created ? moment(element.date_created).utc().format("DD/MM/YYYY HH:mm") : null}</td>
                 <td className="cell">{element.data.substring(0, 20) + "..."}</td>
                 <td className="cell btnCell">
                     {

@@ -8,6 +8,14 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+.modal-content{
+  padding: 5px;
+}
+
+.productModalDropdown{
+  width: 100% !important;
+}
+
 #refreshWorkers {
   padding-left: 2px;
   font-size: 15px !important;
@@ -93,7 +101,7 @@ li:hover {
   min-width: 160px;
   text-align: center;
   padding-right: 15px !important;
-  padding-left: 35px !important;
+  padding-left: 15px !important;
   justify-content: center !important;
 }
 
@@ -123,6 +131,39 @@ li:hover {
 
 .dropdown-menu {
   border: none;
+}
+
+.warehouseModalDropdown .dropdown-menu.show {
+    margin-top: 25px !important;
+}
+@media (max-width: 768px) {
+  .warehouseModalDropdown .dropdown-menu.show {
+      margin-top: 80px !important;
+  } 
+}
+@media (max-width: 738px) {
+  .warehouseModalDropdown .dropdown-menu.show {
+      margin-top: 70px !important;
+  } 
+}
+@media (max-width: 576px) {
+    .warehouseModalDropdown .dropdown-menu.show {
+        margin-top: 50px !important;
+    }
+}
+@media (max-width: 556px) {
+    .warehouseModalDropdown .dropdown-menu.show {
+        margin-top: 70px !important;
+    }
+}
+@media all and (max-width: 550px) {
+    .warehouseModalDropdown .dropdown-menu.show {
+        top: 25px !important;
+        left:44% !important;
+    }
+    .modalFormDropdown .dropdown-menu.show{
+      left:45% !important;
+    }
 }
 
 @media all and (max-width: 505px) {
@@ -157,4 +198,14 @@ li:hover {
   .btn-primary {
     font-size: 14px !important;
   }
+}
+@media all and (max-width: 420px) {
+    .warehouseModalDropdown .dropdown-menu.show {
+        top: 25px !important;
+        left:44% !important;
+    }
+    .modalFormDropdown .dropdown-menu.show{
+     top:10px !important;
+      left:45% !important;
+    }
 }

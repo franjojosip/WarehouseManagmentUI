@@ -141,10 +141,10 @@ class StocktakingViewStore {
             this.cityFilter.city_id = value.city_id;
             this.cityFilter.city_name = value.city_name;
         }
-        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
             filteredData = filteredData.filter(data =>
-                (moment(data.date_created).isAfter(this.dateFilter.startDate) || moment(data.date_created).isSame(this.dateFilter.startDate))
-                && (moment(data.date_created).isBefore(this.dateFilter.endDate) || moment(data.date_created).isSame(this.dateFilter.endDate))
+                (moment(data.date_created).utc().isAfter(this.dateFilter.startDate) || moment(data.date_created).utc().isSame(this.dateFilter.startDate))
+                && (moment(data.date_created).utc().isBefore(this.dateFilter.endDate) || moment(data.date_created).utc().isSame(this.dateFilter.endDate))
             );
         }
         this.allData = filteredData;
@@ -159,12 +159,12 @@ class StocktakingViewStore {
         let filteredData = this.response;
         this.dateFilter.startDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
-            let startDate = moment(new Date(this.dateFilter.startDate)).format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(value)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(startDate, "DD/MM/YYYY")))
-                    && (moment(data.date_created, "DD/MM/YYYY").isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(endDate, "DD/MM/YYYY")))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
                 if (this.cityFilter.city_id != "") {
                     filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
@@ -183,12 +183,12 @@ class StocktakingViewStore {
         let filteredData = this.response;
         this.dateFilter.endDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
-            let startDate = moment(new Date(this.dateFilter.startDate)).format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).format("DD/MM/YYYY");
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(value)).utc().format("DD/MM/YYYY");
             if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(startDate, "DD/MM/YYYY")))
-                    && (moment(data.date_created, "DD/MM/YYYY").isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(endDate, "DD/MM/YYYY")))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
                 if (this.cityFilter.city_id != "") {
                     filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
@@ -336,7 +336,7 @@ class StocktakingViewStore {
         else {
             this.filterValuesForLoggedUser();
             if (response.stocktakings.length > 0) {
-                response.stocktakings.forEach(item => item.date_created = moment(new Date(item.date_created)).format('DD/MM/YYYY'));
+                response.stocktakings.forEach(item => item.date_created = moment(new Date(item.date_created)).utc().format('DD/MM/YYYY'));
                 this.allData = response.stocktakings;
                 this.response = response.stocktakings;
                 this.groupData();
@@ -521,7 +521,7 @@ class StocktakingViewStore {
         };
         if (isCreate) {
             this.clickedStocktakingProductId = "";
-            this.clickedStocktakingDate = moment().format('DD/MM/YYYY');
+            this.clickedStocktakingDate = moment().utc().format('DD/MM/YYYY');
             this.clickedStocktaking = {
                 id: "",
                 city_id: "",
@@ -803,7 +803,7 @@ class StocktakingViewStore {
             this.errorMessage.product = "Odaberite proizvod!";
         }
         if (this.filteredProducts.length == 0) {
-            this.errorMessage.product = "U odabrano skladište nisu dodani proizvodi!";
+            this.errorMessage.product = "U odabranom skladištu nisu dodani proizvodi!";
         }
         if (this.clickedStocktaking.quantity < 0) {
             this.errorMessage.quantity = "Minimalna količina: 0";
@@ -870,7 +870,7 @@ class StocktakingViewStore {
     async onGeneratePdfClick() {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
-        if (startDate != "" && endDate != "" && moment(startDate).diff(moment(endDate), 'days') <= 0) {
+        if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
             let response = await (this.dataStore.report(startDate, endDate))
             if (response.error) {
                 toast.error(response.error, {

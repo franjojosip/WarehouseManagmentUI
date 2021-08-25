@@ -84,27 +84,28 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
                 </p>
               </div>
             </Form.Group>
-            {subcategory_name == "" && isDisabled ?
-              null
-              :
-              <Form.Group size="md" controlId="subcategory_name">
-                <Form.Label>Potkategorija</Form.Label>
-                {
-                  isDisabled ?
-                    <Form.Control
-                      type="text"
-                      value={subcategory_name}
-                      disabled={isDisabled}
-                    />
-                    :
-                    <DropdownButton className="modalFormDropdown" variant="light" title={subcategory_name ? subcategory_name : "Odaberi potkategoriju"} style={{ marginBottom: 10 }} disabled={isDisabled || subcategories.length == 0}>
-                      {subcategories.map((subcategory) => {
-                        return <Dropdown.Item key={"subcategory-" + subcategory.subcategory_id} onSelect={() => onSubcategoryChange(subcategory)}>{subcategory.subcategory_name}</Dropdown.Item>;
-                      })}
-                    </DropdownButton>
+            {
+              category_name == "" || category_name == "Odaberi kategoriju" ?
+                null
+                :
+                <Form.Group size="md" controlId="subcategory_name">
+                  <Form.Label>Potkategorija</Form.Label>
+                  {
+                    isDisabled ?
+                      <Form.Control
+                        type="text"
+                        value={subcategory_name}
+                        disabled={isDisabled}
+                      />
+                      :
+                      <DropdownButton className="modalFormDropdown" variant="light" title={subcategory_name ? subcategory_name : "Odaberi potkategoriju"} style={{ marginBottom: 10 }} disabled={isDisabled || subcategories.length == 0}>
+                        {subcategories.map((subcategory) => {
+                          return <Dropdown.Item key={"subcategory-" + subcategory.subcategory_id} onSelect={() => onSubcategoryChange(subcategory)}>{subcategory.subcategory_name}</Dropdown.Item>;
+                        })}
+                      </DropdownButton>
 
-                }
-              </Form.Group>
+                  }
+                </Form.Group>
             }
             <Form.Group size="md" controlId="packaging_name">
               <Form.Label>Ambalaža *</Form.Label>

@@ -62,7 +62,7 @@ class RecieptViewStore {
 
     title = "Preuzimanja";
     parentColumns = ['Skladište', 'Lokacija', 'Grad', 'Datum kreiranja'];
-    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Trenutna količina', 'Preuzeto', 'Nova količina', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
+    childColumns = ['Proizvod', 'Kategorija', 'Potkategorija', 'Ambalaža', 'Staro stanje', 'Preuzeto', 'Novo stanje', 'Izvršitelj', 'Izmijeni', 'Obriši', 'Potvrđeno'];
 
     @observable clickedReciept = {
         id: "",
@@ -138,10 +138,10 @@ class RecieptViewStore {
             this.cityFilter.city_id = value.city_id;
             this.cityFilter.city_name = value.city_name;
         }
-        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
             filteredData = filteredData.filter(data =>
-                (moment(data.date_created).isAfter(this.dateFilter.startDate) || moment(data.date_created).isSame(this.dateFilter.startDate))
-                && (moment(data.date_created).isBefore(this.dateFilter.endDate) || moment(data.date_created).isSame(this.dateFilter.endDate))
+                (moment(data.date_created).utc().isAfter(this.dateFilter.startDate) || moment(data.date_created).utc().isSame(this.dateFilter.startDate))
+                && (moment(data.date_created).utc().isBefore(this.dateFilter.endDate) || moment(data.date_created).utc().isSame(this.dateFilter.endDate))
             );
         }
         this.allData = filteredData;
@@ -159,12 +159,12 @@ class RecieptViewStore {
         let filteredData = this.response;
         this.dateFilter.startDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
-            let startDate = moment(new Date(this.dateFilter.startDate)).format("DD/MM/YYYY");
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
             let endDate = moment(new Date(value)).format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(startDate, "DD/MM/YYYY")))
-                    && (moment(data.date_created, "DD/MM/YYYY").isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(endDate, "DD/MM/YYYY")))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
                 if (this.cityFilter.city_id != "") {
                     filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
@@ -183,12 +183,12 @@ class RecieptViewStore {
         let filteredData = this.response;
         this.dateFilter.endDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
-            let startDate = moment(new Date(this.dateFilter.startDate)).format("DD/MM/YYYY");
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
             let endDate = moment(new Date(value)).format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(startDate, "DD/MM/YYYY")))
-                    && (moment(data.date_created, "DD/MM/YYYY").isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").isSame(moment(endDate, "DD/MM/YYYY")))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
                 if (this.cityFilter.city_id != "") {
                     filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
@@ -336,7 +336,7 @@ class RecieptViewStore {
         else {
             this.filterValuesForLoggedUser();
             if (response.reciepts.length > 0) {
-                response.reciepts.forEach(item => item.date_created = moment(new Date(item.date_created)).format('DD/MM/YYYY'));
+                response.reciepts.forEach(item => item.date_created = moment(new Date(item.date_created)).utc().format('DD/MM/YYYY'));
                 this.allData = response.reciepts;
                 this.response = response.reciepts;
                 this.groupData();
@@ -366,9 +366,17 @@ class RecieptViewStore {
 
                 this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id)
                     .map(stock => {
+                        let productInfo = [];
+                        productInfo.push(stock.product_name);
+                        productInfo.push(stock.category_name);
+                        if (stock.subcategory_name != "") {
+                            productInfo.push(stock.subcategory_name);
+                        }
+                        productInfo.push(stock.packaging_name);
+
                         return {
                             product_id: stock.product_id,
-                            product_name: stock.product_name,
+                            product_name: productInfo.join("|"),
                             category_id: stock.category_id,
                             category_name: stock.category_name,
                             subcategory_id: stock.subcategory_id,
@@ -518,16 +526,24 @@ class RecieptViewStore {
         }
         else {
             if (response.products.length > 0) {
+
                 this.products = response.products.map((product) => {
+                    let productInfo = [];
+                    productInfo.push(product.name);
+                    productInfo.push(product.category_name);
+                    if (product.subcategory_name != "") {
+                        productInfo.push(product.subcategory_name);
+                    }
+                    productInfo.push(product.packaging_name);
                     return {
                         product_id: product.id,
-                        product_name: product.name,
-                        packaging_id: product.packaging_id,
-                        packaging_name: product.packaging_name,
+                        product_name: productInfo.join(", "),
                         category_id: product.category_id,
                         category_name: product.category_name,
                         subcategory_id: product.subcategory_id,
-                        subcategory_name: product.subcategory_name
+                        subcategory_name: product.subcategory_name,
+                        packaging_id: product.packaging_id,
+                        packaging_name: product.packaging_name
                     }
                 });
             }
@@ -691,9 +707,17 @@ class RecieptViewStore {
         }
         let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id);
         this.filteredProducts = filteredStocks.map(stock => {
+            let productInfo = [];
+            productInfo.push(stock.product_name);
+            productInfo.push(stock.category_name);
+            if (stock.subcategory_name != "") {
+                productInfo.push(stock.subcategory_name);
+            }
+            productInfo.push(stock.packaging_name);
+
             return {
                 product_id: stock.product_id,
-                product_name: stock.product_name,
+                product_name: productInfo.join(", "),
                 category_id: stock.category_id,
                 category_name: stock.category_name,
                 subcategory_id: stock.subcategory_id,
@@ -868,7 +892,7 @@ class RecieptViewStore {
     async onGeneratePdfClick() {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
-        if (startDate != "" && endDate != "" && moment(startDate).diff(moment(endDate), 'days') <= 0) {
+        if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
             let response = await (this.dataStore.report(startDate, endDate));
             if (response.error) {
                 toast.error(response.error, {

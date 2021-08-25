@@ -19,7 +19,7 @@ export default class HttpClient extends React.Component {
         let loggedUser = getUser();
         object.accessToken = loggedUser.accessToken;
         object.refreshToken = loggedUser.refreshToken;
-        if(isAdminRoute){
+        if (isAdminRoute) {
             object.userId = loggedUser.id;
         }
         return JSON.stringify(object);
@@ -113,7 +113,7 @@ export default class HttpClient extends React.Component {
         const options = {
             method: "POST",
             headers: this.appJsonHeaders,
-            body: JSON.stringify({email: email})
+            body: JSON.stringify({ email: email })
         }
         const request = new Request(this.webApiUrl + "/requestresetpassword", options);
         let response = await (fetch(request));

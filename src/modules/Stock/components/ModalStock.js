@@ -48,97 +48,31 @@ export default function ModalStock({ modalTarget, errorMessage, cities, location
             </button>
           </div>
           <Form style={{ margin: 15 }}>
-            {
-              isDisabled ?
-                null
-                :
-                <div className="modal-header" style={{ marginBottom: 5, marginTop: 0, padding: 0 }}>
-                  <p><b>Prije odabira skladišta potrebno je odabrati Grad i Lokaciju</b></p>
-                </div>
-            }
-            <Form.Group size="md" controlId="city_name">
-              <Form.Label style={{ marginTop: 5 }}>Grad *</Form.Label>
+            <Form.Group size="md" controlId="warehouse_name">
+              <Form.Label>Skladište *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
                     type="text"
-                    value={city_name}
+                    value={warehouse_name}
                     disabled={isDisabled}
                   />
                   :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={city_name ? city_name : "Odaberi grad"} style={{ marginBottom: 10 }} disabled={isDisabled} required>
-                    {cities.map((city) => {
-                      return <Dropdown.Item key={city.city_id} onSelect={() => onCityChange(city)}>{city.city_name}</Dropdown.Item>;
+                  <DropdownButton className="modalFormDropdown productModalDropdown warehouseModalDropdown" variant="light" title={warehouse_name ? warehouse_name : "Odaberi skladište"} style={{ marginBottom: 10 }} disabled={isDisabled} required>
+                    {warehouses.map((warehouse) => {
+                      return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
                     })}
                   </DropdownButton>
               }
               <div hidden={isDisabled || !isSubmitDisabled}>
                 <p style={{ color: "red" }}>
-                  {errorMessage.city ?
-                    errorMessage.city
+                  {errorMessage.warehouse ?
+                    errorMessage.warehouse
                     : null
                   }
                 </p>
               </div>
             </Form.Group>
-            {
-              city_name != "Odaberi grad" ?
-                <Form.Group size="md" controlId="location_name">
-                  <Form.Label>Lokacija *</Form.Label>
-                  {
-                    isDisabled ?
-                      <Form.Control
-                        type="text"
-                        value={city_name}
-                        disabled={isDisabled}
-                      />
-                      :
-                      <DropdownButton className="modalFormDropdown" variant="light" title={location_name ? location_name : "Odaberi lokaciju"} style={{ marginBottom: 10 }} disabled={isDisabled || locations.length == 0} required>
-                        {locations.map((location) => {
-                          return <Dropdown.Item key={location.location_id} onSelect={() => onLocationChange(location)}>{location.location_name}</Dropdown.Item>;
-                        })}
-                      </DropdownButton>
-                  }
-                  <div hidden={isDisabled || !isSubmitDisabled}>
-                    <p style={{ color: "red" }}>
-                      {errorMessage.location ?
-                        errorMessage.location
-                        : null
-                      }
-                    </p>
-                  </div>
-                </Form.Group>
-                : null
-            }
-            {
-              location_name != "Odaberi lokaciju" ?
-                <Form.Group size="md" controlId="warehouse_name">
-                  <Form.Label>Skladište *</Form.Label>
-                  {
-                    isDisabled ?
-                      <Form.Control
-                        type="text"
-                        value={warehouse_name}
-                        disabled={isDisabled}
-                      />
-                      :
-                      <DropdownButton className="modalFormDropdown" variant="light" title={warehouse_name ? warehouse_name : "Odaberi skladište"} style={{ marginBottom: 10 }} disabled={isDisabled || warehouses.length == 0} required>
-                        {warehouses.map((warehouse) => {
-                          return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
-                        })}
-                      </DropdownButton>
-                  }
-                  <div hidden={isDisabled || !isSubmitDisabled}>
-                    <p style={{ color: "red" }}>
-                      {errorMessage.warehouse ?
-                        errorMessage.warehouse
-                        : null
-                      }
-                    </p>
-                  </div>
-                </Form.Group>
-                : null
-            }
             <Form.Group size="md" controlId="product_name">
               <Form.Label>Proizvod *</Form.Label>
               {
@@ -149,7 +83,7 @@ export default function ModalStock({ modalTarget, errorMessage, cities, location
                     disabled={isDisabled}
                   />
                   :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
+                  <DropdownButton className="modalFormDropdown productModalDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
                     {products.map((product) => {
                       return <Dropdown.Item key={product.product_id} onSelect={() => onProductChange(product)}>{product.product_name}</Dropdown.Item>;
                     })}

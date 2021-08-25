@@ -52,13 +52,12 @@ class Reciept extends React.Component {
                 parentRow[1] = element.data.find(item => item.user_id.toString() === parentRow[1]).user_name;
 
                 let nestedIndex = i;
-
                 return (
                     <tbody key={"tbody" + i}>
                         <tr key={i} onClick={() => onClickedRow(nestedIndex)} className="accordion-toggle collapsed complexAccordion" style={{ backgroundColor: "#F2F2F2" }} id="accordion1" data-toggle="collapse" data-parent="#accordion1" data-target={"#row" + nestedIndex}>
                             <td className="complexCell"><Button className="btnShowMore">Prikaži</Button></td>
                             <td className="complexCell">{parentRow[0]}</td>
-                            <td className="complexCell">{parentRow[1]}</td>
+                            <td className="complexCell">{element.data[0].location_name}</td>
                             <td className="complexCell">{element.data[0].city_name}</td>
                             <td className="complexCell">{parentRow[2]}</td>
                         </tr>

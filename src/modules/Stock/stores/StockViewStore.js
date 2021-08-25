@@ -1,6 +1,6 @@
 import { action, observable } from "mobx";
 import { toast } from 'react-toastify';
-import { getUser } from "../../../common/components/LocalStorage";
+import { clearWarehouse, getUser, getWarehouse, saveWarehouse } from "../../../common/components/LocalStorage";
 
 class StockViewStore {
     constructor(rootStore) {
@@ -23,8 +23,6 @@ class StockViewStore {
         this.loadPageData = this.loadPageData.bind(this);
         this.onStockClicked = this.onStockClicked.bind(this);
         this.onWarehouseChange = this.onWarehouseChange.bind(this);
-        this.onLocationChange = this.onLocationChange.bind(this);
-        this.onCityChange = this.onCityChange.bind(this);
         this.onProductChange = this.onProductChange.bind(this);
         this.onQuantityChange = this.onQuantityChange.bind(this);
         this.onMinimumQuantityChange = this.onMinimumQuantityChange.bind(this);
@@ -42,15 +40,13 @@ class StockViewStore {
         this.processData = this.processData.bind(this);
 
         this.findCities = this.findCities.bind(this);
-        this.findLocations = this.findLocations.bind(this);
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
-                
+
         this.showLoader();
         this.setPagination();
         this.findCities();
-        this.findLocations();
         this.findWarehouses();
         this.findProducts();
         this.onFind();
@@ -63,25 +59,19 @@ class StockViewStore {
 
     @observable clickedStock = {
         id: "",
-        city_id: "",
-        city_name: "Odaberi grad",
-        location_id: "",
-        location_name: "Odaberi lokaciju",
         warehouse_id: "",
-        warehouse_name: "Odaberi skladište",
+        warehouse_name: "Odaberite skladište",
+        city_id: "",
+        location_id: "",
         product_id: "",
-        product_name: "Odaberi proizvod",
+        product_name: "Odaberite proizvod",
         subcategory_id: "",
-        subcategory_name: "",
         packaging_id: "",
-        packaging_name: "",
         quantity: "",
         min_quantity: ""
     };
 
     @observable errorMessage = {
-        city: null,
-        location: null,
         warehouse: null,
         product: null,
         quantity: null,
@@ -107,10 +97,7 @@ class StockViewStore {
     @observable allData = [];
     @observable warehouses = [];
     @observable cities = [];
-    @observable locations = [];
     @observable products = [];
-
-    @observable filteredLocations = [];
     @observable filteredWarehouses = [];
 
     @observable response = [];
@@ -210,6 +197,7 @@ class StockViewStore {
         this.showLoader();
         let response = await (this.dataStore.update(this.clickedStock));
         this.processData(response);
+        saveWarehouse(this.clickedStock.warehouse_id, this.clickedStock.product_id);
         await this.hideLoader();
     }
 
@@ -217,6 +205,7 @@ class StockViewStore {
     async onCreateClick() {
         this.showLoader();
         let response = await (this.dataStore.create(this.clickedStock));
+        saveWarehouse(this.clickedStock.warehouse_id, this.clickedStock.product_id);
         this.processData(response);
         await this.hideLoader();
     }
@@ -276,34 +265,6 @@ class StockViewStore {
     }
 
     @action
-    async findLocations() {
-        let response = await (this.locationDataStore.get())
-        if (response.error) {
-            toast.error(response.error, {
-                position: "bottom-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                progress: undefined,
-            });
-            console.clear();
-        }
-        else {
-            if (response.locations.length > 0) {
-                this.locations = response.locations.map((location) => {
-                    return {
-                        location_id: location.id,
-                        location_name: location.name,
-                        city_id: location.city_id,
-                        city_name: location.city_name
-                    }
-                });
-            }
-        }
-    }
-
-    @action
     async findWarehouses() {
         let response = await (this.warehouseDataStore.get())
         if (response.error) {
@@ -320,9 +281,13 @@ class StockViewStore {
         else {
             if (response.warehouses.length > 0) {
                 this.warehouses = response.warehouses.map((warehouse) => {
+                    let warehouseArray = [];
+                    warehouseArray.push(warehouse.name);
+                    warehouseArray.push(warehouse.location_name);
+                    warehouseArray.push(warehouse.city_name);
                     return {
                         warehouse_id: warehouse.id,
-                        warehouse_name: warehouse.name,
+                        warehouse_name: warehouseArray.join(", "),
                         location_id: warehouse.location_id,
                         location_name: warehouse.location_name,
                         city_id: warehouse.city_id,
@@ -350,7 +315,6 @@ class StockViewStore {
         }
         else {
             if (response.products.length > 0) {
-                console.log(response.products);
                 this.products = response.products.map((product) => {
                     let productInfo = [];
                     productInfo.push(product.name);
@@ -377,8 +341,6 @@ class StockViewStore {
     @action
     onStockClicked(product, isCreate) {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null,
@@ -386,44 +348,49 @@ class StockViewStore {
         };
 
         if (isCreate) {
-            this.clickedWarehouseProductId = "";
+            let defaultWarehouse = getWarehouse();
+            let warehouse = null;
+            let product = null;
+
+            if (defaultWarehouse.warehouse_id != "" && defaultWarehouse.product_id != "") {
+                warehouse = this.warehouses.find(warehouse => warehouse.warehouse_id == defaultWarehouse.warehouse_id);
+                product = this.products.find(product => product.product_id == defaultWarehouse.product_id);
+            }
             this.clickedStock = {
+                id: "",
                 warehouse_id: "",
-                warehouse_name: "Odaberi skladište",
+                warehouse_name: "Odaberite skladište",
                 city_id: "",
-                city_name: "Odaberi grad",
                 location_id: "",
-                location_name: "Odaberi lokaciju",
                 product_id: "",
-                product_name: "Odaberi proizvod",
+                product_name: "Odaberite proizvod",
+                subcategory_id: "",
                 packaging_id: "",
-                packaging_name: "",
                 quantity: "",
                 min_quantity: ""
             };
-            this.filteredLocations = [];
-            this.filteredWarehouses = [];
+            this.filteredWarehouses = this.warehouses;
+            this.onWarehouseChange(warehouse);
+            this.onProductChange(product);
         }
         else {
             let data = product;
+            let warehouseName = this.warehouses.find(warehouse => warehouse.warehouse_id == data.warehouse_id).warehouse_name;
+            let productName = this.products.find(product => product.product_id == data.product_id).product_name;
             this.clickedWarehouseProductId = data.product_id;
             this.clickedStock = {
                 id: data.id,
                 warehouse_id: data.warehouse_id,
-                warehouse_name: data.warehouse_name,
+                warehouse_name: warehouseName,
                 city_id: data.location_id,
-                city_name: data.location_name,
                 location_id: data.location_id,
-                location_name: data.location_name,
                 product_id: data.product_id,
-                product_name: data.product_name,
+                product_name: productName,
                 packaging_id: data.packaging_id,
-                packaging_name: data.packaging_name,
                 quantity: data.quantity,
                 min_quantity: data.min_quantity
             };
-            this.filteredLocations = this.locations.filter(location => location.city_id === data.city_id);
-            this.filteredWarehouses = this.warehouses.filter(warehouse => warehouse.city_id === data.city_id);
+            this.filteredWarehouses = this.warehouses;
             this.checkFields();
         }
     }
@@ -478,38 +445,8 @@ class StockViewStore {
             let name = loggedUser.fname + " " + loggedUser.lname;
             this.warehouses = this.warehouses.filter(warehouse => warehouse.users.indexOf(name) != -1)
             let warehouseCityIds = this.warehouses.map(warehouse => warehouse.city_id);
-            this.locations = this.locations.filter(location => warehouseCityIds.indexOf(location.city_id) != -1);
             this.cities = this.cities.filter(city => warehouseCityIds.indexOf(city.city_id) != -1);
         }
-    }
-
-    @action
-    onCityChange(value) {
-        this.clickedStock.city_id = value.city_id;
-        this.clickedStock.city_name = value.city_name;
-
-        this.filteredLocations = this.locations.filter((element) => element.city_id == this.clickedStock.city_id);
-        this.filteredWarehouses = [];
-
-        if (this.filteredLocations.findIndex(location => location.location_id == this.clickedStock.location_id) == -1) {
-            this.clickedStock.location_id = "";
-            this.clickedStock.location_name = "Odaberi lokaciju";
-            this.clickedStock.warehouse_id = "";
-            this.clickedStock.warehouse_name = "Odaberi skladište";
-        }
-
-        this.checkFields();
-    }
-
-    @action
-    onLocationChange(value) {
-        this.clickedStock.location_id = value.location_id;
-        this.clickedStock.location_name = value.location_name;
-
-        this.filteredWarehouses = this.warehouses.filter((element) => element.location_id == value.location_id);
-        this.clickedStock.warehouse_id = "";
-        this.clickedStock.warehouse_name = "Odaberi skladište";
-        this.checkFields();
     }
 
     @action
@@ -541,8 +478,6 @@ class StockViewStore {
     @action
     checkFields() {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null,
@@ -551,12 +486,6 @@ class StockViewStore {
 
         if (this.productExistsInWarehouse()) {
             this.errorMessage.product = "Skladište na istoj lokaciji već sadrži ovaj proizvod!";
-        }
-        if (this.clickedStock.city_id.toString() == "") {
-            this.errorMessage.city = "Odaberite grad!";
-        }
-        if (this.clickedStock.location_id.toString() == "") {
-            this.errorMessage.location = "Odaberite lokaciju!";
         }
         if (this.clickedStock.warehouse_id.toString() == "") {
             this.errorMessage.warehouse = "Odaberite skladište!";
@@ -571,9 +500,7 @@ class StockViewStore {
             this.errorMessage.min_quantity = "Minimalna količina: 1";
         }
 
-        if (this.errorMessage.city == null
-            && this.errorMessage.location == null
-            && this.errorMessage.warehouse == null
+        if (this.errorMessage.warehouse == null
             && this.errorMessage.product == null
             && this.errorMessage.quantity == null
             && this.errorMessage.min_quantity == null) {

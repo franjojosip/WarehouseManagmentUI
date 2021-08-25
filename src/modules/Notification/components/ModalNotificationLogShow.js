@@ -37,7 +37,7 @@ export default function ModalNotificationLogShow({ modalTarget, notification_typ
               <Form.Label>Datum slanja</Form.Label>
               <Form.Control
                 type="text"
-                value={moment(date_created).format("DD/MM/YYYY, HH:mm") + "h"}
+                value={moment(date_created).utc().format("DD/MM/YYYY, HH:mm") + "h"}
                 disabled={isDisabled}
               />
             </Form.Group>
