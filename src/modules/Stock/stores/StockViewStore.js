@@ -46,7 +46,7 @@ class StockViewStore {
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
-
+                
         this.showLoader();
         this.setPagination();
         this.findCities();
@@ -350,10 +350,22 @@ class StockViewStore {
         }
         else {
             if (response.products.length > 0) {
+                console.log(response.products);
                 this.products = response.products.map((product) => {
+                    let productInfo = [];
+                    productInfo.push(product.name);
+                    productInfo.push(product.category_name);
+                    if (product.subcategory_name != "") {
+                        productInfo.push(product.subcategory_name);
+                    }
+                    productInfo.push(product.packaging_name);
                     return {
                         product_id: product.id,
-                        product_name: product.name,
+                        product_name: productInfo.join(", "),
+                        category_id: product.category_id,
+                        category_name: product.category_name,
+                        subcategory_id: product.subcategory_id,
+                        subcategory_name: product.subcategory_name,
                         packaging_id: product.packaging_id,
                         packaging_name: product.packaging_name
                     }

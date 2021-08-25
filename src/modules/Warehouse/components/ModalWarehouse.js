@@ -100,7 +100,7 @@ export default function ModalWarehouse({ modalTarget, errorMessage, users, citie
               </div>
             </Form.Group>
             {
-              city_name != "Odaberi grad" || city_name != "" ?
+              city_name != "Odaberi grad" && city_name != "" ?
                 <Form.Group size="md" controlId="location_name">
                   <Form.Label>Lokacija *</Form.Label>
                   {
