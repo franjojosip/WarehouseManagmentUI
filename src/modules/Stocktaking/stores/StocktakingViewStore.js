@@ -11,6 +11,7 @@ class StocktakingViewStore {
         this.locationDataStore = rootStore.locationModuleStore.locationDataStore;
         this.warehouseDataStore = rootStore.warehouseModuleStore.warehouseDataStore;
         this.productDataStore = rootStore.productModuleStore.productDataStore;
+        this.stockDataStore = rootStore.stockModuleStore.stockDataStore;
         this.routerStore = rootStore.routerStore;
 
         this.onFind = this.onFind.bind(this);
@@ -51,9 +52,11 @@ class StocktakingViewStore {
         this.findWarehouses = this.findWarehouses.bind(this);
         this.findProducts = this.findProducts.bind(this);
         this.filterValuesForLoggedUser = this.filterValuesForLoggedUser.bind(this);
+        this.findStocks = this.findStocks.bind(this);
 
         this.showLoader();
         this.findCities();
+        this.findStocks();
     }
 
     @observable isLoaderVisible = false;
@@ -111,7 +114,9 @@ class StocktakingViewStore {
     @observable cities = [];
     @observable locations = [];
     @observable products = [];
+    @observable stocks = [];
 
+    @observable filteredProducts = [];
     @observable filteredLocations = [];
     @observable filteredWarehouses = [];
 
@@ -366,6 +371,27 @@ class StocktakingViewStore {
     };
 
     @action
+    async findStocks() {
+        let response = await (this.stockDataStore.get())
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.stocks.length > 0) {
+                this.stocks = response.stocks;
+            }
+        }
+    }
+
+    @action
     async findCities() {
         let response = await (this.cityDataStore.get())
         if (response.error) {
@@ -516,6 +542,7 @@ class StocktakingViewStore {
                 date_created: "",
                 isSubmitted: false
             };
+            this.filteredProducts = [];
             this.filteredLocations = [];
             this.filteredWarehouses = [];
         }
@@ -545,6 +572,19 @@ class StocktakingViewStore {
             };
             this.filteredLocations = this.locations.filter(location => location.city_id === data.city_id);
             this.filteredWarehouses = this.warehouses.filter(warehouse => warehouse.city_id === data.city_id);
+            this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedStocktaking.warehouse_id)
+                .map(stock => {
+                    return {
+                        product_id: stock.product_id,
+                        product_name: stock.product_name,
+                        category_id: stock.category_id,
+                        category_name: stock.category_name,
+                        subcategory_id: stock.subcategory_id,
+                        subcategory_name: stock.subcategory_name,
+                        packaging_id: stock.packaging_id,
+                        packaging_name: stock.packaging_name
+                    }
+                });
             this.checkFields();
         }
     }
@@ -646,6 +686,24 @@ class StocktakingViewStore {
     onWarehouseChange(value) {
         this.clickedStocktaking.warehouse_id = value.warehouse_id;
         this.clickedStocktaking.warehouse_name = value.warehouse_name;
+
+        let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedStocktaking.warehouse_id);
+        this.filteredProducts = filteredStocks.map(stock => {
+            return {
+                product_id: stock.product_id,
+                product_name: stock.product_name,
+                category_id: stock.category_id,
+                category_name: stock.category_name,
+                subcategory_id: stock.subcategory_id,
+                subcategory_name: stock.subcategory_name,
+                packaging_id: stock.packaging_id,
+                packaging_name: stock.packaging_name
+            }
+        });
+
+        if (this.clickedStocktaking.product_id != "" && (filteredStocks.length == 0 || filteredStocks.findIndex(stock => stock.product_id == this.clickedStocktaking.product_id) == -1)) {
+            this.onProductChange({ product_id: "", product_name: "Odaberi proizvod" });
+        }
         this.checkFields();
     }
 
@@ -743,6 +801,9 @@ class StocktakingViewStore {
         }
         if (this.clickedStocktaking.product_id.toString() == "") {
             this.errorMessage.product = "Odaberite proizvod!";
+        }
+        if (this.filteredProducts.length == 0) {
+            this.errorMessage.product = "U odabrano skladište nisu dodani proizvodi!";
         }
         if (this.clickedStocktaking.quantity < 0) {
             this.errorMessage.quantity = "Minimalna količina: 0";

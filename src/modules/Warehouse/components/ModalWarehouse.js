@@ -99,31 +99,35 @@ export default function ModalWarehouse({ modalTarget, errorMessage, users, citie
                 </p>
               </div>
             </Form.Group>
-            <Form.Group size="md" controlId="location_name">
-              <Form.Label>Lokacija *</Form.Label>
-              {
-                isDisabled ?
-                  <Form.Control
-                    type="text"
-                    value={location_name}
-                    disabled={isDisabled}
-                  />
-                  :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={location_name ? location_name : "Odaberi lokaciju"} style={{ marginBottom: 10 }} disabled={isDisabled || locations.length === 0} required>
-                    {locations.map((location) => {
-                      return <Dropdown.Item key={location.location_id} onSelect={() => onLocationChange(location)}>{location.location_name}</Dropdown.Item>;
-                    })}
-                  </DropdownButton>
-              }
-              <div hidden={isDisabled || !isSubmitDisabled}>
-                <p style={{ color: "red" }}>
-                  {errorMessage.location ?
-                    errorMessage.location
-                    : null
+            {
+              city_name != "Odaberi grad" || city_name != "" ?
+                <Form.Group size="md" controlId="location_name">
+                  <Form.Label>Lokacija *</Form.Label>
+                  {
+                    isDisabled ?
+                      <Form.Control
+                        type="text"
+                        value={location_name}
+                        disabled={isDisabled}
+                      />
+                      :
+                      <DropdownButton className="modalFormDropdown" variant="light" title={location_name ? location_name : "Odaberi lokaciju"} style={{ marginBottom: 10 }} disabled={isDisabled || locations.length === 0} required>
+                        {locations.map((location) => {
+                          return <Dropdown.Item key={location.location_id} onSelect={() => onLocationChange(location)}>{location.location_name}</Dropdown.Item>;
+                        })}
+                      </DropdownButton>
                   }
-                </p>
-              </div>
-            </Form.Group>
+                  <div hidden={isDisabled || !isSubmitDisabled}>
+                    <p style={{ color: "red" }}>
+                      {errorMessage.location ?
+                        errorMessage.location
+                        : null
+                      }
+                    </p>
+                  </div>
+                </Form.Group>
+                : null
+            }
             <Form.Group size="md" controlId="workers">
               <Form.Label>Popis radnika</Form.Label>
               {
