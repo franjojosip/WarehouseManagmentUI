@@ -132,7 +132,7 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                     disabled={isDisabled}
                   />
                   :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
+                  <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled || products.length == 0} required>
                     {products.map((product) => {
                       return <Dropdown.Item key={product.product_id} onSelect={() => onProductChange(product)}>{product.product_name}</Dropdown.Item>;
                     })}

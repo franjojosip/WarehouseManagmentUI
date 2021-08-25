@@ -115,6 +115,7 @@ class RecieptViewStore {
     @observable products = [];
     @observable stocks = [];
 
+    @observable filteredProducts = [];
     @observable filteredLocations = [];
     @observable filteredWarehouses = [];
 
@@ -330,7 +331,7 @@ class RecieptViewStore {
                     date_created: "",
                     isSubmitted: false
                 }];
-
+            this.filteredProducts = [];
         }
         else {
             this.filterValuesForLoggedUser();
@@ -362,6 +363,20 @@ class RecieptViewStore {
                         date_created: "",
                         isSubmitted: false
                     }];
+
+                this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id)
+                    .map(stock => {
+                        return {
+                            product_id: stock.product_id,
+                            product_name: stock.product_name,
+                            category_id: stock.category_id,
+                            category_name: stock.category_name,
+                            subcategory_id: stock.subcategory_id,
+                            subcategory_name: stock.subcategory_name,
+                            packaging_id: stock.packaging_id,
+                            packaging_name: stock.packaging_name
+                        }
+                    });
             }
         }
         this.setPagination();
@@ -674,6 +689,23 @@ class RecieptViewStore {
         else {
             this.clickedReciept.old_quantity = 0;
         }
+        let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id);
+        this.filteredProducts = filteredStocks.map(stock => {
+            return {
+                product_id: stock.product_id,
+                product_name: stock.product_name,
+                category_id: stock.category_id,
+                category_name: stock.category_name,
+                subcategory_id: stock.subcategory_id,
+                subcategory_name: stock.subcategory_name,
+                packaging_id: stock.packaging_id,
+                packaging_name: stock.packaging_name
+            }
+        });
+
+        if (this.clickedReciept.product_id != "" && (filteredStocks.length == 0 || filteredStocks.findIndex(stock => stock.product_id == this.clickedReciept.product_id) == -1)) {
+            this.onProductChange({ product_id: "", product_name: "Odaberi proizvod" });
+        }
         this.checkFields();
     }
 
@@ -783,10 +815,13 @@ class RecieptViewStore {
         if (this.clickedReciept.product_id.toString() == "") {
             this.errorMessage.product = "Odaberite proizvod!";
         }
+        if (this.filteredProducts.length == 0) {
+            this.errorMessage.product = "U odabrano skladište nisu dodani proizvodi!";
+        }
         if (this.clickedReciept.quantity < 1) {
             this.errorMessage.quantity = "Minimalna količina: 1";
         }
-        if(this.clickedReciept.old_quantity - this.clickedReciept.quantity < 0){
+        if (this.clickedReciept.old_quantity - this.clickedReciept.quantity < 0) {
             this.errorMessage.quantity = "Skladište ne sadrži upisanu količinu proizvoda!";
         }
 
