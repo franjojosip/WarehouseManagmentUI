@@ -40,6 +40,8 @@ class RecieptViewStore {
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
         this.onGeneratePdfClick = this.onGeneratePdfClick.bind(this);
+        this.onSubmitAllClicked = this.onSubmitAllClicked.bind(this);
+        this.onSubmitAllConfirmed = this.onSubmitAllConfirmed.bind(this);
 
         this.delay = this.delay.bind(this);
         this.showLoader = this.showLoader.bind(this);
@@ -578,6 +580,43 @@ class RecieptViewStore {
             this.filteredWarehouses = this.warehouses.filter(warehouse => warehouse.city_id === data.city_id);
             this.checkFields();
         }
+    }
+
+    @action
+    async onSubmitAllConfirmed() {
+        if (this.submittedIds.length > 0) {
+            this.showLoader();
+            let response = await (this.dataStore.submitAll(this.submittedIds));
+            if (response.error) {
+                toast.error(response.error, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+                console.clear();
+                this.onFind();
+            }
+            else {
+                toast.success(response.status, {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+                this.onFind();
+            }
+            await this.hideLoader();
+        }
+    }
+
+    @action
+    onSubmitAllClicked(reciepts) {
+        this.submittedIds = reciepts.filter(reciept => !reciept.isSubmitted).map(reciept => reciept.id);
     }
 
     @action

@@ -143,9 +143,6 @@ class Stocktaking extends React.Component {
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row firstRow">
                         <div className="col-md-3 filterColumn">
-                            <span id="filterTitle">FILTERI</span>
-                        </div>
-                        <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
                             </button>
@@ -187,8 +184,6 @@ class Stocktaking extends React.Component {
                                 }}
                             />
                         </div>
-                    </div>
-                    <div className="row">
                         <div className='col-md-3 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -198,6 +193,8 @@ class Stocktaking extends React.Component {
                                 }
                             </DropdownButton>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className='col-md-3 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -212,6 +209,8 @@ class Stocktaking extends React.Component {
                         </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
+                        </div>
+                        <div className='col-md-3 filterColumn extraColumn'>
                         </div>
                     </div>
                 </div>);

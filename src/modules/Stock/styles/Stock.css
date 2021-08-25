@@ -6,6 +6,10 @@
     font-weight: bold;
 }
 
+.extraColumn{
+    display: inline-block;
+}
+
 
 .dropdown-menu.pageSize {
     width: 150px !important;
@@ -17,6 +21,12 @@
 
 .dropdown-menu.show {
     top: 63px !important;
+}
+
+@media (max-width: 1000px) {
+    .extraColumn{
+        display: none;
+    }
 }
 
 @media (max-width: 950px) {

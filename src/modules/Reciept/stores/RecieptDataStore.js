@@ -30,5 +30,7 @@ export default class RecieptDataStore extends React.Component {
 
     submit = async (id) => this.httpClient.submit(id, this.httpClient.createBodyWithTokens({}));
 
+    submitAll = async (ids) => this.httpClient.submitAll(this.httpClient.createBodyWithTokens({ reciept_ids: ids }));
+
     report = async (startDate, endDate) => this.httpClient.report(this.httpClient.createBodyWithTokens({ start_date: startDate, end_date: endDate }));
 }

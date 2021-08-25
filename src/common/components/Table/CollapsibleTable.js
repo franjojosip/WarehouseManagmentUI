@@ -26,9 +26,6 @@ export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumn
             filterRow :
             <div className="filterCard" style={{ marginBottom: 10 }}>
               <div className="row">
-                <div className="col-md-2 filterColumn">
-                  <span id="filterTitle">FILTERI</span>
-                </div>
                 <div className="col-md-3 filterColumn">
                   <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {pageSize}
@@ -38,6 +35,8 @@ export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumn
                     <button className="dropdown-item" onClick={() => onChangePageSize(10)} type="button">10</button>
                     <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                   </div>
+                </div>
+                <div className="col-md-2 filterColumn">
                 </div>
                 <div className='col-md-3 filterColumn'>
                   <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onChangePageSize(5) }}>Resetiraj</Button>

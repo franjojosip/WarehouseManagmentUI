@@ -337,6 +337,9 @@ td {
 .btnSubmitAll {
     background-color: "#2aaa34" !important;
 }
+.tableExtraColumn{
+    display: inline;
+}
 
 @media all and (max-width: 2300px) {
     .basicCard {
@@ -425,6 +428,9 @@ td {
     .dropdown-menu.pagesize.show {
         margin-top: 60px !important;
         left: 52% !important;
+    }
+    .tableExtraColumn{
+        display: none;
     }
 }
 

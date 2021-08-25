@@ -123,14 +123,17 @@ class Entry extends React.Component {
                                                         </tr>
                                                     );
                                                 })
+                                            } {
+                                                element.data.filter(item => !item.isSubmitted).length > 0 ?
+                                                    <tr key={"element_data_potvrdi_sve"}>
+                                                        <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
+                                                            <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
+                                                                Potvrdi sve
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    : null
                                             }
-                                            <tr key={"element_data_potvrdi_sve"}>
-                                                <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
-                                                    <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
-                                                        Potvrdi sve
-                                                    </button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -158,9 +161,6 @@ class Entry extends React.Component {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row firstRow">
-                        <div className='col-md-3 filterColumn'>
-                            <span id="filterTitle">FILTERI</span>
-                        </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
@@ -203,8 +203,6 @@ class Entry extends React.Component {
                                 }}
                             />
                         </div>
-                    </div>
-                    <div className="row">
                         <div className="col-md-3 filterColumn">
                             <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name ? cityFilter.city_name : "Svi gradovi"}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -214,6 +212,8 @@ class Entry extends React.Component {
                                 }
                             </DropdownButton>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className="col-md-3 filterColumn">
                             <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name ? cityFilter.city_name : "Svi gradovi"}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -229,6 +229,8 @@ class Entry extends React.Component {
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                         </div>
+                        <div className='col-md-3 filterColumn'>
+                        </div>
                     </div>
                 </div>);
         }
@@ -236,9 +238,6 @@ class Entry extends React.Component {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row">
-                        <div className="col-md-2 filterColumn">
-                            <span id="filterTitle">FILTERI</span>
-                        </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
@@ -249,10 +248,10 @@ class Entry extends React.Component {
                                 <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                             </div>
                         </div>
-                        <div className='col-md-4 filterColumn'>
-                        </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
+                        </div>
+                        <div className='col-md-6 filterColumn'>
                         </div>
                     </div>
                 </div>);

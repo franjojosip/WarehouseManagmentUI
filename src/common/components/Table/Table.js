@@ -25,8 +25,7 @@ export default function Table({ title, filterRow, hideAddButton, columns, tableR
             filterRow :
             <div className="filterCard" style={{ marginBottom: 10 }}>
               <div className="row">
-                <div className="col-md-2 filterColumn">
-                  <span id="filterTitle">FILTERI</span>
+                <div className='col-md-3 filterColumn tableExtraColumn'>
                 </div>
                 <div className="col-md-3 filterColumn">
                   <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,10 +37,10 @@ export default function Table({ title, filterRow, hideAddButton, columns, tableR
                     <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                   </div>
                 </div>
-                <div className='col-md-4 filterColumn'>
-                </div>
                 <div className='col-md-3 filterColumn'>
                   <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onChangePageSize(5) }}>Resetiraj</Button>
+                </div>
+                <div className='col-md-3 filterColumn tableExtraColumn'>
                 </div>
               </div>
             </div>

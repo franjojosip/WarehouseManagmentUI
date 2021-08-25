@@ -22,10 +22,10 @@ import { getUser } from '../../../common/components/LocalStorage';
 @observer
 class Reciept extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, dateFilter, cityFilter, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, dateFilter, cityFilter, onCityFilterChange, onStartDateFilterChange, onSubmitAllConfirmed, onSubmitAllClicked, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
 
         let user = getUser();
-        let isUserAdmin = user && user.id != "" && user.role == "Administrator";
+        let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
 
 
         let tableParentColumns = parentColumns.map((element, i) => {
@@ -84,7 +84,7 @@ class Reciept extends React.Component {
                                                             <td className="cell">{item.quantity}</td>
                                                             <td className="cell">{item.new_quantity}</td>
                                                             {
-                                                                isUserAdmin ?
+                                                                isLoggedAdmin ?
                                                                     <td className="cell">{item.user_name}</td>
                                                                     :
                                                                     null
@@ -123,6 +123,17 @@ class Reciept extends React.Component {
                                                     );
                                                 })
                                             }
+                                            {
+                                                element.data.filter(item => !item.isSubmitted).length > 0 ?
+                                                    <tr key={"element_data_potvrdi_sve"}>
+                                                        <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
+                                                            <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
+                                                                Potvrdi sve
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    : null
+                                            }
                                         </tbody>
                                     </table>
 
@@ -146,13 +157,10 @@ class Reciept extends React.Component {
             },
         }));
         let filterRow = null;
-        if (isUserAdmin) {
+        if (isLoggedAdmin) {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row firstRow">
-                        <div className="col-md-3 filterColumn">
-                            <span id="filterTitle">FILTERI</span>
-                        </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
@@ -195,8 +203,6 @@ class Reciept extends React.Component {
                                 }}
                             />
                         </div>
-                    </div>
-                    <div className="row">
                         <div className='col-md-3 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name != "" ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -206,6 +212,8 @@ class Reciept extends React.Component {
                                 }
                             </DropdownButton>
                         </div>
+                    </div>
+                    <div className="row">
                         <div className='col-md-3 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name != "" ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
@@ -221,6 +229,8 @@ class Reciept extends React.Component {
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                         </div>
+                        <div className='col-md-3 filterColumn extraColumn'>
+                        </div>
                     </div>
                 </div>);
         }
@@ -228,8 +238,7 @@ class Reciept extends React.Component {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row">
-                        <div className="col-md-3 filterColumn">
-                            <span id="filterTitle">FILTERI</span>
+                        <div className="col-md-1 filterColumn extraColumn">
                         </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,7 +250,7 @@ class Reciept extends React.Component {
                                 <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                             </div>
                         </div>
-                        <div className='col-md-3 filterColumn'>
+                        <div className='col-md-4 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name != "" ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
                                 {cities.map((city) => {
@@ -253,6 +262,8 @@ class Reciept extends React.Component {
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                         </div>
+                        <div className="col-md-1 filterColumn extraColumn">
+                        </div>
                     </div>
                 </div>);
         }
@@ -263,7 +274,8 @@ class Reciept extends React.Component {
                 <ModalReciept modalTarget="modalTargetAdd" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onCreateClick} warehouse_name={clickedReciept.warehouse_name} city_name={clickedReciept.city_name} location_name={clickedReciept.location_name} category_name={clickedReciept.category_name} subcategory_name={clickedReciept.subcategory_name} product_name={clickedReciept.product_name} packaging_name={clickedReciept.packaging_name} old_quantity={clickedReciept.old_quantity} quantity={clickedReciept.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalReciept modalTarget="modalTargetEdit" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onEditClick} warehouse_name={clickedReciept.warehouse_name} city_name={clickedReciept.city_name} location_name={clickedReciept.location_name} category_name={clickedReciept.category_name} subcategory_name={clickedReciept.subcategory_name} product_name={clickedReciept.product_name} packaging_name={clickedReciept.packaging_name} old_quantity={clickedReciept.old_quantity} quantity={clickedReciept.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalReciept modalTarget="modalTargetDelete" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onDeleteClick} warehouse_name={clickedReciept.warehouse_name} city_name={clickedReciept.city_name} location_name={clickedReciept.location_name} category_name={clickedReciept.category_name} subcategory_name={clickedReciept.subcategory_name} product_name={clickedReciept.product_name} packaging_name={clickedReciept.packaging_name} old_quantity={clickedReciept.old_quantity} quantity={clickedReciept.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
-                <ModalRecieptSubmit onSubmit={onSubmitClick} />
+                <ModalRecieptSubmit modalTarget="modalTargetSubmit" onSubmit={onSubmitClick} isConfirmAll={false} />
+                <ModalRecieptSubmit modalTarget="modalTargetSubmitAll" onSubmit={onSubmitAllConfirmed} isConfirmAll={true} />
                 <ToastContainer style={{ fontSize: 15 }} />
                 <CollapsibleTable filterRow={filterRow} isAdmin={true} title={title} tableNestedRows={tableNestedRows} tableParentColumns={tableParentColumns} page={page} pageSize={pageSize} totalPages={totalPages} previousEnabled={previousEnabled} nextEnabled={nextEnabled} onActionClicked={onRecieptClicked} onPageClick={onPageClick} onChangePageSize={onChangePageSize} onPreviousPageClick={onPreviousPageClick} onNextPageClick={onNextPageClick} />
             </Layout>
