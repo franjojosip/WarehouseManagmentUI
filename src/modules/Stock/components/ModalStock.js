@@ -132,7 +132,7 @@ export default function ModalStock({ modalTarget, errorMessage, cities, location
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="product_name">
-              <Form.Label>Naziv proizvoda *</Form.Label>
+              <Form.Label>Proizvod *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control

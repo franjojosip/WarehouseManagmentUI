@@ -40,7 +40,7 @@ export default function ModalLocation({ modalTarget, errorMessage, cities, onSub
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="location_name">
-              <Form.Label>Naziv Lokacije *</Form.Label>
+              <Form.Label>Lokacija *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"
@@ -60,7 +60,7 @@ export default function ModalLocation({ modalTarget, errorMessage, cities, onSub
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="city_name">
-              <Form.Label>Naziv Grada *</Form.Label>
+              <Form.Label>Grad *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control

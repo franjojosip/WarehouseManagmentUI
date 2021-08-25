@@ -48,7 +48,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="city_name">
-              <Form.Label>Naziv Grada *</Form.Label>
+              <Form.Label>Grad *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -73,7 +73,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="location_name">
-              <Form.Label>Naziv Lokacije *</Form.Label>
+              <Form.Label>Lokacija *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -98,7 +98,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="warehouse_name">
-              <Form.Label>Naziv Skladišta *</Form.Label>
+              <Form.Label>Skladište *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -123,7 +123,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="product_name">
-              <Form.Label>Naziv Proizvoda *</Form.Label>
+              <Form.Label>Proizvod  *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -148,7 +148,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije</Form.Label>
+              <Form.Label>Kategorija</Form.Label>
               <Form.Control
                 type="text"
                 value={category_name}
@@ -158,7 +158,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
             {
               subcategory_name ?
                 <Form.Group size="md" controlId="subcategory_name">
-                  <Form.Label>Naziv Potkategorije</Form.Label>
+                  <Form.Label>Potkategorija</Form.Label>
                   <Form.Control
                     type="text"
                     value={subcategory_name}
@@ -170,7 +170,7 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
             {
               packaging_name ?
                 <Form.Group size="md" controlId="packaging_name">
-                  <Form.Label>Naziv Ambalaže</Form.Label>
+                  <Form.Label>Ambalaža</Form.Label>
                   <Form.Control
                     type="text"
                     value={packaging_name}

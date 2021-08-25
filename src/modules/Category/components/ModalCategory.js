@@ -38,7 +38,7 @@ export default function ModalCategory({ modalTarget, onSubmit, name, onNameChang
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije *</Form.Label>
+              <Form.Label>Kategorija *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"

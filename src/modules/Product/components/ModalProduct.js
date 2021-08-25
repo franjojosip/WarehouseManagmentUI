@@ -40,7 +40,7 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="product_name">
-              <Form.Label>Naziv Proizvoda *</Form.Label>
+              <Form.Label>Proizvod  *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"
@@ -60,7 +60,7 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije *</Form.Label>
+              <Form.Label>Kategorija *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -88,7 +88,7 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
               null
               :
               <Form.Group size="md" controlId="subcategory_name">
-                <Form.Label>Naziv Potkategorije</Form.Label>
+                <Form.Label>Potkategorija</Form.Label>
                 {
                   isDisabled ?
                     <Form.Control
@@ -107,7 +107,7 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
               </Form.Group>
             }
             <Form.Group size="md" controlId="packaging_name">
-              <Form.Label>Naziv Ambalaže *</Form.Label>
+              <Form.Label>Ambalaža *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control

@@ -48,7 +48,7 @@ export default function ModalPackaging({ modalTarget, onSubmit, name, onNameChan
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="packaging_name">
-              <Form.Label>Naziv Ambalaže *</Form.Label>
+              <Form.Label>Ambalaža *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"

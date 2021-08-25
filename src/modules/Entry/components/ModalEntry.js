@@ -48,7 +48,7 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="city_name">
-              <Form.Label>Naziv Grada *</Form.Label>
+              <Form.Label>Grad *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -73,7 +73,7 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="location_name">
-              <Form.Label>Naziv Lokacije *</Form.Label>
+              <Form.Label>Lokacija *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -98,7 +98,7 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="warehouse_name">
-              <Form.Label>Naziv Skladišta *</Form.Label>
+              <Form.Label>Skladište *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
@@ -122,31 +122,36 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
                 </p>
               </div>
             </Form.Group>
-            <Form.Group size="md" controlId="product_name">
-              <Form.Label>Naziv Proizvoda *</Form.Label>
-              {
-                isDisabled ?
-                  <Form.Control
-                    type="text"
-                    value={product_name}
-                    disabled={isDisabled}
-                  />
-                  :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
-                    {products.map((product) => {
-                      return <Dropdown.Item key={product.product_id} onSelect={() => onProductChange(product)}>{product.product_name}</Dropdown.Item>;
-                    })}
-                  </DropdownButton>
-              }
-              <div hidden={isDisabled || !isSubmitDisabled}>
-                <p style={{ color: "red" }}>
-                  {errorMessage.product ?
-                    errorMessage.product
-                    : null
+            {
+              warehouse_name != "Odaberi skladište" ?
+
+                <Form.Group size="md" controlId="product_name">
+                  <Form.Label>Proizvod *</Form.Label>
+                  {
+                    isDisabled ?
+                      <Form.Control
+                        type="text"
+                        value={product_name}
+                        disabled={isDisabled}
+                      />
+                      :
+                      <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled || products.length == 0} required>
+                        {products.map((product) => {
+                          return <Dropdown.Item key={product.product_id} onSelect={() => onProductChange(product)}>{product.product_name}</Dropdown.Item>;
+                        })}
+                      </DropdownButton>
                   }
-                </p>
-              </div>
-            </Form.Group>
+                  <div hidden={isDisabled || !isSubmitDisabled}>
+                    <p style={{ color: "red" }}>
+                      {errorMessage.product ?
+                        errorMessage.product
+                        : null
+                      }
+                    </p>
+                  </div>
+                </Form.Group>
+                : null
+            }
             {
               category_name ?
                 <Form.Group size="md" controlId="category_name">

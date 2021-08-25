@@ -45,7 +45,7 @@ const generateRecieptPDF = (data, startDate, endDate) => {
   data.forEach((warehouse, i) => {
     head = [
       [
-        { content: 'Naziv skladista: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } },
+        { content: 'Skladiste: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } },
         { content: 'Lokacija: ' + replaceUtf8(warehouse.location_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } },
         { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 1, styles: { halign: 'center', fillColor: [20, 151, 124] } }
       ],

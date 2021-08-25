@@ -45,7 +45,7 @@ const generateEntryPDF = (data, startDate, endDate) => {
   data.forEach((warehouse, i) => {
     head = [
       [
-        { content: 'Naziv skladista: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 3, styles: { halign: 'center', fillColor: [22, 160, 133] } },
+        { content: 'Skladiste: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 3, styles: { halign: 'center', fillColor: [22, 160, 133] } },
         { content: 'Lokacija: ' + replaceUtf8(warehouse.location_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
         { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } }
       ],

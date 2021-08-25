@@ -49,7 +49,7 @@ export default function ModalSubcategory({ modalTarget, errorMessage, categories
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="subcategory_name">
-              <Form.Label>Naziv Potkategorije *</Form.Label>
+              <Form.Label>Potkategorija *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"
@@ -69,7 +69,7 @@ export default function ModalSubcategory({ modalTarget, errorMessage, categories
               </div>
             </Form.Group>
             <Form.Group size="md" controlId="category_name">
-              <Form.Label>Naziv Kategorije *</Form.Label>
+              <Form.Label>Kategorija *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control

@@ -53,7 +53,7 @@ class WarehouseViewStore {
     }
 
     title = "Skladišta";
-    columns = ['Naziv skladišta', 'Naziv lokacije', 'Naziv grada', 'Radnici', 'Izmjena', 'Brisanje'];
+    columns = ['Skladište', 'Lokacija', 'Grad', 'Radnici', 'Izmjena', 'Brisanje'];
 
     @observable clickedWarehouse = {
         id: "",

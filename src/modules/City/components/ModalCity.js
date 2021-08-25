@@ -48,7 +48,7 @@ export default function ModalCity({ modalTarget, onSubmit, name, zip_code, onNam
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="city_name">
-              <Form.Label>Naziv Grada *</Form.Label>
+              <Form.Label>Grad *</Form.Label>
               <Form.Control
                 autoFocus
                 type="text"

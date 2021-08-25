@@ -39,7 +39,7 @@ class SubcategoryViewStore {
     }
 
     title = "Potkategorije";
-    columns = ['Naziv potkategorije', 'Naziv kategorije', '', ''];
+    columns = ['Potkategorija', 'Kategorija', '', ''];
 
     @observable clickedSubcategory = {
         id: "",
