@@ -17,25 +17,15 @@ export default function ModalCategory({ modalTarget, onSubmit, name, onNameChang
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu kategoriju";
+    modalTitle = "Izmijenite odabranu kategoriju";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu kategoriju?";
+    modalTitle = "Želite li sigurno obrisati odabranu kategoriju?";
     submitText = "Obriši";
     isDisabled = true;
   }
-  const config = {
-    rules: [
-      {
-        type: 'object',
-        required: true,
-        message: "Unesite vrijednost u polje",
-      },
-    ],
-  };
-
   return (
     <div className="modal fade" id={modalTarget} tabIndex="-1" aria-labelledby="modalTarget" aria-hidden="true">
       <div className="modal-dialog">

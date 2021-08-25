@@ -51,7 +51,7 @@ class Location extends React.Component {
         let filterRow = (
             <div className="filterCard" style={{ marginBottom: 10 }}>
                 <div className="row">
-                    <div className='col-md-1 filterColumn'>
+                    <div className='col-md-1 filterColumn extraColumn'>
                     </div>
                     <div className="col-md-3 filterColumn">
                         <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -75,7 +75,7 @@ class Location extends React.Component {
                     <div className='col-md-3 filterColumn'>
                         <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                     </div>
-                    <div className='col-md-1 filterColumn'>
+                    <div className='col-md-1 filterColumn extraColumn'>
                     </div>
                 </div>
             </div>);

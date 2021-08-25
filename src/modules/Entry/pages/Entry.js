@@ -123,8 +123,9 @@ class Entry extends React.Component {
                                                         </tr>
                                                     );
                                                 })
-                                            } {
-                                                element.data.filter(item => !item.isSubmitted).length > 0 ?
+                                            } 
+                                            {
+                                                element.data.filter(item => !item.isSubmitted).length > 1 ?
                                                     <tr key={"element_data_potvrdi_sve"}>
                                                         <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
                                                             <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
@@ -238,6 +239,8 @@ class Entry extends React.Component {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row">
+                        <div className='col-md-3 filterColumn extraColumn'>
+                        </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {pageSize}
@@ -251,7 +254,7 @@ class Entry extends React.Component {
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                         </div>
-                        <div className='col-md-6 filterColumn'>
+                        <div className='col-md-3 filterColumn extraColumn'>
                         </div>
                     </div>
                 </div>);

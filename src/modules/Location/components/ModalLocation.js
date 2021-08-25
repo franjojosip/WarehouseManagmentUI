@@ -18,12 +18,12 @@ export default function ModalLocation({ modalTarget, errorMessage, cities, onSub
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu lokaciju";
+    modalTitle = "Izmijenite odabranu lokaciju";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu lokaciju?";
+    modalTitle = "Želite li sigurno obrisati odabranu lokaciju?";
     submitText = "Obriši";
     isDisabled = true;
   }

@@ -17,12 +17,12 @@ export default function ModalStocktaking({ errorMessage, modalTarget, warehouses
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu inventuru";
+    modalTitle = "Izmijenite odabranu inventuru";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu inventuru?";
+    modalTitle = "Želite li sigurno obrisati odabranu inventuru?";
     submitText = "Obriši";
     isDisabled = true;
   }

@@ -18,12 +18,12 @@ export default function ModalProduct({ modalTarget, errorMessage, categories, su
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovaj proizvod";
+    modalTitle = "Izmijenite odabrani proizvod";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovaj proizvod?";
+    modalTitle = "Želite li sigurno obrisati odabrani proizvod?";
     submitText = "Obriši";
     isDisabled = true;
   }

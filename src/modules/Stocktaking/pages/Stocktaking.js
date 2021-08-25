@@ -22,10 +22,10 @@ import { getUser } from '../../../common/components/LocalStorage';
 @observer
 class Stocktaking extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, cityFilter, dateFilter, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedStocktaking, onClickedRow, parentColumns, childColumns, paginatedData, onStocktakingClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, cityFilter, dateFilter, onCityFilterChange, onSubmitAllClicked, onSubmitAllConfirmed, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedStocktaking, onClickedRow, parentColumns, childColumns, paginatedData, onStocktakingClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
 
         let user = getUser();
-        let isUserAdmin = user && user.id != "" && user.role == "Administrator";
+        let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
         let tableParentColumns = parentColumns.map((element, i) => {
             return <th key={"parentColumn" + i} className="text-center cellHeader">{element}</th>
         });
@@ -101,7 +101,7 @@ class Stocktaking extends React.Component {
                                                             </td>
                                                             <td className="nestedComplexCell">
                                                                 {
-                                                                    item.isSubmitted && !isUserAdmin ?
+                                                                    item.isSubmitted && !isLoggedAdmin ?
                                                                         null
                                                                         :
                                                                         <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetDelete" className="btn btnAction btn-danger btn-rounded btn-sm my-0">
@@ -112,6 +112,17 @@ class Stocktaking extends React.Component {
                                                         </tr>
                                                     );
                                                 })
+                                            }
+                                            {
+                                                element.data.filter(item => !item.isSubmitted).length > 1 ?
+                                                    <tr key={"element_data_potvrdi_sve"}>
+                                                        <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
+                                                            <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">
+                                                                Potvrdi sve
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    : null
                                             }
                                         </tbody>
                                     </table>
@@ -138,7 +149,7 @@ class Stocktaking extends React.Component {
 
         let filterRow = null;
 
-        if (isUserAdmin) {
+        if (isLoggedAdmin) {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row firstRow">
@@ -219,8 +230,7 @@ class Stocktaking extends React.Component {
             filterRow = (
                 <div className="filterCard" style={{ marginBottom: 10 }}>
                     <div className="row">
-                        <div className="col-md-3 filterColumn">
-                            <span id="filterTitle">FILTERI</span>
+                        <div className="col-md-1 filterColumn extraColumn">
                         </div>
                         <div className="col-md-3 filterColumn">
                             <button className="btn btn-light dropdown-toggle" type="button" id="dropdownMenuPageSizeSecond" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -232,7 +242,7 @@ class Stocktaking extends React.Component {
                                 <button className="dropdown-item" onClick={() => onChangePageSize(15)} type="button">15</button>
                             </div>
                         </div>
-                        <div className='col-md-3 filterColumn'>
+                        <div className='col-md-4 filterColumn'>
                             <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
                                 {cities.map((city) => {
@@ -244,6 +254,8 @@ class Stocktaking extends React.Component {
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
                         </div>
+                        <div className="col-md-1 filterColumn extraColumn">
+                        </div>
                     </div>
                 </div>);
         }
@@ -253,7 +265,8 @@ class Stocktaking extends React.Component {
                 <ModalStocktaking modalTarget="modalTargetAdd" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onCreateClick} warehouse_name={clickedStocktaking.warehouse_name} city_name={clickedStocktaking.city_name} location_name={clickedStocktaking.location_name} category_name={clickedStocktaking.category_name} product_name={clickedStocktaking.product_name} subcategory_name={clickedStocktaking.subcategory_name} packaging_name={clickedStocktaking.packaging_name} quantity={clickedStocktaking.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalStocktaking modalTarget="modalTargetEdit" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onEditClick} warehouse_name={clickedStocktaking.warehouse_name} city_name={clickedStocktaking.city_name} location_name={clickedStocktaking.location_name} category_name={clickedStocktaking.category_name} product_name={clickedStocktaking.product_name} subcategory_name={clickedStocktaking.subcategory_name} packaging_name={clickedStocktaking.packaging_name} quantity={clickedStocktaking.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
                 <ModalStocktaking modalTarget="modalTargetDelete" errorMessage={errorMessage} warehouses={filteredWarehouses} cities={cities} locations={filteredLocations} products={products} onSubmit={onDeleteClick} warehouse_name={clickedStocktaking.warehouse_name} city_name={clickedStocktaking.city_name} location_name={clickedStocktaking.location_name} category_name={clickedStocktaking.category_name} product_name={clickedStocktaking.product_name} subcategory_name={clickedStocktaking.subcategory_name} packaging_name={clickedStocktaking.packaging_name} quantity={clickedStocktaking.quantity} onWarehouseChange={onWarehouseChange} onCityChange={onCityChange} onLocationChange={onLocationChange} onProductChange={onProductChange} onQuantityChange={onQuantityChange} isSubmitDisabled={isSubmitDisabled} />
-                <ModalStocktakingSubmit onSubmit={onSubmitClick} />
+                <ModalStocktakingSubmit modalTarget="modalTargetSubmit" onSubmit={onSubmitClick} isConfirmAll={false} />
+                <ModalStocktakingSubmit modalTarget="modalTargetSubmitAll" onSubmit={onSubmitAllConfirmed} isConfirmAll={true} />
                 <ToastContainer style={{ fontSize: 15 }} />
                 <CollapsibleTable filterRow={filterRow} isAdmin={true} title={title} tableNestedRows={tableNestedRows} tableParentColumns={tableParentColumns} page={page} pageSize={pageSize} totalPages={totalPages} previousEnabled={previousEnabled} nextEnabled={nextEnabled} onActionClicked={onStocktakingClicked} onPageClick={onPageClick} onChangePageSize={onChangePageSize} onPreviousPageClick={onPreviousPageClick} onNextPageClick={onNextPageClick} />
             </Layout>

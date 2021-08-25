@@ -17,12 +17,12 @@ export default function ModalPackaging({ modalTarget, onSubmit, name, onNameChan
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu ambalažu";
+    modalTitle = "Izmijenite odabranu ambalažu";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu ambalažu?";
+    modalTitle = "Želite li sigurno obrisati odabranu ambalažu?";
     submitText = "Obriši";
     isDisabled = true;
   }

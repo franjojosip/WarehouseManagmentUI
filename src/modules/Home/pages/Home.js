@@ -22,13 +22,13 @@ class Home extends React.Component {
         const { onNavigate } = this.props.sidebarViewStore;
 
         let user = getUser();
-        let isUserAdmin = user && user.id != "" && user.role == "Administrator";
+        let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
 
         return (
             <Layout isLoaderVisible={isLoaderVisible}>
                 <div className="row homeRow">
                     {
-                        isUserAdmin ?
+                        isLoggedAdmin ?
                             <div className="col-md-3 homeCard">
                                 <a onClick={(e) => { e.preventDefault(); onNavigate("user") }} className="data-card">
                                     <h3>{data.total_users}</h3>

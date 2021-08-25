@@ -17,12 +17,12 @@ export default function ModalEntry({ errorMessage, modalTarget, warehouses, citi
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovaj unos";
+    modalTitle = "Izmijenite odabrani unos";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovaj unos?";
+    modalTitle = "Želite li sigurno obrisati odabrani unos?";
     submitText = "Obriši";
     isDisabled = true;
   }

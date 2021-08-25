@@ -7,11 +7,11 @@ export default function ModalRecieptSubmit({ modalTarget, onSubmit, isConfirmAll
   let title = "";
   let btnTitle = "";
   if (isConfirmAll) {
-    title = "Želite li potvrditi ova preuzimanja?";
+    title = "Želite li potvrditi odabrana preuzimanja?";
     btnTitle = "Potvrdi preuzimanja";
   }
   else {
-    title = "Želite li potvrditi ono preuzimanje?";
+    title = "Želite li potvrditi odabrano preuzimanje?";
     btnTitle = "Potvrdi preuzimanje";
   }
 

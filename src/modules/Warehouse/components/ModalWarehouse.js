@@ -19,12 +19,12 @@ export default function ModalWarehouse({ modalTarget, errorMessage, users, citie
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovo skladište";
+    modalTitle = "Izmijenite odabrano skladište";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovo skladište?";
+    modalTitle = "Želite li sigurno obrisati odabrano skladište?";
     submitText = "Obriši";
     isDisabled = true;
   }

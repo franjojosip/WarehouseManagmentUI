@@ -30,12 +30,12 @@ export default function ModalNotificationSetting({ modalTarget, onSubmit, days, 
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu automatsku obavijest";
+    modalTitle = "Izmijenite odabranu automatsku obavijest";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu automatsku obavijest?";
+    modalTitle = "Želite li sigurno obrisati odabranu automatsku obavijest?";
     submitText = "Obriši";
     isDisabled = true;
   }

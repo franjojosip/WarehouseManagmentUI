@@ -3,14 +3,23 @@ import React from "react";
 
 import "../../../common/styles/Modal.css";
 
-export default function ModalStocktakingSubmit({ onSubmit }) {
-
+export default function ModalStocktakingSubmit({ modalTarget, onSubmit, isConfirmAll }) {
+  let title = "";
+  let btnTitle = "";
+  if (isConfirmAll) {
+    title = "Želite li potvrditi odabrane inventure?";
+    btnTitle = "Potvrdi inventure";
+  }
+  else {
+    title = "Želite li potvrditi odabranu inventuru?";
+    btnTitle = "Potvrdi inventuru";
+  }
   return (
-    <div className="modal fade" id="modalTargetSubmit" tabIndex="-1" aria-labelledby="modalTarget" aria-hidden="true">
+    <div className="modal fade" id={modalTarget} tabIndex="-1" aria-labelledby="modalTarget" aria-hidden="true">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="title" id="modalTarget">Želite li potvrditi ovu inventuru?</h5>
+            <h5 className="title" id="modalTarget">{title}</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

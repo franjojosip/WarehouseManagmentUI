@@ -124,7 +124,7 @@ class Reciept extends React.Component {
                                                 })
                                             }
                                             {
-                                                element.data.filter(item => !item.isSubmitted).length > 0 ?
+                                                element.data.filter(item => !item.isSubmitted).length > 1 ?
                                                     <tr key={"element_data_potvrdi_sve"}>
                                                         <td className="nestedComplexCell" colSpan={isLoggedAdmin ? "11" : "10"}>
                                                             <button type="button" onClick={(e) => { e.preventDefault(); onSubmitAllClicked(element.data) }} style={{ marginRight: 130, float: 'right' }} data-toggle="modal" data-target="#modalTargetSubmitAll" className="btn btnAction btnSubmitAll btn-success btn-rounded btn-sm my-0">

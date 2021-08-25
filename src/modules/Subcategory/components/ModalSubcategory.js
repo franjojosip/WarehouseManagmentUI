@@ -18,12 +18,12 @@ export default function ModalSubcategory({ modalTarget, errorMessage, categories
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovu potkategoriju";
+    modalTitle = "Izmijenite odabranu potkategoriju";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovu potkategoriju?";
+    modalTitle = "Želite li sigurno obrisati odabranu potkategoriju?";
     submitText = "Obriši";
     isDisabled = true;
   }

@@ -25,7 +25,7 @@ export default function ModalUser({ modalTarget, roles, onSubmit, fname, lname, 
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovog korisnika?";
+    modalTitle = "Želite li sigurno obrisati odabranog korisnika?";
     submitText = "Obriši";
     isDisabled = true;
   }

@@ -18,12 +18,12 @@ export default function ModalStock({ modalTarget, errorMessage, cities, location
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovo stanje";
+    modalTitle = "Izmijenite odabrano stanje";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovo stanje?";
+    modalTitle = "Želite li sigurno obrisati odabrano stanje?";
     submitText = "Obriši";
     isDisabled = true;
   }

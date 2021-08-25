@@ -17,12 +17,12 @@ export default function ModalCity({ modalTarget, onSubmit, name, zip_code, onNam
   }
   else if (modalTarget === "modalTargetEdit") {
     submitClassName = "btn btn-success";
-    modalTitle = "Izmijenite ovaj grad";
+    modalTitle = "Izmijenite odabrani grad";
     submitText = "Izmijeni";
   }
   else {
     submitClassName = "btn btn-danger";
-    modalTitle = "Želite li sigurno obrisati ovaj grad?";
+    modalTitle = "Želite li sigurno obrisati odabrani grad?";
     submitText = "Obriši";
     isDisabled = true;
   }

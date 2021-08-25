@@ -7,11 +7,11 @@ export default function ModalEntrySubmit({ modalTarget, onSubmit, isConfirmAll }
   let title = "";
   let btnTitle = "";
   if (isConfirmAll) {
-    title = "Želite li potvrditi ove unose?";
+    title = "Želite li potvrditi odabrane unose?";
     btnTitle = "Potvrdi unose";
   }
   else {
-    title = "Želite li potvrditi ovaj unos?";
+    title = "Želite li potvrditi odabrani unos?";
     btnTitle = "Potvrdi unos";
   }
   return (
