@@ -69,6 +69,7 @@ class Stock extends React.Component {
                                                 <tr className="info">
                                                     <th className="complexHeader"></th>
                                                     {tableChildColumns}
+                                                    <th className="complexHeader"></th>
                                                 </tr>
                                             </thead>
                                             {
