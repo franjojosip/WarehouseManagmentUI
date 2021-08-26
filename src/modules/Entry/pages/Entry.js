@@ -22,7 +22,7 @@ import "../styles/Entry.css";
 @observer
 class Entry extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, filteredProducts, warehouses, onLocationFilterChange, dateFilter, cityFilter, onSubmitAllClicked, onSubmitAllConfirmed, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedEntry, onClickedRow, parentColumns, childColumns, paginatedData, onEntryClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, onWarehouseFilterChange, filteredProducts, warehouses, onLocationFilterChange, dateFilter, cityFilter, onSubmitAllClicked, onSubmitAllConfirmed, onCityFilterChange, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedEntry, onClickedRow, parentColumns, childColumns, paginatedData, onEntryClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onPackagingChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
         const loggedUser = getUser();
         let isLoggedAdmin = loggedUser && loggedUser.role.toLowerCase() == "administrator";
 
@@ -41,6 +41,7 @@ class Entry extends React.Component {
         let tableNestedRows = (<tbody>
             <tr key="tableNestedRows">
                 <td className="cell">Nema podataka</td>
+                <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
@@ -118,7 +119,7 @@ class Entry extends React.Component {
                                                                     item.isSubmitted ?
                                                                         <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
                                                                         :
-                                                                        <button type="button" onClick={(e) => { e.preventDefault(); onEntryClicked(item, false) }} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
+                                                                        <button type="button" onClick={(e) => { e.preventDefault(); onEntryClicked(item, false) }} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btnInfo btn-rounded btn-sm my-0">
                                                                             Potvrdi
                                                                         </button>
                                                                 }
@@ -227,13 +228,20 @@ class Entry extends React.Component {
                                 }
                             </DropdownButton>
                         </div>
+                        <div className="col-md-3 filterColumn">
+                            <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.warehouse_name ? cityFilter.warehouse_name : "Sva skladišta"}>
+                                <Dropdown.Item key="default_warehouse" onSelect={() => onWarehouseFilterChange({ warehouse_id: "", warehouse_name: "" })}>Sva skladišta</Dropdown.Item>
+                                {filteredWarehouses.map((warehouse) => {
+                                    return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseFilterChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
+                                })
+                                }
+                            </DropdownButton>
+                        </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-primary btnGenerate" onClick={(e) => { e.preventDefault(); onGeneratePdfClick() }}>Generiraj izvješće</Button>
                         </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
-                        </div>
-                        <div className='col-md-3 filterColumn'>
                         </div>
                     </div>
                 </div>);

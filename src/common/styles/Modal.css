@@ -52,6 +52,10 @@ li:hover {
   height: 30px !important;
 }
 
+.btn-info{
+  background:#bebebe !important;
+}
+
 .modal-main {
   position: fixed;
   background: white;
@@ -77,6 +81,10 @@ li:hover {
 .dropdown-item {
   text-align: center !important;
   word-wrap: break-word !important;
+}
+
+.btn{
+  border-radius: 4px !important;
 }
 
 #customDropdown {

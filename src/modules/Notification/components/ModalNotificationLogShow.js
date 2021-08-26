@@ -18,7 +18,7 @@ export default function ModalNotificationLogShow({ modalTarget, notification_typ
           </div>
           <Form style={{ margin: 15 }}>
             <Form.Group size="md" controlId="notification_type">
-              <Form.Label>Tip Notifikacije</Form.Label>
+              <Form.Label>Tip obavijesti</Form.Label>
               <Form.Control
                 type="text"
                 value={notification_type_name}

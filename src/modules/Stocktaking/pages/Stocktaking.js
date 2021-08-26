@@ -22,7 +22,7 @@ import { getUser } from '../../../common/components/LocalStorage';
 @observer
 class Stocktaking extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, filteredProducts, warehouses, cityFilter, dateFilter, onCityFilterChange, onLocationFilterChange, onSubmitAllClicked, onSubmitAllConfirmed, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedStocktaking, onClickedRow, parentColumns, childColumns, paginatedData, onStocktakingClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, onWarehouseFilterChange, filteredProducts, warehouses, cityFilter, dateFilter, onCityFilterChange, onLocationFilterChange, onSubmitAllClicked, onSubmitAllConfirmed, onStartDateFilterChange, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedStocktaking, onClickedRow, parentColumns, childColumns, paginatedData, onStocktakingClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
 
         let user = getUser();
         let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
@@ -36,6 +36,7 @@ class Stocktaking extends React.Component {
         let tableNestedRows = (<tbody>
             <tr key="tableNestedRows">
                 <td>Nema podataka</td>
+                <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
@@ -85,7 +86,7 @@ class Stocktaking extends React.Component {
                                                                     item.isSubmitted ?
                                                                         <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
                                                                         :
-                                                                        <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btn-info btn-rounded btn-sm my-0">
+                                                                        <button type="button" onClick={() => onStocktakingClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnAction btnInfo  btn-rounded btn-sm my-0">
                                                                             Potvrdi
                                                                         </button>
                                                                 }
@@ -208,10 +209,19 @@ class Stocktaking extends React.Component {
                     </div>
                     <div className="row">
                         <div className='col-md-3 filterColumn'>
-                            <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.location_name ? cityFilter.location_name : "Sve lokacije"} style={{ marginBottom: 10 }}>
+                            <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.location_name ? cityFilter.location_name : "Sve lokacije"}>
                                 <Dropdown.Item key="default_location" onSelect={() => onLocationFilterChange({ location_id: "", location_name: "" })}>Sve lokacije</Dropdown.Item>
                                 {filteredLocations.map((location) => {
                                     return <Dropdown.Item key={location.location_id} onSelect={() => onLocationFilterChange(location)}>{location.location_name}</Dropdown.Item>;
+                                })
+                                }
+                            </DropdownButton>
+                        </div>
+                        <div className="col-md-3 filterColumn">
+                            <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.warehouse_name ? cityFilter.warehouse_name : "Sva skladišta"}>
+                                <Dropdown.Item key="default_warehouse" onSelect={() => onWarehouseFilterChange({ warehouse_id: "", warehouse_name: "" })}>Sva skladišta</Dropdown.Item>
+                                {filteredWarehouses.map((warehouse) => {
+                                    return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseFilterChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
                                 })
                                 }
                             </DropdownButton>
@@ -221,8 +231,6 @@ class Stocktaking extends React.Component {
                         </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
-                        </div>
-                        <div className='col-md-3 filterColumn extraColumn'>
                         </div>
                     </div>
                 </div>);

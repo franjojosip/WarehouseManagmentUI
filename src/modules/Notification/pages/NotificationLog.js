@@ -42,7 +42,7 @@ class Notification extends React.Component {
                 <td className="cell btnCell">
                     {
                         element.id !== "" ?
-                            <button type="button" onClick={() => onNotificationClicked(element, false)} data-toggle="modal" data-target="#modalTargetShow" className="btn btnAction btn-info btn-rounded btn-sm my-0">
+                            <button type="button" onClick={() => onNotificationClicked(element, false)} data-toggle="modal" data-target="#modalTargetShow" className="btn btnAction btnInfo btn-rounded btn-sm my-0">
                                 Prikaži
                             </button>
                             :

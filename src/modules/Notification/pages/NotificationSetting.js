@@ -30,7 +30,7 @@ class NotificationSetting extends React.Component {
                     {
                         element.id ?
                             <button type="button" onClick={() => onNotificationSettingClicked(element, false)} data-toggle="modal" data-target="#modalTargetEdit" className="btn btnAction btn-primary btn-rounded btn-sm my-0">
-                                Edit
+                                Izmijeni
                             </button>
                             : null
                     }

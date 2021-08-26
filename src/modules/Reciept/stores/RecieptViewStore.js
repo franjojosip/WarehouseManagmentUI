@@ -34,6 +34,7 @@ class RecieptViewStore {
         this.groupData = this.groupData.bind(this);
         this.onCityFilterChange = this.onCityFilterChange.bind(this);
         this.onLocationFilterChange = this.onLocationFilterChange.bind(this);
+        this.onWarehouseFilterChange = this.onWarehouseFilterChange.bind(this);
         this.onStartDateFilterChange = this.onStartDateFilterChange.bind(this);
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
@@ -103,6 +104,7 @@ class RecieptViewStore {
 
     @observable allData = [];
     @observable warehouses = [];
+    @observable warehouseFilterWarehouses = [];
     @observable cities = [];
     @observable locations = [];
     @observable products = [];
@@ -117,7 +119,9 @@ class RecieptViewStore {
         city_id: "",
         city_name: "",
         location_id: "",
-        location_name: ""
+        location_name: "",
+        warehouse_id: "",
+        warehouse_name: ""
     };
     @observable dateFilter = {
         startDate: "",
@@ -131,7 +135,10 @@ class RecieptViewStore {
         this.cityFilter.city_name = value.city_name;
         this.cityFilter.location_id = "";
         this.cityFilter.location_name = "";
+        this.cityFilter.warehouse_id = "";
+        this.cityFilter.warehouse_name = "";
         this.filteredLocations = [];
+        this.filteredWarehouses = [];
 
         if (value.city_id != "") {
             filteredData = filteredData.filter(data => data.city_id == value.city_id);
@@ -159,6 +166,10 @@ class RecieptViewStore {
         let filteredData = this.response;
         this.cityFilter.location_id = value.location_id;
         this.cityFilter.location_name = value.location_name;
+        this.cityFilter.warehouse_id = "";
+        this.cityFilter.warehouse_name = "";
+        this.filteredWarehouses = [];
+
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
             let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
             let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
@@ -173,9 +184,39 @@ class RecieptViewStore {
             filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id && data.location_id == value.location_id);
             this.cityFilter.location_id = value.location_id;
             this.cityFilter.location_name = value.location_name;
+            this.filteredWarehouses = this.warehouseFilterWarehouses.filter(warehouse => warehouse.location_id == this.cityFilter.location_id);
         }
         else if (this.cityFilter.city_id != "") {
             filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
+        this.setPagination(1);
+    }
+
+    @action
+    onWarehouseFilterChange(value) {
+        let filteredData = this.response;
+        this.cityFilter.warehouse_id = value.warehouse_id;
+        this.cityFilter.warehouse_name = value.warehouse_name;
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+                filteredData = filteredData.filter(data =>
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
+                );
+            }
+        }
+        if (this.cityFilter.location_id != "") {
+            filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id && data.location_id == this.cityFilter.location_id);
+        }
+        if (this.cityFilter.warehouse_id != "") {
+            filteredData = filteredData.filter(data => data.warehouse_id == this.cityFilter.warehouse_id);
+        }
+        if (this.cityFilter.warehouse_id != "") {
+            filteredData = filteredData.filter(data => data.warehouse_id == this.cityFilter.warehouse_id);
         }
         this.allData = filteredData;
         this.groupData();
@@ -202,6 +243,9 @@ class RecieptViewStore {
         }
         if (this.cityFilter.location_id != "") {
             filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
+        }
+        if (this.cityFilter.warehouse_id != "") {
+            filteredData = filteredData.filter(data => data.warehouse_id == this.cityFilter.warehouse_id);
         }
         this.allData = filteredData;
         this.groupData();
@@ -239,6 +283,8 @@ class RecieptViewStore {
         this.cityFilter.city_name = "";
         this.cityFilter.location_id = "";
         this.cityFilter.location_name = "";
+        this.cityFilter.warehouse_id = "";
+        this.cityFilter.warehouse_name = "";
         this.dateFilter.startDate = "";
         this.dateFilter.endDate = "";
         this.allData = this.response;
@@ -506,6 +552,17 @@ class RecieptViewStore {
         }
         else {
             if (response.warehouses.length > 0) {
+                this.warehouseFilterWarehouses = response.warehouses.map((warehouse) => {
+                    return {
+                        warehouse_id: warehouse.id,
+                        warehouse_name: warehouse.name,
+                        location_id: warehouse.location_id,
+                        location_name: warehouse.location_name,
+                        city_id: warehouse.city_id,
+                        city_name: warehouse.city_name,
+                        users: warehouse.users ? warehouse.users.map(user => user.name) : []
+                    }
+                });
                 this.warehouses = response.warehouses.map((warehouse) => {
                     let warehouseArray = [];
                     warehouseArray.push(warehouse.name);
@@ -645,6 +702,7 @@ class RecieptViewStore {
                 isSubmitted: false
             };
             let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id);
+            this.filteredWarehouses = this.warehouseFilterWarehouses.filter(warehouse => warehouse.location_id == this.cityFilter.location_id);
             this.filteredProducts = filteredStocks.map(stock => {
                 let productInfo = [];
                 productInfo.push(stock.product_name);
@@ -903,7 +961,7 @@ class RecieptViewStore {
         let dateArray = [];
         dateArray = date.split("/");
         let pdfDate = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
-        let response = await (this.dataStore.report(pdfDate, pdfDate, city_id, location_id))
+        let response = await (this.dataStore.report(pdfDate, pdfDate, city_id, location_id, ""))
         if (response.error) {
             toast.error(response.error, {
                 position: "bottom-right",
@@ -937,7 +995,7 @@ class RecieptViewStore {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
         if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
-            let response = await (this.dataStore.report(startDate, endDate, this.cityFilter.city_id, this.cityFilter.location_id))
+            let response = await (this.dataStore.report(startDate, endDate, this.cityFilter.city_id, this.cityFilter.location_id, this.cityFilter.warehouse_id))
             if (response.error) {
                 toast.error(response.error, {
                     position: "bottom-right",

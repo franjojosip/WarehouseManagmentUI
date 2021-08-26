@@ -318,6 +318,15 @@ td {
     width: fit-content !important;
 }
 
+.btnInfo{
+    background:#3e99bd !important;
+    color: white !important;
+}
+
+.btn.btn-primary.btn-success{
+    background: #16b757 !important
+}
+
 .page-link {
     font-size: 17px !important;
 }
@@ -339,6 +348,18 @@ td {
 }
 .tableExtraColumn{
     display: inline;
+}
+
+.btn.btn-primary{
+    background-color: #467dd6 !important
+}
+
+.btn.btn-danger{
+    background-color:#ea4d5b !important
+}
+
+.btn.btn-primary.btnReset {
+    background: #51555d !important;
 }
 
 @media all and (max-width: 2300px) {

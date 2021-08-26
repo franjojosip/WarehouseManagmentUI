@@ -316,6 +316,16 @@ class StockViewStore {
         }
         else {
             if (response.products.length > 0) {
+                this.products.sort(function (a, b) {
+                    if (a.category_name == b.category_name && a.subcategory_name == b.subcategory_name && a.name < b.name) {
+                        return -1;
+                    }
+                    else if (a.category_name == b.category_name && a.subcategory_name == b.subcategory_name && a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log(response.products);
                 this.products = response.products.map((product) => {
                     let productInfo = [];
                     productInfo.push(product.name);

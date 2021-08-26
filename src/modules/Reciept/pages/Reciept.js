@@ -22,7 +22,7 @@ import { getUser } from '../../../common/components/LocalStorage';
 @observer
 class Reciept extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, filteredProducts, dateFilter, cityFilter, warehouses, onCityFilterChange, onLocationFilterChange, onStartDateFilterChange, onSubmitAllConfirmed, onSubmitAllClicked, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, onWarehouseFilterChange, filteredProducts, dateFilter, cityFilter, warehouses, onCityFilterChange, onLocationFilterChange, onStartDateFilterChange, onSubmitAllConfirmed, onSubmitAllClicked, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
 
         let user = getUser();
         let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
@@ -38,6 +38,7 @@ class Reciept extends React.Component {
         let tableNestedRows = (<tbody>
             <tr key="tableNestedRows">
                 <td className="cell">Nema podataka</td>
+                <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
                 <td className="cell"></td>
@@ -114,7 +115,7 @@ class Reciept extends React.Component {
                                                                     item.isSubmitted ?
                                                                         <i className="fa fa-fw fa-check" style={{ fontSize: '1.4em' }} />
                                                                         :
-                                                                        <button type="button" onClick={() => onRecieptClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btn-info btnAction btn-rounded btn-sm my-0">
+                                                                        <button type="button" onClick={() => onRecieptClicked(item, false)} data-toggle="modal" data-target="#modalTargetSubmit" className="btn btnInfo btnAction btn-rounded btn-sm my-0">
                                                                             Potvrdi
                                                                         </button>
                                                                 }
@@ -204,7 +205,7 @@ class Reciept extends React.Component {
                             />
                         </div>
                         <div className='col-md-3 filterColumn'>
-                            <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name != "" ? cityFilter.city_name : "Svi gradovi"} style={{ marginBottom: 10 }}>
+                            <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.city_name != "" ? cityFilter.city_name : "Svi gradovi"}>
                                 <Dropdown.Item key="default_city" onSelect={() => onCityFilterChange({ city_id: "", city_name: "" })}>Svi gradovi</Dropdown.Item>
                                 {cities.map((city) => {
                                     return <Dropdown.Item key={city.city_id} onSelect={() => onCityFilterChange(city)}>{city.city_name}</Dropdown.Item>;
@@ -215,10 +216,19 @@ class Reciept extends React.Component {
                     </div>
                     <div className="row">
                         <div className='col-md-3 filterColumn'>
-                            <DropdownButton style={{ margin: "auto" }} className="vertical-center lowerDropdown" variant="light" title={cityFilter.location_name != "" ? cityFilter.location_name : "Sve lokacije"} style={{ marginBottom: 10 }}>
+                            <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.location_name != "" ? cityFilter.location_name : "Sve lokacije"}>
                                 <Dropdown.Item key="default_location" onSelect={() => onLocationFilterChange({ location_id: "", location_name: "" })}>Sve lokacije</Dropdown.Item>
                                 {filteredLocations.map((location) => {
                                     return <Dropdown.Item key={location.location_id} onSelect={() => onLocationFilterChange(location)}>{location.location_name}</Dropdown.Item>;
+                                })
+                                }
+                            </DropdownButton>
+                        </div>
+                        <div className="col-md-3 filterColumn">
+                            <DropdownButton className="vertical-center lowerDropdown" variant="light" title={cityFilter.warehouse_name ? cityFilter.warehouse_name : "Sva skladišta"}>
+                                <Dropdown.Item key="default_warehouse" onSelect={() => onWarehouseFilterChange({ warehouse_id: "", warehouse_name: "" })}>Sva skladišta</Dropdown.Item>
+                                {filteredWarehouses.map((warehouse) => {
+                                    return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseFilterChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
                                 })
                                 }
                             </DropdownButton>
@@ -228,8 +238,6 @@ class Reciept extends React.Component {
                         </div>
                         <div className='col-md-3 filterColumn'>
                             <Button className="btn btn-dark btnReset" onClick={(e) => { e.preventDefault(); onResetFilterClick() }}>Resetiraj</Button>
-                        </div>
-                        <div className='col-md-3 filterColumn extraColumn'>
                         </div>
                     </div>
                 </div>);
