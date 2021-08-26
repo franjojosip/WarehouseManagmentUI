@@ -57,7 +57,7 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                     disabled={isDisabled}
                   />
                   :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={warehouse_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
+                  <DropdownButton className="modalFormDropdown productModalDropdown warehouseModalDropdown" variant="light" title={warehouse_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
                     {warehouses.map((warehouse) => {
                       return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
                     })}
@@ -84,7 +84,7 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                         disabled={isDisabled}
                       />
                       :
-                      <DropdownButton className="modalFormDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled || products.length == 0} required>
+                      <DropdownButton className="modalFormDropdown productModalDropdown" variant="light" title={product_name} style={{ marginBottom: 10 }} disabled={isDisabled || products.length == 0} required>
                         {products.map((product) => {
                           return <Dropdown.Item key={product.product_id} onSelect={() => onProductChange(product)}>{product.product_name}</Dropdown.Item>;
                         })}

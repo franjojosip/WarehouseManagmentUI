@@ -38,6 +38,7 @@ class EntryViewStore {
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
         this.onGeneratePdfClick = this.onGeneratePdfClick.bind(this);
+        this.onGeneratePdfRowClick = this.onGeneratePdfRowClick.bind(this);
         this.onSubmitAllClicked = this.onSubmitAllClicked.bind(this);
         this.onSubmitAllConfirmed = this.onSubmitAllConfirmed.bind(this);
 
@@ -132,7 +133,7 @@ class EntryViewStore {
         this.cityFilter.location_id = "";
         this.cityFilter.location_name = "";
         this.filteredLocations = [];
-        
+
         if (value.city_id != "") {
             filteredData = filteredData.filter(data => data.city_id == value.city_id);
             this.cityFilter.city_id = value.city_id;
@@ -204,7 +205,8 @@ class EntryViewStore {
         if (this.cityFilter.city_id != "") {
             filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
-        if (this.cityFilter.location_id != "") {;
+        if (this.cityFilter.location_id != "") {
+            ;
             filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
         }
         this.allData = filteredData;
@@ -592,8 +594,8 @@ class EntryViewStore {
                 date_created: "",
                 isSubmitted: false
             };
-            this.onWarehouseChange(warehouse);
-            this.onProductChange(product);
+            if (warehouse) this.onWarehouseChange(warehouse);
+            if (product) this.onProductChange(product);
             this.filteredLocations = [];
             this.filteredWarehouses = [];
             this.filteredProducts = [];
@@ -845,9 +847,45 @@ class EntryViewStore {
     }
 
     @action
+    async onGeneratePdfRowClick(date, city_id, location_id) {
+        let dateArray = [];
+        dateArray = date.split("/");
+        let pdfDate = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+        
+        let response = await (this.dataStore.report(pdfDate, pdfDate, city_id, location_id))
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.entries.length == 0) {
+                toast.error("Nema podataka za dobiveni raspon datuma", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+            }
+            else {
+                generateEntryPDF(response.entries, date, date);
+            }
+        }
+    }
+
+    @action
     async onGeneratePdfClick() {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
+        console.log(startDate);
         if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
             let response = await (this.dataStore.report(startDate, endDate, this.cityFilter.city_id, this.cityFilter.location_id))
             if (response.error) {

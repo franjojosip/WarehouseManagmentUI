@@ -47,14 +47,15 @@ const generateRecieptPDF = (data, startDate, endDate) => {
       [
         { content: 'Skladiste: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } },
         { content: 'Lokacija: ' + replaceUtf8(warehouse.location_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } },
-        { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 1, styles: { halign: 'center', fillColor: [20, 151, 124] } }
+        { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 2, styles: { halign: 'center', fillColor: [20, 151, 124] } }
       ],
       [
         { content: 'Proizvod', colSpan: 1, styles: { halign: 'center' } },
         { content: 'Kategorija', colSpan: 1, styles: { halign: 'center' } },
         { content: 'Potkategorija', colSpan: 1, styles: { halign: 'center' } },
         { content: 'Ambalaza', colSpan: 1, styles: { halign: 'center' } },
-        { content: 'Kolicina', colSpan: 1, styles: { halign: 'center' } }
+        { content: 'Kolicina', colSpan: 1, styles: { halign: 'center' } },
+        { content: 'Datum', colSpan: 1, styles: { halign: 'center' } }
       ],
     ];
     tableRows = [];
@@ -65,6 +66,7 @@ const generateRecieptPDF = (data, startDate, endDate) => {
         replaceUtf8(item.subcategory_name),
         replaceUtf8(item.packaging_name),
         item.quantity,
+        item.date
       ];
       tableRows.push(itemData);
     });

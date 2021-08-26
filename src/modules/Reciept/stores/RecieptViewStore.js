@@ -38,6 +38,7 @@ class RecieptViewStore {
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
         this.onGeneratePdfClick = this.onGeneratePdfClick.bind(this);
+        this.onGeneratePdfRowClick = this.onGeneratePdfRowClick.bind(this);
         this.onSubmitAllClicked = this.onSubmitAllClicked.bind(this);
         this.onSubmitAllConfirmed = this.onSubmitAllConfirmed.bind(this);
 
@@ -122,6 +123,7 @@ class RecieptViewStore {
         startDate: "",
         endDate: ""
     }
+
     @action
     onCityFilterChange(value) {
         let filteredData = this.response;
@@ -148,12 +150,7 @@ class RecieptViewStore {
             }
         }
         this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
-        }
-        else {
-            this.grouppedData = [];
-        }
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -204,7 +201,6 @@ class RecieptViewStore {
             filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
         if (this.cityFilter.location_id != "") {
-            ;
             filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
         }
         this.allData = filteredData;
@@ -401,27 +397,7 @@ class RecieptViewStore {
                         isSubmitted: false
                     }];
 
-                this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id)
-                    .map(stock => {
-                        let productInfo = [];
-                        productInfo.push(stock.product_name);
-                        productInfo.push(stock.category_name);
-                        if (stock.subcategory_name != "") {
-                            productInfo.push(stock.subcategory_name);
-                        }
-                        productInfo.push(stock.packaging_name);
-
-                        return {
-                            product_id: stock.product_id,
-                            product_name: productInfo.join("|"),
-                            category_id: stock.category_id,
-                            category_name: stock.category_name,
-                            subcategory_id: stock.subcategory_id,
-                            subcategory_name: stock.subcategory_name,
-                            packaging_id: stock.packaging_id,
-                            packaging_name: stock.packaging_name
-                        }
-                    });
+                this.filteredProducts = [];
             }
         }
         this.setPagination();
@@ -624,9 +600,29 @@ class RecieptViewStore {
                 date_created: "",
                 isSubmitted: false
             };
-            this.onWarehouseChange(warehouse);
-            this.onProductChange(product);
-            this.filteredLocations = [];
+            if (warehouse) this.onWarehouseChange(warehouse);
+            if (product) this.onProductChange(product);
+            let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id);
+            this.filteredProducts = filteredStocks.map(stock => {
+                let productInfo = [];
+                productInfo.push(stock.product_name);
+                productInfo.push(stock.category_name);
+                if (stock.subcategory_name != "") {
+                    productInfo.push(stock.subcategory_name);
+                }
+                productInfo.push(stock.packaging_name);
+
+                return {
+                    product_id: stock.product_id,
+                    product_name: productInfo.join(", "),
+                    category_id: stock.category_id,
+                    category_name: stock.category_name,
+                    subcategory_id: stock.subcategory_id,
+                    subcategory_name: stock.subcategory_name,
+                    packaging_id: stock.packaging_id,
+                    packaging_name: stock.packaging_name
+                }
+            });
             this.filteredWarehouses = [];
         }
         else {
@@ -648,28 +644,27 @@ class RecieptViewStore {
                 date_created: data.date_created,
                 isSubmitted: false
             };
-            this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id)
-                .map(stock => {
-                    let productInfo = [];
-                    productInfo.push(stock.product_name);
-                    productInfo.push(stock.category_name);
-                    if (stock.subcategory_name != "") {
-                        productInfo.push(stock.subcategory_name);
-                    }
-                    productInfo.push(stock.packaging_name);
+            let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id);
+            this.filteredProducts = filteredStocks.map(stock => {
+                let productInfo = [];
+                productInfo.push(stock.product_name);
+                productInfo.push(stock.category_name);
+                if (stock.subcategory_name != "") {
+                    productInfo.push(stock.subcategory_name);
+                }
+                productInfo.push(stock.packaging_name);
 
-                    return {
-                        product_id: stock.product_id,
-                        product_name: productInfo.join(", "),
-                        category_id: stock.category_id,
-                        category_name: stock.category_name,
-                        subcategory_id: stock.subcategory_id,
-                        subcategory_name: stock.subcategory_name,
-                        packaging_id: stock.packaging_id,
-                        packaging_name: stock.packaging_name
-                    }
-                });
-            this.filteredLocations = this.locations.filter(location => location.city_id === data.city_id);
+                return {
+                    product_id: stock.product_id,
+                    product_name: productInfo.join(", "),
+                    category_id: stock.category_id,
+                    category_name: stock.category_name,
+                    subcategory_id: stock.subcategory_id,
+                    subcategory_name: stock.subcategory_name,
+                    packaging_id: stock.packaging_id,
+                    packaging_name: stock.packaging_name
+                }
+            });
             this.filteredWarehouses = this.warehouses.filter(warehouse => warehouse.city_id === data.city_id);
             this.checkFields();
         }
@@ -901,6 +896,40 @@ class RecieptViewStore {
             let index = this.grouppedData.findIndex((element) => element.name.toString() === key.toString())
             this.grouppedData[index].data.push(element);
         })
+    }
+
+    @action
+    async onGeneratePdfRowClick(date, city_id, location_id) {
+        let dateArray = [];
+        dateArray = date.split("/");
+        let pdfDate = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+        let response = await (this.dataStore.report(pdfDate, pdfDate, city_id, location_id))
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.reciepts.length == 0) {
+                toast.error("Nema podataka za dobiveni raspon datuma", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+            }
+            else {
+                generateRecieptPdf(response.reciepts, date, date);
+            }
+        }
     }
 
     @action

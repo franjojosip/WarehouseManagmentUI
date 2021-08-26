@@ -98,6 +98,7 @@ class StockViewStore {
     @observable warehouses = [];
     @observable cities = [];
     @observable products = [];
+    @observable filteredProducts = [];
     @observable filteredWarehouses = [];
 
     @observable response = [];

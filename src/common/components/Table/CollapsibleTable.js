@@ -50,6 +50,7 @@ export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumn
               <tr>
                 <th className="cellHeader"></th>
                 {tableParentColumns}
+                <th className="cellHeader"></th>
               </tr>
             </thead>
             {tableNestedRows}

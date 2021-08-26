@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { toast } from 'react-toastify';
 import moment from "moment";
-import { getUser } from "../../../common/components/LocalStorage";
+import { getUser, getWarehouse, saveWarehouse } from "../../../common/components/LocalStorage";
 import generateStocktakingPdf from "../../../common/components/PDFGenerator/StocktakingReportGenerator";
 
 class StocktakingViewStore {
@@ -27,18 +27,18 @@ class StocktakingViewStore {
         this.loadPageData = this.loadPageData.bind(this);
         this.onStocktakingClicked = this.onStocktakingClicked.bind(this);
         this.onWarehouseChange = this.onWarehouseChange.bind(this);
-        this.onCityChange = this.onCityChange.bind(this);
-        this.onLocationChange = this.onLocationChange.bind(this);
         this.onProductChange = this.onProductChange.bind(this);
         this.onQuantityChange = this.onQuantityChange.bind(this);
         this.onClickedRow = this.onClickedRow.bind(this);
         this.groupData = this.groupData.bind(this);
         this.onCityFilterChange = this.onCityFilterChange.bind(this);
+        this.onLocationFilterChange = this.onLocationFilterChange.bind(this);
         this.onStartDateFilterChange = this.onStartDateFilterChange.bind(this);
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
         this.checkProductExistInStocktaking = this.checkProductExistInStocktaking.bind(this);
         this.onGeneratePdfClick = this.onGeneratePdfClick.bind(this);
+        this.onGeneratePdfRowClick = this.onGeneratePdfRowClick.bind(this);
         this.onSubmitAllClicked = this.onSubmitAllClicked.bind(this);
         this.onSubmitAllConfirmed = this.onSubmitAllConfirmed.bind(this);
 
@@ -66,28 +66,21 @@ class StocktakingViewStore {
 
     @observable clickedStocktaking = {
         id: "",
-        city_id: "",
-        city_name: "Odaberi grad",
-        location_id: "",
-        location_name: "Odaberi lokaciju",
         warehouse_id: "",
         warehouse_name: "Odaberi skladište",
+        city_id: "",
+        location_id: "",
         product_id: "",
         product_name: "Odaberi proizvod",
         category_id: "",
-        category_name: "",
         subcategory_id: "",
-        subcategory_name: "",
         packaging_id: "",
-        packaging_name: "",
         quantity: "",
         date_created: "",
         isSubmitted: false
     };
 
     @observable errorMessage = {
-        city: null,
-        location: null,
         warehouse: null,
         product: null,
         quantity: null
@@ -123,7 +116,9 @@ class StocktakingViewStore {
     @observable response = [];
     @observable cityFilter = {
         city_id: "",
-        city_name: ""
+        city_name: "",
+        location_id: "",
+        location_name: ""
     };
 
     @observable dateFilter = {
@@ -136,45 +131,82 @@ class StocktakingViewStore {
         let filteredData = this.response;
         this.cityFilter.city_id = value.city_id;
         this.cityFilter.city_name = value.city_name;
+        this.cityFilter.location_id = "";
+        this.cityFilter.location_name = "";
+        this.filteredLocations = [];
+
         if (value.city_id != "") {
-            filteredData = filteredData.filter(data => data.city_id === value.city_id);
+            filteredData = filteredData.filter(data => data.city_id == value.city_id);
             this.cityFilter.city_id = value.city_id;
             this.cityFilter.city_name = value.city_name;
+            this.filteredLocations = this.locations.filter(location => location.city_id == value.city_id);
         }
-        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
-            filteredData = filteredData.filter(data =>
-                (moment(data.date_created).utc().isAfter(this.dateFilter.startDate) || moment(data.date_created).utc().isSame(this.dateFilter.startDate))
-                && (moment(data.date_created).utc().isBefore(this.dateFilter.endDate) || moment(data.date_created).utc().isSame(this.dateFilter.endDate))
-            );
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+                filteredData = filteredData.filter(data =>
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY")))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY")))
+                );
+            }
         }
         this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
-        }
+        this.groupData();
         this.setPagination(1);
     }
 
+    @action
+    onLocationFilterChange(value) {
+        let filteredData = this.response;
+        this.cityFilter.location_id = value.location_id;
+        this.cityFilter.location_name = value.location_name;
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+                filteredData = filteredData.filter(data =>
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
+                );
+            }
+        }
+        if (value.location_id != "") {
+            filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id && data.location_id == value.location_id);
+            this.cityFilter.location_id = value.location_id;
+            this.cityFilter.location_name = value.location_name;
+        }
+        else if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
+        this.setPagination(1);
+    }
+
+    
     @action
     onStartDateFilterChange(value) {
         let filteredData = this.response;
         this.dateFilter.startDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
             let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).utc().format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
                     (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
                     && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
-                if (this.cityFilter.city_id != "") {
-                    filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
-                }
             }
         }
-        this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
+        if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
+        if (this.cityFilter.location_id != "") {
+            filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -184,21 +216,22 @@ class StocktakingViewStore {
         this.dateFilter.endDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
             let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).utc().format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
                     (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
                     && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
-                if (this.cityFilter.city_id != "") {
-                    filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
-                }
             }
         }
-        this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
+        if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
+        if (this.cityFilter.location_id != "") {
+            filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -206,6 +239,8 @@ class StocktakingViewStore {
     onResetFilterClick() {
         this.cityFilter.city_id = "";
         this.cityFilter.city_name = "";
+        this.cityFilter.location_id = "";
+        this.cityFilter.location_name = "";
         this.dateFilter.startDate = "";
         this.dateFilter.endDate = "";
         this.allData = this.response;
@@ -275,6 +310,7 @@ class StocktakingViewStore {
         this.showLoader();
         let response = await (this.dataStore.update(this.clickedStocktaking));
         this.processData(response);
+        saveWarehouse(this.clickedStocktaking.warehouse_id, this.clickedStocktaking.product_id);
         await this.hideLoader();
     }
 
@@ -283,6 +319,7 @@ class StocktakingViewStore {
         this.showLoader();
         let response = await (this.dataStore.create(this.clickedStocktaking));
         this.processData(response);
+        saveWarehouse(this.clickedStocktaking.warehouse_id, this.clickedStocktaking.product_id);
         await this.hideLoader();
     }
 
@@ -461,9 +498,13 @@ class StocktakingViewStore {
         else {
             if (response.warehouses.length > 0) {
                 this.warehouses = response.warehouses.map((warehouse) => {
+                    let warehouseArray = [];
+                    warehouseArray.push(warehouse.name);
+                    warehouseArray.push(warehouse.location_name);
+                    warehouseArray.push(warehouse.city_name);
                     return {
                         warehouse_id: warehouse.id,
-                        warehouse_name: warehouse.name,
+                        warehouse_name: warehouseArray.join(", "),
                         location_id: warehouse.location_id,
                         location_name: warehouse.location_name,
                         city_id: warehouse.city_id,
@@ -494,9 +535,16 @@ class StocktakingViewStore {
         else {
             if (response.products.length > 0) {
                 this.products = response.products.map((product) => {
+                    let productInfo = [];
+                    productInfo.push(product.name);
+                    productInfo.push(product.category_name);
+                    if (product.subcategory_name != "") {
+                        productInfo.push(product.subcategory_name);
+                    }
+                    productInfo.push(product.packaging_name);
                     return {
                         product_id: product.id,
-                        product_name: product.name,
+                        product_name: productInfo.join(", "),
                         packaging_id: product.packaging_id,
                         packaging_name: product.packaging_name,
                         category_id: product.category_id,
@@ -512,37 +560,62 @@ class StocktakingViewStore {
     @action
     onStocktakingClicked(data, isCreate) {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null,
             min_quantity: null
         };
         if (isCreate) {
+            let defaultWarehouse = getWarehouse();
+            let warehouse = null;
+            let product = null;
+
+            if (defaultWarehouse.warehouse_id != "" && defaultWarehouse.product_id != "") {
+                warehouse = this.warehouses.find(warehouse => warehouse.warehouse_id == defaultWarehouse.warehouse_id);
+                product = this.products.find(product => product.product_id == defaultWarehouse.product_id);
+            }
+
             this.clickedStocktakingProductId = "";
             this.clickedStocktakingDate = moment().utc().format('DD/MM/YYYY');
             this.clickedStocktaking = {
                 id: "",
-                city_id: "",
-                city_name: "Odaberi grad",
-                location_id: "",
-                location_name: "Odaberi lokaciju",
                 warehouse_id: "",
                 warehouse_name: "Odaberi skladište",
+                city_id: "",
+                location_id: "",
                 product_id: "",
                 product_name: "Odaberi proizvod",
                 category_id: "",
-                category_name: "",
                 subcategory_id: "",
-                subcategory_name: "",
                 packaging_id: "",
-                packaging_name: "",
                 quantity: 0,
                 date_created: "",
                 isSubmitted: false
             };
-            this.filteredProducts = [];
+            if (warehouse) this.onWarehouseChange(warehouse);
+            if (product) this.onProductChange(product);
+
+            let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedStocktaking.warehouse_id);
+            this.filteredProducts = filteredStocks.map(stock => {
+                let productInfo = [];
+                productInfo.push(stock.product_name);
+                productInfo.push(stock.category_name);
+                if (stock.subcategory_name != "") {
+                    productInfo.push(stock.subcategory_name);
+                }
+                productInfo.push(stock.packaging_name);
+
+                return {
+                    product_id: stock.product_id,
+                    product_name: productInfo.join(", "),
+                    category_id: stock.category_id,
+                    category_name: stock.category_name,
+                    subcategory_id: stock.subcategory_id,
+                    subcategory_name: stock.subcategory_name,
+                    packaging_id: stock.packaging_id,
+                    packaging_name: stock.packaging_name
+                }
+            });
             this.filteredLocations = [];
             this.filteredWarehouses = [];
         }
@@ -681,7 +754,6 @@ class StocktakingViewStore {
         }
     }
 
-
     @action
     onWarehouseChange(value) {
         this.clickedStocktaking.warehouse_id = value.warehouse_id;
@@ -689,9 +761,17 @@ class StocktakingViewStore {
 
         let filteredStocks = this.stocks.filter(stock => stock.warehouse_id == this.clickedStocktaking.warehouse_id);
         this.filteredProducts = filteredStocks.map(stock => {
+            let productInfo = [];
+            productInfo.push(stock.product_name);
+            productInfo.push(stock.category_name);
+            if (stock.subcategory_name != "") {
+                productInfo.push(stock.subcategory_name);
+            }
+            productInfo.push(stock.packaging_name);
+
             return {
                 product_id: stock.product_id,
-                product_name: stock.product_name,
+                product_name: productInfo.join(", "),
                 category_id: stock.category_id,
                 category_name: stock.category_name,
                 subcategory_id: stock.subcategory_id,
@@ -704,37 +784,6 @@ class StocktakingViewStore {
         if (this.clickedStocktaking.product_id != "" && (filteredStocks.length == 0 || filteredStocks.findIndex(stock => stock.product_id == this.clickedStocktaking.product_id) == -1)) {
             this.onProductChange({ product_id: "", product_name: "Odaberi proizvod" });
         }
-        this.checkFields();
-    }
-
-
-    @action
-    onCityChange(value) {
-        this.clickedStocktaking.city_id = value.city_id;
-        this.clickedStocktaking.city_name = value.city_name;
-
-        this.filteredLocations = this.locations.filter((element) => element.city_id == this.clickedStocktaking.city_id);
-        this.filteredWarehouses = [];
-
-        if (this.filteredLocations.findIndex(location => location.location_id == this.clickedStocktaking.location_id) == -1) {
-            this.clickedStocktaking.location_id = "";
-            this.clickedStocktaking.location_name = "Odaberi lokaciju";
-            this.clickedStocktaking.warehouse_id = "";
-            this.clickedStocktaking.warehouse_name = "Odaberi skladište";
-        }
-
-        this.checkFields();
-    }
-
-
-    @action
-    onLocationChange(value) {
-        this.clickedStocktaking.location_id = value.location_id;
-        this.clickedStocktaking.location_name = value.location_name;
-
-        this.filteredWarehouses = this.warehouses.filter((element) => element.location_id == value.location_id);
-        this.clickedStocktaking.warehouse_id = "";
-        this.clickedStocktaking.warehouse_name = "Odaberi skladište";
         this.checkFields();
     }
 
@@ -781,20 +830,12 @@ class StocktakingViewStore {
     @action
     checkFields() {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null
         };
         if (this.checkProductExistInStocktaking()) {
-            this.errorMessage.product = "Odabrani proizvod i skladište su već zapisani u inventuri!";
-        }
-        if (this.clickedStocktaking.city_id.toString() == "") {
-            this.errorMessage.city = "Odaberite grad!";
-        }
-        if (this.clickedStocktaking.location_id.toString() == "") {
-            this.errorMessage.location = "Odaberite lokaciju!";
+            this.errorMessage.product = "Odabrani proizvod i skladište su već zapisani u današnjoj inventuri!";
         }
         if (this.clickedStocktaking.warehouse_id.toString() == "") {
             this.errorMessage.warehouse = "Odaberite skladište!";
@@ -809,9 +850,7 @@ class StocktakingViewStore {
             this.errorMessage.quantity = "Minimalna količina: 0";
         }
 
-        if (this.errorMessage.city == null
-            && this.errorMessage.location == null
-            && this.errorMessage.warehouse == null
+        if (this.errorMessage.warehouse == null
             && this.errorMessage.product == null
             && this.errorMessage.quantity == null) {
             this.isSubmitDisabled = false;
@@ -856,6 +895,8 @@ class StocktakingViewStore {
     groupData() {
         this.grouppedData = [];
 
+        if (this.allData.length == 0) return;
+
         this.allData.forEach(element => {
             var key = element.warehouse_id + '-' + element.user_id + '-' + element.date_created;
             if (this.grouppedData.findIndex((element) => element.name.toString() === key.toString()) === -1) {
@@ -867,11 +908,45 @@ class StocktakingViewStore {
     }
 
     @action
+    async onGeneratePdfRowClick(date, city_id, location_id) {
+        let dateArray = [];
+        dateArray = date.split("/");
+        let pdfDate = dateArray[2] + "-" + dateArray[1] + "-" + dateArray[0];
+        let response = await (this.dataStore.report(pdfDate, pdfDate, city_id, location_id))
+        if (response.error) {
+            toast.error(response.error, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+            });
+            console.clear();
+        }
+        else {
+            if (response.stocktakings.length == 0) {
+                toast.error("Nema podataka za dobiveni raspon datuma", {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                });
+            }
+            else {
+                generateStocktakingPdf(response.stocktakings, date, date);
+            }
+        }
+    }
+
+    @action
     async onGeneratePdfClick() {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
         if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
-            let response = await (this.dataStore.report(startDate, endDate))
+            let response = await (this.dataStore.report(startDate, endDate, this.cityFilter.city_id, this.cityFilter.location_id))
             if (response.error) {
                 toast.error(response.error, {
                     position: "bottom-right",

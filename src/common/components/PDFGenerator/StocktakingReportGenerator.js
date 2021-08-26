@@ -45,11 +45,11 @@ const generateStocktakingPDF = (data, startDate, endDate) => {
   data.forEach((warehouse, i) => {
     head = [
       [
-        { content: 'Skladiste: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
+        { content: 'Skladiste: ' + replaceUtf8(warehouse.warehouse_name), colSpan: 3, styles: { halign: 'center', fillColor: [22, 160, 133] } },
         { content: 'Lokacija: ' + replaceUtf8(warehouse.location_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } },
         { content: 'Grad: ' + replaceUtf8(warehouse.city_name), colSpan: 2, styles: { halign: 'center', fillColor: [22, 160, 133] } }
       ],
-      ["Proizvod", "Kategorija", "Potkategorija", "Ambalaza", "Izbrojena Kolicina", 'Prava Kolicina'],
+      ["Proizvod", "Kategorija", "Potkategorija", "Ambalaza", "Izbrojena Kolicina", 'Prava Kolicina', 'Datum'],
     ];
     tableRows = [];
     warehouse.data.forEach(item => {
@@ -60,6 +60,7 @@ const generateStocktakingPDF = (data, startDate, endDate) => {
         replaceUtf8(item.packaging_name),
         item.counted_quantity,
         item.real_quantity,
+        item.date
       ];
       tableRows.push(itemData);
     });

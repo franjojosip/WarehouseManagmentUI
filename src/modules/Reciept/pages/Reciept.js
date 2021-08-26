@@ -22,7 +22,7 @@ import { getUser } from '../../../common/components/LocalStorage';
 @observer
 class Reciept extends React.Component {
     render() {
-        const { errorMessage, onGeneratePdfClick, filteredProducts, dateFilter, cityFilter, warehouses, onCityFilterChange, onLocationFilterChange, onStartDateFilterChange, onSubmitAllConfirmed, onSubmitAllClicked, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
+        const { errorMessage, onGeneratePdfClick, onGeneratePdfRowClick, filteredProducts, dateFilter, cityFilter, warehouses, onCityFilterChange, onLocationFilterChange, onStartDateFilterChange, onSubmitAllConfirmed, onSubmitAllClicked, onEndDateFilterChange, onResetFilterClick, cities, filteredLocations, filteredWarehouses, products, onSubmitClick, clickedReciept, onClickedRow, parentColumns, childColumns, paginatedData, onRecieptClicked, onWarehouseChange, onCityChange, onLocationChange, onProductChange, onQuantityChange, isLoaderVisible, title, page, pageSize, totalPages, previousEnabled, nextEnabled, isSubmitDisabled, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick, onEditClick, onDeleteClick, onCreateClick } = this.props.viewStore;
 
         let user = getUser();
         let isLoggedAdmin = user && user.id != "" && user.role == "Administrator";
@@ -54,12 +54,13 @@ class Reciept extends React.Component {
                 let nestedIndex = i;
                 return (
                     <tbody key={"tbody" + i}>
-                        <tr key={i} onClick={() => onClickedRow(nestedIndex)} className="accordion-toggle collapsed complexAccordion" style={{ backgroundColor: "#F2F2F2" }} id="accordion1" data-toggle="collapse" data-parent="#accordion1" data-target={"#row" + nestedIndex}>
-                            <td className="complexCell"><Button className="btnShowMore">Prikaži</Button></td>
+                        <tr key={i} onClick={() => onClickedRow(nestedIndex)} className="accordion-toggle collapsed complexAccordion" style={{ backgroundColor: "#F2F2F2" }} id="accordion1">
+                            <td className="complexCell"><Button className="btnShowMore" data-toggle="collapse" data-parent="#accordion1" data-target={"#row" + nestedIndex}>Prikaži</Button></td>
                             <td className="complexCell">{parentRow[0]}</td>
                             <td className="complexCell">{element.data[0].location_name}</td>
                             <td className="complexCell">{element.data[0].city_name}</td>
                             <td className="complexCell">{parentRow[2]}</td>
+                            <td className="complexCell"><Button className="btn btn-primary btnShowMore" onClick={(e) => { onGeneratePdfRowClick(parentRow[2], element.data[0].city_id, element.data[0].location_id) }}>Generiraj izvješće</Button></td>
                         </tr>
                         <tr>
                             <td colSpan="12" className="hiddenRow">
