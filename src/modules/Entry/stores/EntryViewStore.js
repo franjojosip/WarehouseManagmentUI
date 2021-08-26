@@ -132,6 +132,7 @@ class EntryViewStore {
         this.cityFilter.location_id = "";
         this.cityFilter.location_name = "";
         this.filteredLocations = [];
+        
         if (value.city_id != "") {
             filteredData = filteredData.filter(data => data.city_id == value.city_id);
             this.cityFilter.city_id = value.city_id;

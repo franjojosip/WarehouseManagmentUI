@@ -47,89 +47,31 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
             </button>
           </div>
           <Form style={{ margin: 15 }}>
-            <Form.Group size="md" controlId="city_name">
-              <Form.Label>Grad *</Form.Label>
+            <Form.Group size="md" controlId="warehouse_name">
+              <Form.Label>Skladište *</Form.Label>
               {
                 isDisabled ?
                   <Form.Control
                     type="text"
-                    value={city_name}
+                    value={warehouse_name}
                     disabled={isDisabled}
                   />
                   :
-                  <DropdownButton className="modalFormDropdown" variant="light" title={city_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
-                    {cities.map((city) => {
-                      return <Dropdown.Item key={city.city_id} onSelect={() => onCityChange(city)}>{city.city_name}</Dropdown.Item>;
+                  <DropdownButton className="modalFormDropdown" variant="light" title={warehouse_name} style={{ marginBottom: 10 }} disabled={isDisabled} required>
+                    {warehouses.map((warehouse) => {
+                      return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
                     })}
                   </DropdownButton>
               }
               <div hidden={isDisabled || !isSubmitDisabled}>
                 <p style={{ color: "red" }}>
-                  {errorMessage.city ?
-                    errorMessage.city
+                  {errorMessage.warehouse ?
+                    errorMessage.warehouse
                     : null
                   }
                 </p>
               </div>
             </Form.Group>
-            {
-              city_name != "Odaberi grad" ?
-                <Form.Group size="md" controlId="location_name">
-                  <Form.Label>Lokacija *</Form.Label>
-                  {
-                    isDisabled ?
-                      <Form.Control
-                        type="text"
-                        value={location_name}
-                        disabled={isDisabled}
-                      />
-                      :
-                      <DropdownButton className="modalFormDropdown" variant="light" title={location_name} style={{ marginBottom: 10 }} disabled={isDisabled || locations.length == 0} required>
-                        {locations.map((location) => {
-                          return <Dropdown.Item key={location.location_id} onSelect={() => onLocationChange(location)}>{location.location_name}</Dropdown.Item>;
-                        })}
-                      </DropdownButton>
-                  }
-                  <div hidden={isDisabled || !isSubmitDisabled}>
-                    <p style={{ color: "red" }}>
-                      {errorMessage.location ?
-                        errorMessage.location
-                        : null
-                      }
-                    </p>
-                  </div>
-                </Form.Group>
-                : null
-            }
-            {
-              location_name != "Odaberi lokaciju" ?
-                <Form.Group size="md" controlId="warehouse_name">
-                  <Form.Label>Skladište *</Form.Label>
-                  {
-                    isDisabled ?
-                      <Form.Control
-                        type="text"
-                        value={warehouse_name}
-                        disabled={isDisabled}
-                      />
-                      :
-                      <DropdownButton className="modalFormDropdown" variant="light" title={warehouse_name} style={{ marginBottom: 10 }} disabled={isDisabled || warehouses.length == 0} required>
-                        {warehouses.map((warehouse) => {
-                          return <Dropdown.Item key={warehouse.warehouse_id} onSelect={() => onWarehouseChange(warehouse)}>{warehouse.warehouse_name}</Dropdown.Item>;
-                        })}
-                      </DropdownButton>
-                  }
-                  <div hidden={isDisabled || !isSubmitDisabled}>
-                    <p style={{ color: "red" }}>
-                      {errorMessage.warehouse ?
-                        errorMessage.warehouse
-                        : null
-                      }
-                    </p>
-                  </div>
-                </Form.Group>
-                : null
-            }
             {
               warehouse_name != "Odaberi skladište" ?
                 <Form.Group size="md" controlId="product_name">
@@ -160,43 +102,6 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
                 : null
             }
             {
-              subcategory_name ?
-                <Form.Group size="md" controlId="category_name">
-                  <Form.Label>Kategorija</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={category_name}
-                    disabled={true}
-                  />
-                </Form.Group>
-
-                : null
-            }
-            {
-              subcategory_name ?
-                <Form.Group size="md" controlId="subcategory_name">
-                  <Form.Label>Potkategorija</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={subcategory_name}
-                    disabled={true}
-                  />
-                </Form.Group>
-                : null
-            }
-            {
-              packaging_name ?
-                <Form.Group size="md" controlId="packaging_name">
-                  <Form.Label>Ambalaža</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={packaging_name}
-                    disabled={true}
-                  />
-                </Form.Group>
-                : null
-            }
-            {
               old_quantity != 0 ?
                 <Form.Group size="md" controlId="quantity">
                   <Form.Label>Trenutna količina</Form.Label>
@@ -214,8 +119,6 @@ export default function ModalReciept({ errorMessage, modalTarget, warehouses, ci
               <Form.Control
                 type="number"
                 value={quantity}
-                required
-                {...config}
                 onChange={(e) => {
                   onQuantityChange(e.target.value);
                 }}

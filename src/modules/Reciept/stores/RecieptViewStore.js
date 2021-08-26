@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { toast } from 'react-toastify';
 import moment from "moment";
-import { getUser } from "../../../common/components/LocalStorage";
+import { getUser, getWarehouse, saveWarehouse } from "../../../common/components/LocalStorage";
 import generateRecieptPdf from "../../../common/components/PDFGenerator/RecieptReportGenerator";
 
 class RecieptViewStore {
@@ -28,14 +28,12 @@ class RecieptViewStore {
         this.loadPageData = this.loadPageData.bind(this);
         this.onRecieptClicked = this.onRecieptClicked.bind(this);
         this.onWarehouseChange = this.onWarehouseChange.bind(this);
-        this.onCityChange = this.onCityChange.bind(this);
-        this.onLocationChange = this.onLocationChange.bind(this);
         this.onProductChange = this.onProductChange.bind(this);
-        this.onPackagingChange = this.onPackagingChange.bind(this);
         this.onQuantityChange = this.onQuantityChange.bind(this);
         this.onClickedRow = this.onClickedRow.bind(this);
         this.groupData = this.groupData.bind(this);
         this.onCityFilterChange = this.onCityFilterChange.bind(this);
+        this.onLocationFilterChange = this.onLocationFilterChange.bind(this);
         this.onStartDateFilterChange = this.onStartDateFilterChange.bind(this);
         this.onEndDateFilterChange = this.onEndDateFilterChange.bind(this);
         this.onResetFilterClick = this.onResetFilterClick.bind(this);
@@ -66,28 +64,22 @@ class RecieptViewStore {
 
     @observable clickedReciept = {
         id: "",
-        city_id: "",
-        city_name: "Odaberi grad",
-        location_id: "",
-        location_name: "Odaberi lokaciju",
         warehouse_id: "",
         warehouse_name: "Odaberi skladište",
+        city_id: "",
+        location_id: "",
         product_id: "",
-        product_name: "Odaberi proizvod",
+        product_name: "",
         category_id: "",
-        category_name: "",
         subcategory_id: "",
-        subcategory_name: "",
         packaging_id: "",
-        packaging_name: "",
-        quantity: "",
+        old_quantity: 0,
+        quantity: 0,
         date_created: "",
         isSubmitted: false
     };
 
     @observable errorMessage = {
-        city: null,
-        location: null,
         warehouse: null,
         product: null,
         quantity: null
@@ -122,7 +114,9 @@ class RecieptViewStore {
     @observable response = [];
     @observable cityFilter = {
         city_id: "",
-        city_name: ""
+        city_name: "",
+        location_id: "",
+        location_name: ""
     };
     @observable dateFilter = {
         startDate: "",
@@ -133,16 +127,25 @@ class RecieptViewStore {
         let filteredData = this.response;
         this.cityFilter.city_id = value.city_id;
         this.cityFilter.city_name = value.city_name;
+        this.cityFilter.location_id = "";
+        this.cityFilter.location_name = "";
+        this.filteredLocations = [];
+
         if (value.city_id != "") {
-            filteredData = filteredData.filter(data => data.city_id === value.city_id);
+            filteredData = filteredData.filter(data => data.city_id == value.city_id);
             this.cityFilter.city_id = value.city_id;
             this.cityFilter.city_name = value.city_name;
+            this.filteredLocations = this.locations.filter(location => location.city_id == value.city_id);
         }
-        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "" && moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
-            filteredData = filteredData.filter(data =>
-                (moment(data.date_created).utc().isAfter(this.dateFilter.startDate) || moment(data.date_created).utc().isSame(this.dateFilter.startDate))
-                && (moment(data.date_created).utc().isBefore(this.dateFilter.endDate) || moment(data.date_created).utc().isSame(this.dateFilter.endDate))
-            );
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+                filteredData = filteredData.filter(data =>
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY")))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY")))
+                );
+            }
         }
         this.allData = filteredData;
         if (this.allData.length !== 0) {
@@ -155,26 +158,57 @@ class RecieptViewStore {
     }
 
     @action
+    onLocationFilterChange(value) {
+        let filteredData = this.response;
+        this.cityFilter.location_id = value.location_id;
+        this.cityFilter.location_name = value.location_name;
+        if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
+            let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+                filteredData = filteredData.filter(data =>
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
+                );
+            }
+        }
+        if (value.location_id != "") {
+            filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id && data.location_id == value.location_id);
+            this.cityFilter.location_id = value.location_id;
+            this.cityFilter.location_name = value.location_name;
+        }
+        else if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id == this.cityFilter.city_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
+        this.setPagination(1);
+    }
+
+
+    @action
     onStartDateFilterChange(value) {
         let filteredData = this.response;
         this.dateFilter.startDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
             let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).format("DD/MM/YYYY");
-            if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
+            if (moment(this.dateFilter.startDate).diff(moment(this.dateFilter.endDate), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
-                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
-                if (this.cityFilter.city_id != "") {
-                    filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
-                }
             }
         }
-        this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
+        if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
+        if (this.cityFilter.location_id != "") {
+            ;
+            filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -184,21 +218,22 @@ class RecieptViewStore {
         this.dateFilter.endDate = value;
         if (this.dateFilter.startDate != "" && this.dateFilter.endDate != "") {
             let startDate = moment(new Date(this.dateFilter.startDate)).utc().format("DD/MM/YYYY");
-            let endDate = moment(new Date(value)).format("DD/MM/YYYY");
+            let endDate = moment(new Date(this.dateFilter.endDate)).utc().format("DD/MM/YYYY");
             if (moment(this.dateFilter.startDate).utc().diff(moment(this.dateFilter.endDate).utc(), 'days') <= 0) {
                 filteredData = filteredData.filter(data =>
-                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
-                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY")) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
+                    (moment(data.date_created, "DD/MM/YYYY").utc().isAfter(moment(startDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(startDate, "DD/MM/YYYY").utc()))
+                    && (moment(data.date_created, "DD/MM/YYYY").utc().isBefore(moment(endDate, "DD/MM/YYYY").utc()) || moment(data.date_created, "DD/MM/YYYY").utc().isSame(moment(endDate, "DD/MM/YYYY").utc()))
                 );
-                if (this.cityFilter.city_id != "") {
-                    filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
-                }
             }
         }
-        this.allData = filteredData;
-        if (this.allData.length !== 0) {
-            this.groupData();
+        if (this.cityFilter.city_id != "") {
+            filteredData = filteredData.filter(data => data.city_id === this.cityFilter.city_id);
         }
+        if (this.cityFilter.location_id != "") {
+            filteredData = filteredData.filter(data => data.location_id === this.cityFilter.location_id);
+        }
+        this.allData = filteredData;
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -206,13 +241,13 @@ class RecieptViewStore {
     onResetFilterClick() {
         this.cityFilter.city_id = "";
         this.cityFilter.city_name = "";
+        this.cityFilter.location_id = "";
+        this.cityFilter.location_name = "";
         this.dateFilter.startDate = "";
         this.dateFilter.endDate = "";
         this.allData = this.response;
         this.onChangePageSize(5);
-        if (this.allData.length !== 0) {
-            this.groupData();
-        }
+        this.groupData();
         this.setPagination(1);
     }
 
@@ -275,6 +310,7 @@ class RecieptViewStore {
         this.showLoader();
         let response = await (this.dataStore.update(this.clickedReciept));
         this.processData(response);
+        saveWarehouse(this.clickedReciept.warehouse_id, this.clickedReciept.product_id);
         await this.hideLoader();
     }
 
@@ -283,6 +319,7 @@ class RecieptViewStore {
         this.showLoader();
         let response = await (this.dataStore.create(this.clickedReciept));
         this.processData(response);
+        saveWarehouse(this.clickedReciept.warehouse_id, this.clickedReciept.product_id);
         await this.hideLoader();
     }
 
@@ -494,9 +531,13 @@ class RecieptViewStore {
         else {
             if (response.warehouses.length > 0) {
                 this.warehouses = response.warehouses.map((warehouse) => {
+                    let warehouseArray = [];
+                    warehouseArray.push(warehouse.name);
+                    warehouseArray.push(warehouse.location_name);
+                    warehouseArray.push(warehouse.city_name);
                     return {
                         warehouse_id: warehouse.id,
-                        warehouse_name: warehouse.name,
+                        warehouse_name: warehouseArray.join(", "),
                         location_id: warehouse.location_id,
                         location_name: warehouse.location_name,
                         city_id: warehouse.city_id,
@@ -553,60 +594,81 @@ class RecieptViewStore {
     @action
     onRecieptClicked(data, isCreate) {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null,
             min_quantity: null
         };
         if (isCreate) {
+            let defaultWarehouse = getWarehouse();
+            let warehouse = null;
+            let product = null;
+
+            if (defaultWarehouse.warehouse_id != "" && defaultWarehouse.product_id != "") {
+                warehouse = this.warehouses.find(warehouse => warehouse.warehouse_id == defaultWarehouse.warehouse_id);
+                product = this.products.find(product => product.product_id == defaultWarehouse.product_id);
+            }
             this.clickedReciept = {
                 id: "",
-                city_id: "",
-                city_name: "Odaberi grad",
-                location_id: "",
-                location_name: "Odaberi lokaciju",
                 warehouse_id: "",
                 warehouse_name: "Odaberi skladište",
+                city_id: "",
+                location_id: "",
                 product_id: "",
                 product_name: "Odaberi proizvod",
                 category_id: "",
-                category_name: "",
                 subcategory_id: "",
-                subcategory_name: "",
                 packaging_id: "",
-                packaging_name: "",
                 quantity: 0,
                 old_quantity: 0,
                 date_created: "",
                 isSubmitted: false
             };
+            this.onWarehouseChange(warehouse);
+            this.onProductChange(product);
             this.filteredLocations = [];
             this.filteredWarehouses = [];
         }
         else {
+            let warehouseName = this.warehouses.find(warehouse => warehouse.warehouse_id == data.warehouse_id).warehouse_name;
+            let productName = this.products.find(product => product.product_id == data.product_id).product_name;
             this.clickedReciept = {
                 id: data.id,
                 city_id: data.city_id,
-                city_name: data.city_name,
                 location_id: data.location_id,
-                location_name: data.location_name,
                 warehouse_id: data.warehouse_id,
-                warehouse_name: data.warehouse_name,
+                warehouse_name: warehouseName,
                 product_id: data.product_id,
-                product_name: data.product_name,
+                product_name: productName,
                 category_id: data.category_id,
-                category_name: data.category_name,
                 subcategory_id: data.subcategory_id,
-                subcategory_name: data.subcategory_name,
                 packaging_id: data.packaging_id,
-                packaging_name: data.packaging_name,
                 quantity: data.quantity,
                 old_quantity: data.old_quantity,
                 date_created: data.date_created,
                 isSubmitted: false
             };
+            this.filteredProducts = this.stocks.filter(stock => stock.warehouse_id == this.clickedReciept.warehouse_id)
+                .map(stock => {
+                    let productInfo = [];
+                    productInfo.push(stock.product_name);
+                    productInfo.push(stock.category_name);
+                    if (stock.subcategory_name != "") {
+                        productInfo.push(stock.subcategory_name);
+                    }
+                    productInfo.push(stock.packaging_name);
+
+                    return {
+                        product_id: stock.product_id,
+                        product_name: productInfo.join(", "),
+                        category_id: stock.category_id,
+                        category_name: stock.category_name,
+                        subcategory_id: stock.subcategory_id,
+                        subcategory_name: stock.subcategory_name,
+                        packaging_id: stock.packaging_id,
+                        packaging_name: stock.packaging_name
+                    }
+                });
             this.filteredLocations = this.locations.filter(location => location.city_id === data.city_id);
             this.filteredWarehouses = this.warehouses.filter(warehouse => warehouse.city_id === data.city_id);
             this.checkFields();
@@ -693,7 +755,6 @@ class RecieptViewStore {
         }
     }
 
-
     @action
     onWarehouseChange(value) {
         this.clickedReciept.warehouse_id = value.warehouse_id;
@@ -730,37 +791,6 @@ class RecieptViewStore {
         if (this.clickedReciept.product_id != "" && (filteredStocks.length == 0 || filteredStocks.findIndex(stock => stock.product_id == this.clickedReciept.product_id) == -1)) {
             this.onProductChange({ product_id: "", product_name: "Odaberi proizvod" });
         }
-        this.checkFields();
-    }
-
-
-    @action
-    onCityChange(value) {
-        this.clickedReciept.city_id = value.city_id;
-        this.clickedReciept.city_name = value.city_name;
-
-        this.filteredLocations = this.locations.filter((element) => element.city_id == this.clickedReciept.city_id);
-        this.filteredWarehouses = [];
-
-        if (this.filteredLocations.findIndex(location => location.location_id == this.clickedReciept.location_id) == -1) {
-            this.clickedReciept.location_id = "";
-            this.clickedReciept.location_name = "Odaberi lokaciju";
-            this.clickedReciept.warehouse_id = "";
-            this.clickedReciept.warehouse_name = "Odaberi skladište";
-        }
-
-        this.checkFields();
-    }
-
-
-    @action
-    onLocationChange(value) {
-        this.clickedReciept.location_id = value.location_id;
-        this.clickedReciept.location_name = value.location_name;
-
-        this.filteredWarehouses = this.warehouses.filter((element) => element.location_id == value.location_id);
-        this.clickedReciept.warehouse_id = "";
-        this.clickedReciept.warehouse_name = "Odaberi skladište";
         this.checkFields();
     }
 
@@ -806,13 +836,6 @@ class RecieptViewStore {
     }
 
     @action
-    onPackagingChange(value) {
-        this.clickedReciept.packaging_id = value.packaging_id;
-        this.clickedReciept.packaging_name = value.packaging_name;
-        this.checkFields();
-    }
-
-    @action
     onQuantityChange(value) {
         this.clickedReciept.quantity = value;
         this.checkFields();
@@ -821,18 +844,10 @@ class RecieptViewStore {
     @action
     checkFields() {
         this.errorMessage = {
-            city: null,
-            location: null,
             warehouse: null,
             product: null,
             quantity: null
         };
-        if (this.clickedReciept.city_id.toString() == "") {
-            this.errorMessage.city = "Odaberite grad!";
-        }
-        if (this.clickedReciept.location_id.toString() == "") {
-            this.errorMessage.location = "Odaberite lokaciju!";
-        }
         if (this.clickedReciept.warehouse_id.toString() == "") {
             this.errorMessage.warehouse = "Odaberite skladište!";
         }
@@ -849,9 +864,7 @@ class RecieptViewStore {
             this.errorMessage.quantity = "Skladište ne sadrži upisanu količinu proizvoda!";
         }
 
-        if (this.errorMessage.city == null
-            && this.errorMessage.location == null
-            && this.errorMessage.warehouse == null
+        if (this.errorMessage.warehouse == null
             && this.errorMessage.product == null
             && this.errorMessage.quantity == null) {
             this.isSubmitDisabled = false;
@@ -878,6 +891,8 @@ class RecieptViewStore {
     groupData() {
         this.grouppedData = [];
 
+        if (this.allData.length == 0) return;
+
         this.allData.forEach(element => {
             var key = element.warehouse_id + '-' + element.user_id + '-' + element.date_created;
             if (this.grouppedData.findIndex((element) => element.name.toString() === key.toString()) === -1) {
@@ -893,7 +908,7 @@ class RecieptViewStore {
         let startDate = this.dateFilter.startDate;
         let endDate = this.dateFilter.endDate;
         if (startDate != "" && endDate != "" && moment(startDate).utc().diff(moment(endDate).utc(), 'days') <= 0) {
-            let response = await (this.dataStore.report(startDate, endDate));
+            let response = await (this.dataStore.report(startDate, endDate, this.cityFilter.city_id, this.cityFilter.location_id))
             if (response.error) {
                 toast.error(response.error, {
                     position: "bottom-right",
