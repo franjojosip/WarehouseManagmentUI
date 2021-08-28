@@ -4,7 +4,7 @@ import Pagination from './Pagination';
 
 import "./styles/Table.css";
 
-export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumns, tableNestedRows, title, page, pageSize, totalPages, previousEnabled, nextEnabled, onActionClicked, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick }) {
+export default function CollapsibleTable({ filterRow, isAdmin, isGenerate, tableParentColumns, tableNestedRows, title, page, pageSize, totalPages, previousEnabled, nextEnabled, onActionClicked, onPageClick, onChangePageSize, onPreviousPageClick, onNextPageClick }) {
   return (
     <div className="card mb-5 basicCard">
       <div className="card-body">
@@ -50,7 +50,11 @@ export default function CollapsibleTable({ filterRow, isAdmin, tableParentColumn
               <tr>
                 <th className="cellHeader"></th>
                 {tableParentColumns}
-                <th className="cellHeader"></th>
+                {
+                  isGenerate ?
+                    <th className="cellHeader"></th>
+                    : null
+                }
               </tr>
             </thead>
             {tableNestedRows}
